@@ -292,6 +292,30 @@ img {
   border-color: var(--lime);
   background: #1b2414;
 }
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.text-button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.text-button:hover {
+  color: var(--lime);
+}
+.text-button:disabled {
+  cursor: progress;
+  opacity: 0.55;
+}
 .free-label {
   font: 8px monospace;
   letter-spacing: 0.1em;

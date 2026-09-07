@@ -110,6 +110,31 @@ revoke execute on function event_availability() from public;
 grant execute on function event_availability() to anon,authenticated;
 
 
+-- supabase/migrations/202609070004_password_admin_bootstrap.sql
+create or replace function public.new_profile() returns trigger
+language plpgsql
+security definer
+set search_path=public
+as $$
+begin
+  insert into profiles(id,email,role)
+  values(
+    new.id,
+    coalesce(new.email,''),
+    case
+      when lower(coalesce(new.email,'')) = 'amantaibatyrkhan11@gmail.com' then 'ADMIN'
+      else 'USER'
+    end
+  );
+  return new;
+end
+$$;
+
+update public.profiles
+set role = 'ADMIN'
+where lower(email) = 'amantaibatyrkhan11@gmail.com';
+
+
 -- supabase/seed.sql
 -- Generated from lib/config.ts. No fabricated people or partners.
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000012','Opening of Digital Apta','The first connection. Meet the community and start a week of building.',12,'TBA','DIGITAL APTA','Venue TBA',null,false,20) on conflict(id) do nothing;

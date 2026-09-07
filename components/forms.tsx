@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import {
   runAction,
   sendMagicLink,
+  signInWithPassword,
+  signUpWithPassword,
   askQuestion,
   enterCompetition,
   type ActionResult,
@@ -46,13 +48,26 @@ export function ActionButton({
 export function LoginForm() {
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, start] = useTransition();
+  const router = useRouter();
   return (
     <form
       className="form-card"
       onSubmit={(e) => {
         e.preventDefault();
         const f = new FormData(e.currentTarget);
-        start(async () => setResult(await sendMagicLink(String(f.get('email')))));
+        const email = String(f.get('email'));
+        const password = String(f.get('password') || '');
+        const intent = String(f.get('intent') || 'signin');
+        start(async () => {
+          const next =
+            intent === 'magic'
+              ? await sendMagicLink(email)
+              : intent === 'signup'
+                ? await signUpWithPassword(email, password)
+                : await signInWithPassword(email, password);
+          setResult(next);
+          if (!next.error && intent !== 'magic') router.refresh();
+        });
       }}
     >
       <label className="field">
@@ -65,12 +80,32 @@ export function LoginForm() {
           placeholder="you@example.com"
         />
       </label>
-      <button className="button" disabled={pending}>
-        {pending ? 'Sending…' : 'Send sign-in link ↗'}
+      <label className="field">
+        Password
+        <input
+          type="password"
+          name="password"
+          minLength={8}
+          maxLength={128}
+          autoComplete="current-password"
+          placeholder="8+ characters"
+        />
+      </label>
+      <div className="button-row">
+        <button className="button" name="intent" value="signin" disabled={pending}>
+          {pending ? 'Working…' : 'Sign in ↗'}
+        </button>
+        <button className="button secondary" name="intent" value="signup" disabled={pending}>
+          Create account
+        </button>
+      </div>
+      <button className="text-button" name="intent" value="magic" disabled={pending}>
+        Send magic link instead
       </button>
       <Result result={result} />
       <p className="form-note">
-        No password to remember. We’ll send you a secure link to sign in or create your account.
+        Admin access is granted to amantaibatyrkhan11@gmail.com after the Supabase admin SQL is
+        applied.
       </p>
     </form>
   );

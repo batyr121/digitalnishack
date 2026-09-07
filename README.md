@@ -2,7 +2,7 @@
 
 A free technology forum platform for Nazarbayev Intellectual School. **DIGITAL UNITES.** Digital Apta: 12–18 September. Main forum: 19 September 2026, UTC+5. Venue and official contacts remain TBA.
 
-The repository includes the public website, passwordless authentication, applications, invitation activation, Digital Passes, staff QR scanning, event registration/waitlists, attendance, Digital Coins, achievements, verifiable certificates and organizer content management. No payments, cryptocurrency, fabricated speakers or sponsors.
+The repository includes the public website, email/password and magic-link authentication, applications, invitation activation, Digital Passes, staff QR scanning, event registration/waitlists, attendance, Digital Coins, achievements, verifiable certificates and organizer content management. No payments, cryptocurrency, fabricated speakers or sponsors.
 
 ## Stack and architecture
 
@@ -34,10 +34,11 @@ Without Supabase configuration, public pages render the announced program. Accou
 1. Create a Supabase project.
 2. Run all migration files in timestamp order using the Supabase SQL editor, or run `supabase link --project-ref YOUR_REF` followed by `supabase db push` with the CLI.
 3. Run `supabase/seed.sql` in the SQL editor. This inserts only announced events, locked speaker slots, competition definitions, zones, reward rules and achievements. Seed IDs are stable and inserts are idempotent.
-4. In Auth → URL Configuration, set Site URL and allow `http://localhost:3000/auth/callback` and your production `/auth/callback` URL.
-5. In Auth → Email Templates → Magic Link, use `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email` as the confirmation link. This server-side token-hash flow supports opening a link on another device and resending access links from the staff panel. Keep the `/auth/callback` code-exchange route for same-browser PKCE flows. Enable email authentication and configure a production SMTP provider. Supabase delivers sign-in emails and enforces its configured authentication rate limits.
-6. Verify the `forum-assets` public Storage bucket and policies were created. Only staff can upload images.
-7. Confirm the organizing institution’s privacy policy, contact information, venue and arrangements for minors before opening applications. Set `registrationEnabled` to `false` in `site_settings` until these are ready.
+4. In Auth → Providers → Email, enable email/password signups. If you want users to sign in immediately without opening email, turn off email confirmation.
+5. In Auth → URL Configuration, set Site URL and allow `http://localhost:3000/auth/callback` and your production `/auth/callback` URL.
+6. Magic links are still supported as a fallback. In Auth → Email Templates → Magic Link, use `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email` as the confirmation link. This server-side token-hash flow supports opening a link on another device and resending access links from the staff panel. Keep the `/auth/callback` code-exchange route for same-browser PKCE flows. Configure a production SMTP provider before relying on email delivery.
+7. Verify the `forum-assets` public Storage bucket and policies were created. Only staff can upload images.
+8. Confirm the organizing institution’s privacy policy, contact information, venue and arrangements for minors before opening applications. Set `registrationEnabled` to `false` in `site_settings` until these are ready.
 
 Database schema contains profiles, applications, promo codes/redemptions, tickets/scans, events/registrations/attendance, speakers, panel questions, competitions/entries/teams, zones, partners, reward rules/transactions, achievements, certificates, audit logs and settings.
 
@@ -72,7 +73,7 @@ Re-running the seed preserves existing content inserts but resets event-to-rewar
 
 ## First administrator
 
-Sign in once to create your profile. In the trusted Supabase SQL editor:
+The bootstrap migration grants `ADMIN` to `amantaibatyrkhan11@gmail.com` whenever that profile is created. For an already-migrated database, run `supabase/password-admin-bootstrap.sql` once in the trusted Supabase SQL editor. You can also run the direct update any time after signing in once:
 
 ```sql
 update public.profiles

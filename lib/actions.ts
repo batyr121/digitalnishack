@@ -4,6 +4,7 @@ import { db } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { eventConfig } from '@/lib/config';
 export type ActionResult = { message?: string; error?: string; data?: unknown };
+const adminEmail = 'amantaibatyrkhan11@gmail.com';
 const uuid = z.string().uuid();
 const schemas: Record<string, z.ZodType> = {
   apply_forum: z.object({
@@ -102,6 +103,48 @@ export async function sendMagicLink(email: string): Promise<ActionResult> {
       : { message: 'Check your email for a secure sign-in link.' };
   } catch (e) {
     return { error: e instanceof Error ? e.message : 'Sign-in unavailable' };
+  }
+}
+export async function signInWithPassword(email: string, password: string): Promise<ActionResult> {
+  try {
+    const parsed = z
+      .object({ email: z.email(), password: z.string().min(8).max(128) })
+      .safeParse({ email, password });
+    if (!parsed.success) return { error: 'Enter a valid email and a password with 8+ characters.' };
+    const client = await db();
+    const { error } = await client.auth.signInWithPassword(parsed.data);
+    if (error) return { error: error.message };
+    revalidatePath('/', 'layout');
+    return {
+      message:
+        parsed.data.email.toLowerCase() === adminEmail
+          ? 'Signed in. Open the admin panel.'
+          : 'Signed in.',
+    };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Sign-in unavailable' };
+  }
+}
+export async function signUpWithPassword(email: string, password: string): Promise<ActionResult> {
+  try {
+    const parsed = z
+      .object({ email: z.email(), password: z.string().min(8).max(128) })
+      .safeParse({ email, password });
+    if (!parsed.success) return { error: 'Enter a valid email and a password with 8+ characters.' };
+    const client = await db();
+    const { error } = await client.auth.signUp({
+      email: parsed.data.email,
+      password: parsed.data.password,
+      options: { emailRedirectTo: `${eventConfig.siteUrl}/auth/callback` },
+    });
+    if (error) return { error: error.message };
+    revalidatePath('/', 'layout');
+    return {
+      message:
+        'Account created. If email confirmation is disabled in Supabase, you are signed in now.',
+    };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Sign-up unavailable' };
   }
 }
 export async function signOut() {

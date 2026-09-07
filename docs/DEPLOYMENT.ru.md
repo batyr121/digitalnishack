@@ -49,7 +49,9 @@ NEXT_PUBLIC_SITE_URL=https://YOUR_PRODUCTION_DOMAIN
 
 После изменения публичных переменных нужен новый deployment. Для Preview желательно использовать отдельный тестовый Supabase-проект. Указать фактический production-домен, а не оставлять localhost.
 
-## Вход по email
+## Вход по email и паролю
+
+В Supabase Auth → Providers → Email включить email/password signups. Чтобы вход работал без открытия письма, выключить подтверждение email.
 
 В Supabase Auth → URL Configuration:
 
@@ -62,9 +64,9 @@ NEXT_PUBLIC_SITE_URL=https://YOUR_PRODUCTION_DOMAIN
 <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">Войти в DIGITAL NIS FORUM</a>
 ```
 
-Этот маршрут поддерживает открытие письма на другом устройстве и пересылку ссылки участнику организатором. Настроить SMTP для реальной доставки писем.
+Этот маршрут поддерживает запасной вход через письмо. Настроить SMTP для реальной доставки писем, если magic link нужен в production.
 
-Войти на `/login`, открыть письмо, затем выполнить в SQL Editor:
+Для текущей базы выполнить один раз `supabase/password-admin-bootstrap.sql`, затем открыть `/login`, создать аккаунт с email `amantaibatyrkhan11@gmail.com` и паролем. После этого `/admin` откроется. Если профиль уже создан, можно выполнить прямой SQL:
 
 ```sql
 update public.profiles
