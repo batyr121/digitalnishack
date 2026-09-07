@@ -1,0 +1,553 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  ArrowUpRight,
+  ArrowDown,
+  Lock,
+  Globe,
+  ScanLine,
+  Sparkles,
+  MoveUpRight,
+} from 'lucide-react';
+import { Button, SectionHeader, SecretSpeakerCard, StatsCard } from '@/components/ui';
+import { Countdown, Reveal } from '@/components/motion';
+import { translatedFaq } from '@/locales/pages';
+import { locale } from '@/lib/locale';
+import { competitions, zones, faq, eventConfig, events } from '@/lib/config';
+import { publicRows } from '@/lib/supabase';
+export default async function Home() {
+  const { lang, t } = await locale();
+  const [speakerData, zoneData, partnerData, settings, eventData] = await Promise.all(
+    ['speakers', 'zones', 'partners', 'site_settings', 'events'].map(publicRows),
+  );
+  const speakers = speakerData?.filter((s) => s.kind === 'KEYNOTE');
+  const program = eventData ?? events;
+  const content = Object.fromEntries((settings ?? []).map((s) => [s.key, s.value]));
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Event',
+            name: eventConfig.eventName,
+            startDate: eventConfig.mainForumDate,
+            endDate: eventConfig.endDate,
+            eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+            eventStatus: 'https://schema.org/EventScheduled',
+            isAccessibleForFree: true,
+            description: 'Technology, startups, education and innovation.',
+            location: { '@type': 'Place', name: eventConfig.location },
+            organizer: { '@type': 'Organization', name: 'Nazarbayev Intellectual School' },
+            url: eventConfig.siteUrl,
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
+      {content.announcement && <div className="announcement">{String(content.announcement)}</div>}
+      <section className="hero">
+        <div className="hero-meta">
+          <span>
+            <i className="live-dot" />
+            {t.eyebrow}
+          </span>
+          <span>
+            NIS · KAZAKHSTAN <Globe size={13} />
+          </span>
+        </div>
+        <div className="hero-main">
+          <div className="hero-copy">
+            <h1>
+              DIGITAL
+              <br />
+              NIS FORUM<span className="year">2026</span>
+            </h1>
+            <div className="hero-tagline">
+              <span />
+              DIGITAL UNITES
+              <span />
+            </div>
+            <p className="hero-description">{t.intro}</p>
+            <div className="hero-buttons">
+              <Button href="/apply">{t.cta}</Button>
+              <Button href="/program" secondary>
+                {t.explore}
+              </Button>
+            </div>
+            <div className="free-label">
+              <span>↳</span>
+              {t.free}
+            </div>
+          </div>
+          <div className="hero-art" aria-hidden="true">
+            <div className="art-coordinate top">DNF / CONNECTION_001</div>
+            <svg viewBox="0 0 640 550" className="connection-art">
+              <defs>
+                <linearGradient id="beam" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stopColor="#36540a" />
+                  <stop offset=".45" stopColor="#c1ff53" />
+                  <stop offset=".7" stopColor="#98d52d" />
+                  <stop offset="1" stopColor="#edffc8" />
+                </linearGradient>
+                <linearGradient id="side" x1="0" x2="1">
+                  <stop stopColor="#263711" />
+                  <stop offset="1" stopColor="#749d35" />
+                </linearGradient>
+                <pattern id="lines" width="5" height="5" patternUnits="userSpaceOnUse">
+                  <path d="M0 0V5" stroke="#071004" strokeWidth="1.4" opacity=".35" />
+                </pattern>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="28" />
+                </filter>
+              </defs>
+              <ellipse
+                cx="330"
+                cy="430"
+                rx="205"
+                ry="32"
+                fill="#a9ff32"
+                opacity=".08"
+                filter="url(#glow)"
+              />
+              <g transform="translate(20 2)">
+                <path d="M74 299 209 168 301 168 164 302 164 400 74 400Z" fill="url(#side)" />
+                <path d="M74 299 209 168 257 195 122 328 122 430 74 400Z" fill="url(#beam)" />
+                <path d="M122 328 257 195 349 195 211 329 211 429 122 430Z" fill="url(#beam)" />
+                <path d="M122 328 257 195 349 195 211 329 211 429 122 430Z" fill="url(#lines)" />
+                <path
+                  d="M303 145 393 145 528 277 528 377 439 377 439 304 303 171Z"
+                  fill="url(#side)"
+                />
+                <path d="M303 145 350 117 443 117 576 249 528 277 393 145Z" fill="url(#beam)" />
+                <path d="M393 145 443 117 576 249 576 350 528 377 528 277Z" fill="url(#beam)" />
+                <path d="M393 145 443 117 576 249 576 350 528 377 528 277Z" fill="url(#lines)" />
+                <path d="M235 287 326 198 373 225 283 314 283 414 235 388Z" fill="url(#side)" />
+                <path d="M283 314 373 225 464 225 372 315 372 414 283 414Z" fill="url(#beam)" />
+                <path d="M283 314 373 225 464 225 372 315 372 414 283 414Z" fill="url(#lines)" />
+                <path d="m326 198 91 0 47 27-91 0Z" fill="#ceff82" />
+                <path
+                  d="m74 299 135-131h92M303 145h90l135 132M283 314l90-89h91"
+                  fill="none"
+                  stroke="#e4ffb2"
+                  strokeWidth="1"
+                />
+              </g>
+              <g stroke="#748462" strokeWidth=".6" fill="none" opacity=".6">
+                <path d="M80 125h72M116 89v72M516 436h70M551 401v70" />
+                <circle cx="334" cy="278" r="236" strokeDasharray="2 11" />
+              </g>
+            </svg>
+            <div className="art-caption">
+              <span>
+                CONNECT.
+                <br />
+                BUILD. SHARE. UNITE.
+              </span>
+              <span className="art-index">
+                ↗<br />
+                01 / 03
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="hero-bottom">
+          <div className="big-date">
+            19.09<span>.2026</span>
+            <small>THE MAIN FORUM</small>
+          </div>
+          <div className="hero-topics">
+            {t.hero.map((s) => (
+              <span key={s}>{s}</span>
+            ))}
+          </div>
+          <Link href="#discover" className="scroll-link">
+            SCROLL TO EXPLORE
+            <ArrowDown size={18} />
+          </Link>
+        </div>
+      </section>
+      <div className="ticker">
+        <div>
+          {Array.from({ length: 2 }, (_, i) => (
+            <span key={i}>
+              STARTUPS <i>✳</i> AI <i>✳</i> ROBOTICS <i>✳</i> EDUCATION <i>✳</i> CODE <i>✳</i> 3D{' '}
+              <i>✳</i> INNOVATION <i>✳</i> PEOPLE <i>✳</i> DIGITAL UNITES <i>✳</i>{' '}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="container">
+        <Countdown lang={lang} />
+        <Reveal>
+          <section id="about" className="manifesto section">
+            <div className="eyebrow" id="discover">
+              01 / DIGITAL UNITES
+            </div>
+            <div>
+              <h2>{t.manifesto}</h2>
+              <p>{t.manifestoText}</p>
+              <span className="mini-label">CURIOUS MINDS. MEANINGFUL CONNECTIONS.</span>
+            </div>
+            <MoveUpRight size={96} strokeWidth={0.6} />
+          </section>
+          <div className="stats-row">
+            {(
+              content.stats ?? [
+                ['01', 'FORUM'],
+                ['07', 'DAYS OF DIGITAL APTA'],
+                ['04', 'COMPETITIONS'],
+                ['06', 'SPEAKERS & PANELISTS'],
+                ['08', 'STARTUP FINALISTS'],
+              ]
+            ).map(([v, l]: string[]) => (
+              <StatsCard key={l} value={v} label={l} />
+            ))}
+          </div>
+        </Reveal>
+        <Reveal>
+          <section className="section" id="apta">
+            <SectionHeader
+              number="02"
+              label="THE WARM-UP"
+              title={t.week}
+              href="/digital-apta"
+              link="Explore Digital Apta"
+            />
+            <div className="apta-panel">
+              <div className="apta-copy">
+                <span className="pill">12—18 SEPTEMBER 2026</span>
+                <h3>
+                  DIGITAL
+                  <br />
+                  <span>APTA.</span>
+                </h3>
+                <p>
+                  Seven days of learning, building and preparing.
+                  <br />
+                  Your next chapter starts before the main stage.
+                </p>
+                <Button href="/digital-apta" secondary>
+                  Discover the week
+                </Button>
+              </div>
+              <div className="apta-agenda">
+                {[
+                  ['12', 'THE BEGINNING', 'Opening & startup acceleration'],
+                  ['15', 'BUILD & SCALE', 'Vibe coding & commercialization'],
+                  ['16', 'PITCH DAY', 'Pitch deck & storytelling'],
+                  ['17', 'CREATORS DAY', '3D printing & finalists reveal'],
+                  ['18', 'THE FINAL REHEARSAL', 'Mock pitching'],
+                ].map(([d, n, s]) => (
+                  <Link href={`/program?day=${d}`} key={d}>
+                    <span className="agenda-day">
+                      {d}
+                      <small>SEP</small>
+                    </span>
+                    <div>
+                      <h4>{n}</h4>
+                      <p>{s}</p>
+                    </div>
+                    <ArrowUpRight size={19} />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="main-day">
+            <span className="eyebrow">03 / THE MAIN DAY</span>
+            <div>
+              <h2>{t.main}</h2>
+              <p>Ideas meet opportunity. A community comes together.</p>
+            </div>
+            <Link href="/program?day=19">
+              19<span>SEP ↗</span>
+            </Link>
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="section">
+            <SectionHeader
+              number="04"
+              label="THE PROGRAM"
+              title={t.programTitle}
+              href="/program"
+              link="Full program"
+            />
+            <div className="preview-tabs">
+              <span className="active">19 SEPTEMBER</span>
+              <span>THE MAIN FORUM</span>
+              <span className="schedule-note">EXACT TIMES TO BE ANNOUNCED</span>
+            </div>
+            {program
+              .filter((e) => e.day === 19)
+              .slice(0, 4)
+              .map((e, i) => (
+                <Link className="program-row" href="/program?day=19" key={e.id}>
+                  <div className="program-time">
+                    0{i + 1}
+                    <small>SESSION</small>
+                  </div>
+                  <div>
+                    <span className="eyebrow">{e.track}</span>
+                    <h3>{e.title}</h3>
+                  </div>
+                  <span className="program-location">{e.location}</span>
+                  <ArrowUpRight size={21} />
+                </Link>
+              ))}
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="section" id="speakers">
+            <SectionHeader
+              number="05"
+              label="MEET YOUR NEXT INSPIRATION"
+              title={t.speakersTitle}
+              href="/speakers"
+              link="All speakers"
+            />
+            <div className="speaker-grid">
+              {[1, 2, 3].map((n) => (
+                <SecretSpeakerCard key={n} index={n} speaker={speakers?.[n - 1]} />
+              ))}
+            </div>
+            <div className="section-footnote">
+              <Lock size={12} /> GREAT CONVERSATIONS ARE WORTH THE WAIT. IDENTITIES REVEALED SOON.
+            </div>
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="section" id="battles">
+            <SectionHeader number="06" label="FOUR WAYS TO MAKE YOUR MARK" title={t.battlesTitle} />
+            <div className="competition-grid">
+              {competitions.map((c, i) => (
+                <Link
+                  key={c.slug}
+                  href={`/${c.slug}`}
+                  className={`competition-card competition-${i}`}
+                >
+                  <div className="competition-top">
+                    <span className="eyebrow">0{i + 1} / COMPETITION</span>
+                    <ArrowUpRight size={22} />
+                  </div>
+                  <span className="competition-symbol">{c.icon}</span>
+                  <h3>{c.title}</h3>
+                  <p>{c.description}</p>
+                  <div className="competition-bottom">
+                    19 SEPTEMBER <span>EXPLORE ↗</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="reveal-banner">
+              <Lock size={20} />
+              <span>17.09</span>
+              <strong>FINALISTS REVEALED.</strong>
+              <span className="pill">
+                {content.finalists_published ? 'PUBLISHED' : 'LOCKED UNTIL THE REVEAL'}
+              </span>
+            </div>
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="panel-banner">
+            <span className="eyebrow">07 / PANEL DISCUSSION</span>
+            <h2>
+              Three minds.
+              <br />
+              One conversation.
+              <br />
+              <span>Your questions.</span>
+            </h2>
+            <div>
+              <p>
+                A different perspective changes everything. Join three panelists for an open
+                exchange on technology, ideas and what comes next.
+              </p>
+              <Button href="/dashboard/questions" secondary>
+                Ask a question
+              </Button>
+            </div>
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="section">
+            <SectionHeader
+              number="08"
+              label="EXPLORE THE FORUM"
+              title={t.zoneTitle}
+              href="/zones"
+              link="Explore all zones"
+            />
+            <div className="zones-grid">
+              {(zoneData ?? zones).slice(0, 8).map((z, i) => (
+                <Link href="/zones" className="zone-card" key={z.name}>
+                  <span className="zone-icon">{String(i + 1).padStart(2, '0')}</span>
+                  <h3>{z.name}</h3>
+                  <p>{z.description}</p>
+                  <ArrowUpRight size={16} />
+                </Link>
+              ))}
+            </div>
+          </section>
+        </Reveal>
+        <Reveal>
+          <section className="rewards section">
+            <div className="coin-feature">
+              <span className="eyebrow">09 / CURIOSITY HAS ITS REWARDS</span>
+              <h2>
+                Show up.
+                <br />
+                Get involved.
+                <br />
+                <span>Make it count.</span>
+              </h2>
+              <p>
+                Earn Digital Coins as you learn, build and connect. Every experience brings you
+                closer to your certificate.
+              </p>
+              <Button href="/dashboard/coins" secondary>
+                Explore Digital Coin
+              </Button>
+              <div className="coin-object" aria-hidden="true">
+                <span>↗</span>
+                <small>DIGITAL COIN</small>
+              </div>
+              <span className="coin-disclaimer">PARTICIPATION POINTS. NOT CRYPTOCURRENCY.</span>
+            </div>
+            <div className="pass-feature">
+              <span className="eyebrow">10 / YOUR ACCESS TO WHAT’S NEXT</span>
+              <h2>
+                One pass.
+                <br />
+                Your possibilities.
+              </h2>
+              <div className="sample-pass">
+                <div className="sample-pass-top">
+                  <img src="/logo-mark.svg" width="29" height="29" alt="" />
+                  <strong>
+                    DIGITAL
+                    <br />
+                    NIS FORUM
+                  </strong>
+                  <span>2026 ↗</span>
+                </div>
+                <span className="eyebrow">YOUR DIGITAL PASS</span>
+                <h3>
+                  Future starts
+                  <br />
+                  with you.
+                </h3>
+                <div className="sample-pass-bottom">
+                  <span>
+                    19.09.2026
+                    <br />
+                    <small>PERSONAL · SECURE · DIGITAL</small>
+                  </span>
+                  <ScanLine size={52} strokeWidth={1} />
+                </div>
+              </div>
+              <Button href="/activate" secondary>
+                Activate invitation code
+              </Button>
+              <p>
+                Already applied? <Link href="/dashboard/pass">Open my pass ↗</Link>
+              </p>
+            </div>
+          </section>
+        </Reveal>
+        <section className="section partners" id="partners">
+          <SectionHeader number="11" label="MADE POSSIBLE TOGETHER" title="A shared vision." />
+          <div className="partner-columns">
+            <div>
+              <span className="eyebrow">ORGANIZED BY</span>
+              <div className="organizer-placeholder">
+                <span className="partner-monogram">NIS</span>
+                <p>
+                  Nazarbayev
+                  <br />
+                  Intellectual School<small>OFFICIAL LOGO COMING SOON</small>
+                </p>
+              </div>
+            </div>
+            <div>
+              <span className="eyebrow">OUR PARTNERS</span>
+              <div className="partner-list">
+                {partnerData?.length ? (
+                  partnerData.map((p) => (
+                    <a
+                      key={p.id}
+                      href={p.website || '#partners'}
+                      rel="noreferrer"
+                      className="partner-placeholder"
+                    >
+                      {p.logo ? (
+                        <Image
+                          src={p.logo}
+                          width={160}
+                          height={65}
+                          unoptimized
+                          alt={p.name}
+                          className="partner-logo"
+                        />
+                      ) : (
+                        p.name
+                      )}
+                      <small>{p.type.replaceAll('_', ' ')}</small>
+                    </a>
+                  ))
+                ) : (
+                  <>
+                    <span className="partner-placeholder">
+                      YOUR LOGO HERE <small>PARTNER</small>
+                    </span>
+                    <span className="partner-placeholder">
+                      LET’S BUILD TOGETHER <small>TECH PARTNER</small>
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="section faq">
+          <SectionHeader number="12" label="BEFORE YOU JOIN" title={t.faqTitle} />
+          <div>
+            {(content.faq ?? (lang === 'en' ? faq : translatedFaq[lang])).map(
+              ([q, a]: string[], i: number) => (
+                <details key={q}>
+                  <summary>
+                    <span>0{i + 1}</span>
+                    {q}
+                    <b>+</b>
+                  </summary>
+                  <p>{a}</p>
+                </details>
+              ),
+            )}
+          </div>
+        </section>
+      </div>
+      <section className="final-cta">
+        <div className="container">
+          <span className="eyebrow">
+            <i className="live-dot" />
+            19 SEPTEMBER 2026 · NIS · KAZAKHSTAN
+          </span>
+          <h2>
+            {t.future}
+            <br />
+            <span>DIGITAL UNITES.</span>
+          </h2>
+          <Button href="/apply">{t.apply}</Button>
+          <div className="final-bottom">
+            <span>{t.free}</span>
+            <span>SEE YOU ON THE OTHER SIDE. ↗</span>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

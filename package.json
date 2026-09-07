@@ -1,0 +1,44 @@
+{
+  "name": "digital-nis-forum",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack --hostname 0.0.0.0",
+    "build": "next build --webpack",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "test:db": "node tests/database.mjs",
+    "seed": "node --experimental-strip-types scripts/seed.ts",
+    "format": "prettier --write .",
+    "setup:sql": "node scripts/prepare-supabase.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.95.0",
+    "framer-motion": "^12.34.0",
+    "html5-qrcode": "^2.3.8",
+    "lucide-react": "^0.563.0",
+    "next": "^16.1.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@electric-sql/pglite": "^0.5.8",
+    "@playwright/test": "^1.58.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "prettier": "^3.9.6",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}
