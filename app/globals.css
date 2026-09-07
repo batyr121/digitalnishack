@@ -1415,6 +1415,17 @@ footer {
   min-height: 110px;
   resize: vertical;
 }
+.code-output {
+  width: 100%;
+  margin-top: 18px;
+  border: 1px solid #38442e;
+  background: #080c07;
+  color: var(--lime);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  min-height: 220px;
+  padding: 14px;
+  resize: vertical;
+}
 .field input:focus,
 .field textarea:focus {
   border-color: var(--lime);

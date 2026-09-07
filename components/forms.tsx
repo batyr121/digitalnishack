@@ -7,6 +7,7 @@ import {
   sendMagicLink,
   signInWithPassword,
   signUpWithPassword,
+  quickGeneratePromos,
   askQuestion,
   enterCompetition,
   type ActionResult,
@@ -268,6 +269,87 @@ export function PromoForm() {
       <p className="form-note">
         Sign in and complete your <Link href="/apply">application details</Link> before activating.
         Your organizer supplies the invitation code.
+      </p>
+    </form>
+  );
+}
+export function QuickAdminForm() {
+  const [result, setResult] = useState<ActionResult | null>(null);
+  const [pending, start] = useTransition();
+  const codes =
+    result?.data && typeof result.data === 'object' && 'codes' in result.data
+      ? ((result.data as { codes?: string[] }).codes ?? [])
+      : [];
+  return (
+    <form
+      className="form-card"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const f = new FormData(e.currentTarget);
+        start(async () =>
+          setResult(
+            await quickGeneratePromos(
+              String(f.get('adminCode')),
+              String(f.get('count')),
+              String(f.get('type')),
+              String(f.get('uses')),
+            ),
+          ),
+        );
+      }}
+    >
+      <h2>Quick promo generator</h2>
+      <label className="field">
+        Admin code
+        <input
+          name="adminCode"
+          type="password"
+          minLength={6}
+          maxLength={100}
+          required
+          placeholder="Enter admin code"
+          autoComplete="off"
+        />
+      </label>
+      <div className="form-grid">
+        <label className="field">
+          Number of codes
+          <input name="count" type="number" min={1} max={500} defaultValue={20} required />
+        </label>
+        <label className="field">
+          Uses per code
+          <input name="uses" type="number" min={1} max={10000} defaultValue={1} required />
+        </label>
+      </div>
+      <label className="field">
+        Pass type
+        <select name="type" defaultValue="GENERAL">
+          {[
+            'GENERAL',
+            'GUEST',
+            'PARTICIPANT',
+            'STARTUP_BATTLE',
+            'HACKATHON',
+            'JAS_STARTUPER',
+            'FIFA',
+            'SPEAKER',
+            'PARTNER',
+            'ORGANIZER',
+            'VIP_GUEST',
+          ].map((t) => (
+            <option key={t}>{t}</option>
+          ))}
+        </select>
+      </label>
+      <button className="button" disabled={pending}>
+        {pending ? 'Generating...' : 'Generate promo codes'}
+      </button>
+      <Result result={result} />
+      {codes.length > 0 && (
+        <textarea className="code-output" readOnly value={codes.join('\n')} rows={10} />
+      )}
+      <p className="form-note">
+        Send one code to each participant. They enter it on the activation page.
       </p>
     </form>
   );

@@ -147,6 +147,48 @@ export async function signUpWithPassword(email: string, password: string): Promi
     return { error: e instanceof Error ? e.message : 'Sign-up unavailable' };
   }
 }
+export async function quickGeneratePromos(
+  adminCode: string,
+  count: string,
+  type: string,
+  uses: string,
+): Promise<ActionResult> {
+  try {
+    const parsed = z
+      .object({
+        admin_code_input: z.string().trim().min(6).max(100),
+        count_input: z.coerce.number().int().min(1).max(500),
+        type_input: z.enum([
+          'GENERAL',
+          'GUEST',
+          'PARTICIPANT',
+          'STARTUP_BATTLE',
+          'HACKATHON',
+          'JAS_STARTUPER',
+          'FIFA',
+          'SPEAKER',
+          'PARTNER',
+          'ORGANIZER',
+          'VIP_GUEST',
+        ]),
+        max_uses_input: z.coerce.number().int().min(1).max(10000),
+      })
+      .safeParse({
+        admin_code_input: adminCode,
+        count_input: count,
+        type_input: type,
+        max_uses_input: uses,
+      });
+    if (!parsed.success) return { error: 'Check the admin code, count, pass type and uses.' };
+    const client = await db();
+    const { data, error } = await client.rpc('quick_generate_promos', parsed.data);
+    if (error) return { error: error.message };
+    if (data?.error) return { error: data.error };
+    return { message: data?.message || 'Codes generated', data };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Promo generation unavailable' };
+  }
+}
 export async function signOut() {
   const client = await db();
   await client.auth.signOut();
