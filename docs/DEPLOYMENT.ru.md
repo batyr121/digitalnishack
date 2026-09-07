@@ -64,12 +64,12 @@ NEXT_PUBLIC_SITE_URL=https://YOUR_PRODUCTION_DOMAIN
 
 Этот маршрут поддерживает открытие письма на другом устройстве и пересылку ссылки участнику организатором. Настроить SMTP для реальной доставки писем.
 
-Войти на `/login`, открыть письмо, затем выполнить в SQL Editor, подставив свой email:
+Войти на `/login`, открыть письмо, затем выполнить в SQL Editor:
 
 ```sql
 update public.profiles
 set role = 'ADMIN'
-where email = 'YOUR_ADMIN_EMAIL';
+where email = 'amantaibatyrkhan11@gmail.com';
 ```
 
 Открыть `/admin`. Если SQL изменил 0 строк, сначала завершить первый вход, чтобы профиль был создан.

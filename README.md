@@ -77,7 +77,7 @@ Sign in once to create your profile. In the trusted Supabase SQL editor:
 ```sql
 update public.profiles
 set role = 'ADMIN'
-where id = 'YOUR_AUTH_USER_UUID';
+where email = 'amantaibatyrkhan11@gmail.com';
 ```
 
 Visit `/admin`. Only a trusted database administrator can change account roles. Organizer invitation **pass types do not grant organizer account permissions**. Never add client-side profile role update permissions.
