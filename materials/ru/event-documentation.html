@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>DIGITAL NIS FORUM 2026 — документация мероприятия</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 15mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #070908;
+        color: #f0f2eb;
+        font-family:
+          Inter, Arial, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 11px;
+        line-height: 1.55;
+      }
+      .page {
+        min-height: 267mm;
+        page-break-after: always;
+        padding: 18mm 16mm;
+        background:
+          linear-gradient(#91ab6512 1px, transparent 1px),
+          linear-gradient(90deg, #91ab6512 1px, transparent 1px),
+          #070908;
+        background-size: 22mm 22mm;
+      }
+      .page:last-child {
+        page-break-after: auto;
+      }
+      .cover {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #bcf75a;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+      .brand img {
+        width: 46px;
+        height: 46px;
+      }
+      .eyebrow {
+        color: #bcf75a;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1 {
+        max-width: 150mm;
+        margin-top: 32mm;
+        font-size: 52px;
+        line-height: 0.95;
+        letter-spacing: -0.065em;
+        font-weight: 650;
+      }
+      h2 {
+        margin: 8mm 0 6mm;
+        font-size: 29px;
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+        font-weight: 620;
+      }
+      h3 {
+        color: #f0f2eb;
+        font-size: 15px;
+        margin-bottom: 3mm;
+      }
+      p,
+      li {
+        color: #c3cabc;
+      }
+      .lead {
+        max-width: 125mm;
+        margin-top: 8mm;
+        color: #e5eadf;
+        font-size: 16px;
+      }
+      .meta-grid,
+      .cards,
+      .two-col {
+        display: grid;
+        gap: 5mm;
+      }
+      .meta-grid {
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 16mm;
+      }
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .card,
+      .timeline,
+      table {
+        border: 1px solid #303d26;
+        background: #101510;
+      }
+      .card {
+        padding: 6mm;
+      }
+      .card strong {
+        display: block;
+        color: #f0f2eb;
+        font-size: 15px;
+        margin-bottom: 2mm;
+      }
+      .big-number {
+        color: #bcf75a;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 22px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 5mm 0 7mm;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #263120;
+        padding: 3.2mm;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: #bcf75a;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      td:first-child {
+        color: #f0f2eb;
+        font-family: ui-monospace, Menlo, monospace;
+        white-space: nowrap;
+      }
+      ul {
+        margin: 0;
+        padding-left: 4mm;
+      }
+      .timeline {
+        padding: 5mm 6mm;
+        margin-bottom: 4mm;
+      }
+      .timeline .date {
+        color: #bcf75a;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 14px;
+      }
+      .footer {
+        margin-top: 10mm;
+        border-top: 1px solid #303d26;
+        padding-top: 4mm;
+        color: #8f9789;
+        font-size: 9px;
+      }
+      .tag {
+        display: inline-block;
+        margin: 0 2mm 2mm 0;
+        border: 1px solid #405032;
+        color: #bcf75a;
+        padding: 1.5mm 2.5mm;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 9px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="page cover">
+      <div>
+        <div class="brand">
+          <img src="../../public/logo-mark.svg" alt="" />
+          <div>
+            DIGITAL NIS FORUM<br />
+            <span class="eyebrow">DIGITAL UNITES</span>
+          </div>
+        </div>
+        <h1>Документация мероприятия</h1>
+        <p class="lead">
+          DIGITAL NIS FORUM 2026 — бесплатная технологическая платформа и форум для сообщества
+          Nazarbayev Intellectual School: образовательная неделя Digital Apta, мастер-классы,
+          соревнования, Startup Battle, цифровые пропуска, QR check-in и система Digital Coins.
+        </p>
+        <div class="meta-grid">
+          <div class="card">
+            <span class="big-number">12–18</span>
+            <p>сентября 2026<br />Digital Apta</p>
+          </div>
+          <div class="card">
+            <span class="big-number">19</span>
+            <p>сентября 2026<br />основной форум</p>
+          </div>
+          <div class="card">
+            <span class="big-number">4</span>
+            <p>конкурса<br />для участников</p>
+          </div>
+          <div class="card">
+            <span class="big-number">8</span>
+            <p>зон<br />мероприятия</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer">Версия для команды организаторов · время и площадки отдельных сессий уточняются.</div>
+    </section>
+
+    <section class="page">
+      <p class="eyebrow">01 · Концепция</p>
+      <h2>О мероприятии</h2>
+      <div class="two-col">
+        <div>
+          <p>
+            DIGITAL NIS FORUM объединяет учеников, учителей, стартап-команды, разработчиков,
+            гостей и партнёров вокруг технологий, образования и предпринимательства. Главный
+            акцент — не просто рассказать о digital-среде, а дать участникам попробовать её в
+            действии: собрать прототип, подготовить питч, пройти воркшоп, получить цифровой
+            пропуск и заработать Digital Coins за активность.
+          </p>
+        </div>
+        <div>
+          <h3>Цели форума</h3>
+          <ul>
+            <li>Показать практическое применение технологий в образовании и проектах.</li>
+            <li>Поддержать школьные стартапы и команды, готовые презентовать идеи.</li>
+            <li>Создать понятный маршрут участника через сайт, QR-пропуск и промокоды.</li>
+            <li>Собрать активное сообщество вокруг NIS, IT, 3D, AI, EdTech и предпринимательства.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Ключевые форматы</h2>
+      <div class="cards">
+        <div class="card">
+          <strong>Digital Apta</strong>
+          <p>Образовательная неделя 12–18 сентября: подготовка команд, мастер-классы, питчи и финальный отбор.</p>
+        </div>
+        <div class="card">
+          <strong>Main Forum</strong>
+          <p>19 сентября: сцена, спикерские сессии, панельная дискуссия, финалы и нетворкинг.</p>
+        </div>
+        <div class="card">
+          <strong>Competitions</strong>
+          <p>Startup Battle, NIS EdTech Hackathon, Jas Startuper и FIFA League.</p>
+        </div>
+        <div class="card">
+          <strong>Digital Pass</strong>
+          <p>Личный QR-пропуск участника для входа, check-in на сессии и начисления Digital Coins.</p>
+        </div>
+      </div>
+      <div class="footer">Формулировки можно использовать в анонсах, презентациях и письмах партнёрам.</div>
+    </section>
+
+    <section class="page">
+      <p class="eyebrow">02 · Программа</p>
+      <h2>Digital Apta · 12–18 сентября</h2>
+      <table>
+        <thead>
+          <tr><th>Дата</th><th>Событие</th><th>Описание</th><th>Локация</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>12.09</td><td>Opening of Digital Apta</td><td>Открытие недели, знакомство с участниками и старт образовательного маршрута.</td><td>Venue TBA</td></tr>
+          <tr><td>12.09</td><td>Startup acceleration</td><td>Менторство, бизнес-модели, pitch deck и подготовка к Startup Battle.</td><td>Venue TBA</td></tr>
+          <tr><td>15.09</td><td>Vibe Coding</td><td>AI-assisted coding, быстрые прототипы и MVP за один интенсивный воркшоп.</td><td>Digital Lab</td></tr>
+          <tr><td>15.09</td><td>Startup Commercialization</td><td>Проблема клиента, value proposition, B2B/B2C/B2G, монетизация и первые пользователи.</td><td>Venue TBA</td></tr>
+          <tr><td>16.09</td><td>Pitch Deck & Pitching</td><td>Структура питча, storytelling, тайминг и ответы на вопросы жюри.</td><td>Main Stage</td></tr>
+          <tr><td>17.09</td><td>3D Modeling & 3D Printing</td><td>Практический воркшоп по моделированию, slicing и печати для учебных проектов.</td><td>3D Lab</td></tr>
+          <tr><td>17.09</td><td>Finalists Reveal</td><td>Объявление отобранных команд и участников четырёх конкурсов.</td><td>Online</td></tr>
+          <tr><td>18.09</td><td>Mock Pitching</td><td>Финальная репетиция презентаций перед форумом и экспертная обратная связь.</td><td>Main Stage</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Main Forum · 19 сентября</h2>
+      <table>
+        <thead>
+          <tr><th>Время</th><th>Сессия</th><th>Трек</th><th>Локация</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>TBA</td><td>Session 01 · Secret Speaker</td><td>Main Stage</td><td>Main Stage</td></tr>
+          <tr><td>TBA</td><td>Session 02 · Secret Speaker</td><td>Main Stage</td><td>Main Stage</td></tr>
+          <tr><td>TBA</td><td>Session 03 · Secret Speaker</td><td>Main Stage</td><td>Main Stage</td></tr>
+          <tr><td>TBA</td><td>Panel Discussion</td><td>Main Stage</td><td>Main Stage</td></tr>
+          <tr><td>TBA</td><td>Startup Battle · The Final</td><td>Startups</td><td>Main Stage</td></tr>
+          <tr><td>TBA</td><td>FIFA League · The Final</td><td>Gaming</td><td>Guest Area</td></tr>
+        </tbody>
+      </table>
+      <div class="footer">Все временные слоты можно обновить через админку после финального расписания.</div>
+    </section>
+
+    <section class="page">
+      <p class="eyebrow">03 · Организация</p>
+      <h2>Роли команды</h2>
+      <div class="cards">
+        <div class="card"><strong>Program Lead</strong><p>Финализирует программу, спикеров, конкурсы, тайминг и правила участия.</p></div>
+        <div class="card"><strong>Registration Team</strong><p>Проверяет заявки, выдаёт промокоды, помогает участникам с Digital Pass.</p></div>
+        <div class="card"><strong>Stage & Speakers</strong><p>Ведёт сцены, таймеры, презентации, встречу спикеров и Q&A.</p></div>
+        <div class="card"><strong>Technical Team</strong><p>Отвечает за сайт, QR check-in, ноутбуки, камеры, интернет и экраны.</p></div>
+        <div class="card"><strong>Competition Team</strong><p>Собирает заявки, координирует жюри, публикует финалистов и результаты.</p></div>
+        <div class="card"><strong>Media Team</strong><p>Готовит посты, stories, фото, видео, интервью и финальный recap.</p></div>
+      </div>
+
+      <h2>Участник: путь от приглашения до входа</h2>
+      <div class="timeline"><span class="date">01</span><p>Получает промокод от организатора.</p></div>
+      <div class="timeline"><span class="date">02</span><p>Открывает сайт и переходит на страницу активации промокода.</p></div>
+      <div class="timeline"><span class="date">03</span><p>Заполняет данные заявки и активирует приглашение.</p></div>
+      <div class="timeline"><span class="date">04</span><p>Получает Digital Pass с QR-кодом.</p></div>
+      <div class="timeline"><span class="date">05</span><p>На входе команда сканирует QR, отмечает check-in и начисляет Digital Coins.</p></div>
+      <div class="footer">Для простого сценария организатор создаёт промокоды через /quick-admin.</div>
+    </section>
+
+    <section class="page">
+      <p class="eyebrow">04 · Пространство и конкурсы</p>
+      <h2>Зоны форума</h2>
+      <div>
+        <span class="tag">Main Stage</span>
+        <span class="tag">Startup Battle</span>
+        <span class="tag">Hackathon Zone</span>
+        <span class="tag">3D Lab</span>
+        <span class="tag">Digital Lab</span>
+        <span class="tag">Registration</span>
+        <span class="tag">Networking & Relax</span>
+        <span class="tag">Guest Area</span>
+      </div>
+      <h2>Конкурсы</h2>
+      <div class="cards">
+        <div class="card"><strong>Startup Battle</strong><p>8 стартапов презентуют идеи на сцене и получают обратную связь от жюри.</p></div>
+        <div class="card"><strong>NIS EdTech Hackathon</strong><p>Команды создают решения для реальных образовательных вызовов.</p></div>
+        <div class="card"><strong>Jas Startuper</strong><p>Площадка для первых предпринимательских идей младших участников.</p></div>
+        <div class="card"><strong>FIFA League</strong><p>Турнирная зона для гейминга, финальных раундов и зрительской энергии.</p></div>
+      </div>
+
+      <h2>Операционный чек-лист</h2>
+      <div class="two-col">
+        <ul>
+          <li>Утвердить площадку, карту зон и ответственных по каждой зоне.</li>
+          <li>Загрузить финальные данные спикеров, если они раскрываются.</li>
+          <li>Проверить работу /quick-admin и активации промокодов.</li>
+          <li>Протестировать QR check-in с телефона по HTTPS.</li>
+        </ul>
+        <ul>
+          <li>Подготовить список команд и финалистов.</li>
+          <li>Проверить экраны, интернет, звук, регистрацию и навигацию.</li>
+          <li>Согласовать правила для несовершеннолетних участников.</li>
+          <li>Назначить человека на поддержку сайта в день форума.</li>
+        </ul>
+      </div>
+      <div class="footer">DIGITAL NIS FORUM 2026 · DIGITAL UNITES</div>
+    </section>
+  </body>
+</html>
