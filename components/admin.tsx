@@ -8,6 +8,19 @@ import {
   type ActionResult,
 } from '@/lib/actions';
 import { Result, ActionButton } from './forms';
+const passTypeOptions = [
+  ['GENERAL', 'Обычный'],
+  ['GUEST', 'Гость'],
+  ['PARTICIPANT', 'Участник'],
+  ['STARTUP_BATTLE', 'Startup Battle'],
+  ['HACKATHON', 'Хакатон'],
+  ['JAS_STARTUPER', 'Jas Startuper'],
+  ['FIFA', 'FIFA League'],
+  ['SPEAKER', 'Спикер'],
+  ['PARTNER', 'Партнёр'],
+  ['ORGANIZER', 'Организатор'],
+  ['VIP_GUEST', 'VIP-гость'],
+] as const;
 export function DataTable({
   rows,
   columns,
@@ -27,12 +40,12 @@ export function DataTable({
   return (
     <>
       <label className="field">
-        Search records
+        Поиск
         <input
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Name, role, status, type…"
+          placeholder="Имя, роль, статус, тип…"
         />
       </label>
       {table === 'applications' && (
@@ -54,7 +67,7 @@ export function DataTable({
                     );
                   setResult(
                     results.find((r) => r.error) || {
-                      message: `${selected.length} applications updated`,
+                      message: `${selected.length} заявок обновлено`,
                     },
                   );
                   setSelected([]);
@@ -75,7 +88,7 @@ export function DataTable({
                 <th>
                   <input
                     type="checkbox"
-                    aria-label="Select all filtered applications"
+                    aria-label="Выбрать все заявки"
                     checked={
                       filtered.length > 0 && filtered.every((r) => selected.includes(String(r.id)))
                     }
@@ -100,7 +113,7 @@ export function DataTable({
                   <td>
                     <input
                       type="checkbox"
-                      aria-label={`Select application ${r.id}`}
+                      aria-label={`Выбрать заявку ${r.id}`}
                       checked={selected.includes(String(r.id))}
                       onChange={(e) =>
                         setSelected(
@@ -141,10 +154,10 @@ export function DataTable({
                         status_input: r.status === 'ACTIVE' ? 'REVOKED' : 'ACTIVE',
                       }}
                     >
-                      {r.status === 'ACTIVE' ? 'Revoke' : 'Reactivate'}
+                      {r.status === 'ACTIVE' ? 'Отключить' : 'Включить'}
                     </ActionButton>
                     <a className="text-link" href={`/verify/${r.token}`}>
-                      Verify ↗
+                      Проверить ↗
                     </a>
                     <button
                       className="button secondary"
@@ -153,10 +166,10 @@ export function DataTable({
                         start(async () => setResult(await resendPassAccess(String(r.id))))
                       }
                     >
-                      Resend access link
+                      Отправить ссылку
                     </button>
                     <a className="text-link" href={`/admin/coins?user=${r.user_id}`}>
-                      View activity ↗
+                      Активность ↗
                     </a>
                   </td>
                 )}
@@ -188,15 +201,15 @@ export function DataTable({
                         onClick={async () => {
                           try {
                             await navigator.clipboard.writeText(String(r.code));
-                            setResult({ message: 'Code copied' });
+                            setResult({ message: 'Код скопирован.' });
                           } catch {
                             setResult({
-                              error: 'Clipboard unavailable. Select and copy the code.',
+                              error: 'Буфер обмена недоступен. Выделите и скопируйте код вручную.',
                             });
                           }
                         }}
                       >
-                        Copy
+                        Копировать
                       </button>
                       <button
                         className="button secondary"
@@ -209,7 +222,7 @@ export function DataTable({
                           )
                         }
                       >
-                        {r.active ? 'Disable' : 'Enable'}
+                        {r.active ? 'Выключить' : 'Включить'}
                       </button>
                     </div>
                   </td>
@@ -223,7 +236,7 @@ export function DataTable({
                         status_input: r.status === 'ISSUED' ? 'REVOKED' : 'ISSUED',
                       }}
                     >
-                      {r.status === 'ISSUED' ? 'Revoke' : 'Issue'}
+                      {r.status === 'ISSUED' ? 'Отозвать' : 'Выдать'}
                     </ActionButton>
                   </td>
                 )}
@@ -233,7 +246,7 @@ export function DataTable({
         </table>
         {!filtered.length && (
           <div className="empty">
-            <p>No records match this view.</p>
+            <p>Ничего не найдено.</p>
           </div>
         )}
       </div>
@@ -263,17 +276,17 @@ export function RecordEditor({
           try {
             setResult(await saveRecord(table, id, JSON.parse(value)));
           } catch {
-            setResult({ error: 'Invalid JSON. Check quotes, commas and brackets.' });
+            setResult({ error: 'Неверный JSON. Проверьте кавычки, запятые и скобки.' });
           }
         });
       }}
     >
-      <h2>Content editor</h2>
+      <h2>Редактор</h2>
       <p className="form-note" style={{ marginBottom: 20 }}>
-        Choose an existing record or create a new one. Changes appear on public pages after saving.
+        Выберите запись или создайте новую. После сохранения изменения появятся на сайте.
       </p>
       <label className="field">
-        Record
+        Запись
         <select
           value={id}
           onChange={(e) => {
@@ -291,7 +304,7 @@ export function RecordEditor({
             setResult(null);
           }}
         >
-          <option value="">Create new record</option>
+          <option value="">Создать новую запись</option>
           {rows.map((r) => (
             <option key={String(r[key])} value={String(r[key])}>
               {String(r.name || r.title || r.key || r.id)}
@@ -301,12 +314,12 @@ export function RecordEditor({
       </label>
       {table === 'site_settings' && (
         <label className="field">
-          Setting key
+          Ключ настройки
           <input value={id} onChange={(e) => setId(e.target.value)} required />
         </label>
       )}
       <label className="field">
-        Fields (JSON)
+        Поля (JSON)
         <textarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -316,7 +329,7 @@ export function RecordEditor({
       </label>
       <div className="admin-actions">
         <button className="button" disabled={pending}>
-          {pending ? 'Saving…' : 'Save changes ↗'}
+          {pending ? 'Сохраняем…' : 'Сохранить ↗'}
         </button>
         {id && (
           <button
@@ -324,11 +337,11 @@ export function RecordEditor({
             className="button secondary"
             disabled={pending}
             onClick={() => {
-              if (window.confirm('Delete this record? This cannot be undone.'))
+              if (window.confirm('Удалить запись? Действие нельзя отменить.'))
                 start(async () => setResult(await saveRecord(table, id, {}, true)));
             }}
           >
-            Delete record
+            Удалить
           </button>
         )}
       </div>
@@ -356,42 +369,32 @@ export function PromoGenerator() {
         );
       }}
     >
-      <h2>Create invitations</h2>
+      <h2>Создать промокоды</h2>
       <div className="form-grid">
         <label className="field">
-          Number of codes
+          Количество кодов
           <input name="count" type="number" min={1} max={500} defaultValue={100} required />
         </label>
         <label className="field">
-          Uses per code
+          Использований на код
           <input name="uses" type="number" min={1} max={10000} defaultValue={1} required />
         </label>
       </div>
       <label className="field">
-        Pass type
+        Тип пропуска
         <select name="type">
-          {[
-            'GENERAL',
-            'GUEST',
-            'PARTICIPANT',
-            'STARTUP_BATTLE',
-            'HACKATHON',
-            'JAS_STARTUPER',
-            'FIFA',
-            'SPEAKER',
-            'PARTNER',
-            'ORGANIZER',
-            'VIP_GUEST',
-          ].map((t) => (
-            <option key={t}>{t}</option>
+          {passTypeOptions.map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
           ))}
         </select>
       </label>
       <button className="button" disabled={pending}>
-        {pending ? 'Generating…' : 'Generate invitation codes ↗'}
+        {pending ? 'Генерируем…' : 'Сгенерировать коды ↗'}
       </button>
       <Result result={result} />
-      <p className="form-note">A pass type does not grant staff account permissions.</p>
+      <p className="form-note">Тип пропуска не даёт доступ к админке.</p>
     </form>
   );
 }
@@ -415,21 +418,21 @@ export function CoinAdjustment() {
         );
       }}
     >
-      <h2>Adjust Digital Coins</h2>
+      <h2>Начислить баллы вручную</h2>
       <label className="field">
-        Participant user ID
-        <input name="user" required placeholder="UUID from participant records" />
+        ID участника
+        <input name="user" required placeholder="UUID из таблицы участников" />
       </label>
       <label className="field">
-        Amount (negative to deduct)
+        Баллы
         <input name="amount" type="number" min={-10000} max={10000} required />
       </label>
       <label className="field">
-        Reason
+        Причина
         <textarea name="reason" required minLength={3} maxLength={500} />
       </label>
       <button className="button" disabled={pending}>
-        Record adjustment ↗
+        Сохранить начисление ↗
       </button>
       <Result result={result} />
     </form>
@@ -447,18 +450,17 @@ export function AssetUploader() {
         start(async () => setResult(await uploadAsset(f)));
       }}
     >
-      <h2>Upload image</h2>
+      <h2>Загрузить изображение</h2>
       <label className="field">
-        JPG, PNG or WebP · up to 5 MB
+        JPG, PNG или WebP · до 5 МБ
         <input type="file" name="file" accept="image/jpeg,image/png,image/webp" required />
       </label>
       <button className="button secondary" disabled={pending}>
-        {pending ? 'Uploading…' : 'Upload to media library ↗'}
+        {pending ? 'Загружаем…' : 'Загрузить ↗'}
       </button>
       <Result result={result} />
       <p className="form-note">
-        Copy the returned URL into the photo or logo field. Upload only images cleared for
-        publication.
+        Вставьте полученную ссылку в поле фото или логотипа.
       </p>
     </form>
   );

@@ -10,47 +10,43 @@ import { events, competitions, zones, eventConfig } from '@/lib/config';
 import { configured, db, publicRows } from '@/lib/supabase';
 const pages: Record<string, [string, string, string]> = {
   program: [
-    'THE PROGRAM',
-    'Ideas on the agenda.',
-    'Eight days of learning, building and connecting. Find your next experience.',
+    'ПРОГРАММА',
+    'Идеи в расписании.',
+    'Восемь дней обучения, практики и новых знакомств.',
   ],
   'digital-apta': [
-    '12—18 SEPTEMBER 2026',
+    '12—18 СЕНТЯБРЯ 2026',
     'DIGITAL\nAPTA.',
-    'A week before the forum. Seven days of learning, building and preparing.',
+    'Неделя перед форумом: практика, подготовка и командная работа.',
   ],
   speakers: [
-    'THE VOICES OF TOMORROW',
-    'Big minds.\nStill under wraps.',
-    'Three keynote speakers. Three independent panelists. Six perspectives to move you forward.',
+    'СПИКЕРЫ',
+    'Большие идеи.\nПока под секретом.',
+    'Три спикера и три участника панельной дискуссии.',
   ],
   zones: [
-    'EXPLORE THE FORUM',
-    'Find your space.',
-    'From the main stage to the makers’ lab. Follow your curiosity.',
+    'ЗОНЫ ФОРУМА',
+    'Найдите своё место.',
+    'Главная сцена, лаборатории, нетворкинг и зоны практики.',
   ],
   apply: [
-    'FREE ENTRY · REGISTRATION REQUIRED',
-    'Your next connection\nstarts here.',
-    'Apply to DIGITAL NIS FORUM. After approval, your personal Digital Pass will be waiting in your dashboard.',
+    'ВХОД БЕСПЛАТНЫЙ · НУЖНА РЕГИСТРАЦИЯ',
+    'Подайте заявку\nна форум.',
+    'После одобрения цифровой пропуск появится в личном кабинете.',
   ],
   activate: [
-    'YOU’RE INVITED',
-    'Unlock your\ndigital future.',
-    'An invitation from your organizer. One code. Your personal Digital Pass.',
+    'ПРОМОКОД',
+    'Активируйте\nпропуск.',
+    'Введите код от организатора, чтобы получить цифровой пропуск.',
   ],
   login: [
-    'YOUR DIGITAL NIS JOURNEY',
-    'Welcome to\nwhat’s next.',
-    'Sign in to manage your application, Digital Pass, schedule and achievements.',
+    'ВХОД',
+    'Добро пожаловать.',
+    'Войдите, чтобы управлять заявкой, пропуском, расписанием и баллами.',
   ],
-  privacy: ['YOUR DATA', 'Privacy policy', 'Transparency is part of a good connection.'],
-  rules: ['BEFORE YOU JOIN', 'Event rules', 'A shared space for learning, building and respect.'],
-  contact: [
-    'LET’S CONNECT',
-    'Contact the forum.',
-    'Official organizer contact details will be published here.',
-  ],
+  privacy: ['ДАННЫЕ', 'Политика конфиденциальности', 'Как мы работаем с данными участников.'],
+  rules: ['ПРАВИЛА', 'Правила мероприятия', 'Общее пространство для обучения и уважения.'],
+  contact: ['КОНТАКТЫ', 'Связь с форумом.', 'Контакты организаторов появятся здесь.'],
 };
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -85,7 +81,7 @@ export default async function PublicPage({
           <div className="reveal-banner">
             <Lock size={22} />
             <span>17.09</span>
-            <strong>FINALISTS REVEALED</strong>
+            <strong>ФИНАЛИСТЫ БУДУТ ОПУБЛИКОВАНЫ</strong>
             <span className="pill">STARTUP BATTLE / HACKATHON / JAS STARTUPER / FIFA</span>
           </div>
         )}
@@ -115,9 +111,9 @@ export default async function PublicPage({
           ))}
         </div>
         <div className="section">
-          <h2>Three minds. One conversation.</h2>
+          <h2>Три взгляда. Один разговор.</h2>
           <p style={{ margin: '20px 0 30px' }}>
-            Your questions. Expert perspectives. An open dialogue on the future.
+            Ваши вопросы, опыт спикеров и открытый разговор о будущем.
           </p>
           <div className="speaker-grid">
             {[1, 2, 3].map((n) => (
@@ -130,7 +126,7 @@ export default async function PublicPage({
             ))}
           </div>
           <div style={{ marginTop: 30 }}>
-            <Button href="/dashboard/questions">Ask a question</Button>
+            <Button href="/dashboard/questions">Задать вопрос</Button>
           </div>
         </div>
       </>
@@ -165,13 +161,13 @@ export default async function PublicPage({
       <>
         {!configured() && (
           <div className="notice">
-            Applications will open when the organizers connect the registration service.
+            Заявки откроются после подключения сервиса регистрации.
           </div>
         )}
-        {!enabled && <div className="notice">Applications are currently closed.</div>}
+        {!enabled && <div className="notice">Приём заявок сейчас закрыт.</div>}
         <ApplyForm signedIn={!!user} email={user?.email} enabled={enabled} />
         <p className="form-note">
-          Have an invitation code? <Link href="/activate">Activate it here ↗</Link>
+          Есть промокод? <Link href="/activate">Активировать здесь ↗</Link>
         </p>
       </>
     );
@@ -181,12 +177,12 @@ export default async function PublicPage({
       <>
         {search.notice === 'setup' && (
           <div className="notice">
-            The account service is not connected yet. Public program pages are available.
+            Сервис аккаунтов ещё не подключён. Публичные страницы программы доступны.
           </div>
         )}
         {search.error && (
           <div className="notice error">
-            Your sign-in link has expired or could not be verified. Request a new link.
+            Ссылка для входа устарела или не прошла проверку. Запросите новую ссылку.
           </div>
         )}
         <LoginForm />
@@ -204,8 +200,8 @@ export default async function PublicPage({
     body = (
       <>
         <div className="preview-tabs">
-          <span className="active">19 SEPTEMBER 2026</span>
-          <span>FINALISTS · 17 SEPTEMBER</span>
+          <span className="active">19 СЕНТЯБРЯ 2026</span>
+          <span>ФИНАЛИСТЫ · 17 СЕНТЯБРЯ</span>
         </div>
         <div className="section">
           <h2>{competition.tag}</h2>
@@ -218,20 +214,20 @@ export default async function PublicPage({
                   <article className="locked-slot" key={e.id}>
                     <span className="status">
                       {e.place === 1
-                        ? 'WINNER'
+                        ? 'ПОБЕДИТЕЛЬ'
                         : e.place === 2
-                          ? '2ND PLACE'
+                          ? '2 МЕСТО'
                           : e.place === 3
-                            ? '3RD PLACE'
+                            ? '3 МЕСТО'
                             : e.status}
                     </span>
                     <h3 style={{ marginTop: 20 }}>{e.name}</h3>
                     <p>{e.description}</p>
                     {e.founders && <p>{e.founders}</p>}
-                    {e.pitch_time && <p>PITCH · {e.pitch_time}</p>}
+                    {e.pitch_time && <p>ПИТЧ · {e.pitch_time}</p>}
                     {e.website && (
                       <a href={e.website} className="text-link">
-                        Project website ↗
+                        Сайт проекта ↗
                       </a>
                     )}
                   </article>
@@ -240,38 +236,38 @@ export default async function PublicPage({
                   <article className="locked-slot" key={i}>
                     <Lock size={28} />
                     <h3>
-                      {slug === 'startup-battle' ? 'STARTUP' : 'PARTICIPANT'}{' '}
+                      {slug === 'startup-battle' ? 'СТАРТАП' : 'УЧАСТНИК'}{' '}
                       {String(i + 1).padStart(2, '0')}
                     </h3>
-                    <p>LOCKED · REVEAL 17 SEPTEMBER</p>
+                    <p>СКОРО · 17 СЕНТЯБРЯ</p>
                   </article>
                 ))}
           </div>
           <div className="prose">
-            <h2>How it works</h2>
-            <p>APPLICATION → REVIEW → FINALIST → FINAL → WINNER</p>
-            <h2>Rules & judging</h2>
+            <h2>Как проходит</h2>
+            <p>ЗАЯВКА → ОТБОР → ФИНАЛИСТ → ФИНАЛ → ПОБЕДИТЕЛЬ</p>
+            <h2>Правила и оценка</h2>
             <p>
               {record?.rules ||
-                'Detailed rules and eligibility will be published by the organizers before selection.'}
+                'Подробные правила организаторы опубликуют до отбора.'}
             </p>
             <p>
-              {record?.judging || 'Judging criteria and the final schedule are to be announced.'}
+              {record?.judging || 'Критерии оценки и финальное расписание скоро объявим.'}
             </p>
           </div>
           {slug === 'fifa' && (
             <>
-              <h2 style={{ margin: '35px 0 20px' }}>Tournament bracket</h2>
+              <h2 style={{ margin: '35px 0 20px' }}>Турнирная сетка</h2>
               <div className="bracket">
                 {(record?.bracket?.length
                   ? record.bracket
                   : [
                       {
-                        name: 'QUARTERFINALS',
-                        matches: ['TBA vs TBA', 'TBA vs TBA', 'TBA vs TBA', 'TBA vs TBA'],
+                        name: 'ЧЕТВЕРТЬФИНАЛ',
+                        matches: ['Скоро', 'Скоро', 'Скоро', 'Скоро'],
                       },
-                      { name: 'SEMIFINALS', matches: ['TBA vs TBA', 'TBA vs TBA'] },
-                      { name: 'FINAL', matches: ['TBA vs TBA'] },
+                      { name: 'ПОЛУФИНАЛ', matches: ['Скоро', 'Скоро'] },
+                      { name: 'ФИНАЛ', matches: ['Скоро'] },
                     ]
                 ).map((r: { name: string; matches: string[] }) => (
                   <div key={r.name} className="bracket-round">
@@ -287,13 +283,13 @@ export default async function PublicPage({
             </>
           )}
         </div>
-        <h2 style={{ marginBottom: 25 }}>Bring your idea.</h2>
+        <h2 style={{ marginBottom: 25 }}>Принесите свою идею.</h2>
         {record ? (
           <CompetitionForm id={record.id} />
         ) : (
-          <Empty title="Competition applications open soon.">
-            <p>Start with your forum application to join the community.</p>
-            <Button href="/apply">Apply to forum</Button>
+          <Empty title="Заявки на соревнование скоро откроются.">
+            <p>Сначала подайте заявку на форум.</p>
+            <Button href="/apply">Подать заявку</Button>
           </Empty>
         )}
       </>
@@ -301,64 +297,58 @@ export default async function PublicPage({
   } else if (slug === 'privacy')
     body = (
       <div className="prose">
-        <h2>Information we collect</h2>
+        <h2>Какие данные собираем</h2>
         <p>
-          We collect your name, verified email, school or organization, role and optional grade to
-          process your application and issue a personal pass. We record activity attendance, points
-          and questions you submit.
+          Мы собираем имя, email, школу или организацию, роль и класс, чтобы обработать заявку и
+          выдать личный пропуск. Также сохраняем посещение событий, баллы и вопросы.
         </p>
-        <h2>How it is used</h2>
+        <h2>Как используются данные</h2>
         <p>
-          Authorized organizers use this information to manage admission, event capacity and
-          certificates. QR passes contain only a random token. Certificate verification displays the
-          recipient’s name and issuance status to anyone with the verification link.
+          Организаторы используют данные для входа, расписания и сертификатов. QR-пропуск содержит
+          только случайный токен. Проверка сертификата показывает имя участника и статус выдачи.
         </p>
-        <h2>Access and retention</h2>
+        <h2>Доступ и хранение</h2>
         <p>
-          Your account data is accessible to you and authorized organizers. Do not share your
-          personal QR code. Organizer contact details and the final retention period must be
-          published before registration opens.
+          Данные аккаунта доступны вам и организаторам. Не передавайте личный QR-код другим людям.
+          Контакты организаторов и срок хранения данных будут опубликованы до старта регистрации.
         </p>
         <div className="notice">
-          Pre-launch policy. The organizing institution must confirm the data controller, contact
-          channel, retention period and requirements for minors before accepting applications.
+          Черновая политика перед запуском. Организаторы должны подтвердить ответственного за
+          данные, канал связи, срок хранения и требования для несовершеннолетних участников.
         </div>
       </div>
     );
   else if (slug === 'rules')
     body = (
       <div className="prose">
-        <h2>Participation</h2>
+        <h2>Участие</h2>
         <p>
-          The forum is free. Admission requires an active personal Digital Pass. Applications are
-          reviewed by the organizers. Passes are personal and must not be shared.
+          Форум бесплатный. Для входа нужен активный личный цифровой пропуск. Заявки проверяют
+          организаторы. Пропуск нельзя передавать другим людям.
         </p>
-        <h2>A respectful community</h2>
+        <h2>Уважение</h2>
         <p>
-          Respect other participants, speakers, staff and the venue. Harassment, discrimination and
-          disruption are not permitted. Follow staff instructions and activity-specific safety
-          guidance.
+          Уважайте участников, спикеров, команду и площадку. Оскорбления, дискриминация и срыв
+          событий запрещены. Следуйте инструкциям организаторов.
         </p>
-        <h2>Activities and points</h2>
+        <h2>Активности и баллы</h2>
         <p>
-          Some activities have limited capacity. Attendance is recorded by organizers. Digital Coins
-          are internal, non-transferable event points with no monetary value. Duplicate attendance
-          does not earn additional points.
+          На некоторых событиях количество мест ограничено. Посещение отмечают организаторы. Баллы
+          форума нельзя передавать или обменивать на деньги. Повторная отметка не даёт баллы ещё раз.
         </p>
-        <h2>Competitions</h2>
+        <h2>Соревнования</h2>
         <p>
-          Each competition will publish its own eligibility, submission and judging rules before
-          selection. Final venue information and requirements for younger participants will be
-          published by the organizers.
+          Для каждого соревнования будут опубликованы правила участия, подачи заявки и оценки.
+          Финальная информация по площадке появится от организаторов.
         </p>
       </div>
     );
   else
     body = (
-      <Empty title="Official contacts coming soon.">
+      <Empty title="Контакты скоро появятся.">
         <p>
-          Please contact your school’s forum organizing team. No public email, phone number or
-          social account has been announced yet.
+          Пока обращайтесь к команде организаторов форума в школе. Публичный email, телефон и
+          соцсети ещё не объявлены.
         </p>
       </Empty>
     );

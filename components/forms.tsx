@@ -12,13 +12,45 @@ import {
   enterCompetition,
   type ActionResult,
 } from '@/lib/actions';
+const roleOptions = [
+  ['Student', 'Ученик'],
+  ['Teacher', 'Учитель'],
+  ['Startup Founder', 'Основатель стартапа'],
+  ['Developer', 'Разработчик'],
+  ['Guest', 'Гость'],
+  ['Partner', 'Партнёр'],
+  ['Other', 'Другое'],
+] as const;
+const passTypeOptions = [
+  ['GENERAL', 'Обычный'],
+  ['GUEST', 'Гость'],
+  ['PARTICIPANT', 'Участник'],
+  ['STARTUP_BATTLE', 'Startup Battle'],
+  ['HACKATHON', 'Хакатон'],
+  ['JAS_STARTUPER', 'Jas Startuper'],
+  ['FIFA', 'FIFA League'],
+  ['SPEAKER', 'Спикер'],
+  ['PARTNER', 'Партнёр'],
+  ['ORGANIZER', 'Организатор'],
+  ['VIP_GUEST', 'VIP-гость'],
+] as const;
 export function Result({ result }: { result: ActionResult | null }) {
+  const readable = (value?: string) =>
+    value
+      ?.replace('APPLICATION RECEIVED', 'Заявка принята.')
+      .replace('Code copied', 'Код скопирован.')
+      .replace('Coin adjustment recorded', 'Баллы начислены.')
+      .replace('CHECKED IN', 'Отмечено.')
+      .replace('ALREADY CHECKED IN', 'Уже отмечен.')
+      .replace('INVALID PASS', 'Пропуск недействителен.')
+      .replace('Access denied', 'Нет доступа.')
+      .replace('Forbidden', 'Нет доступа.');
   return result ? (
     <div
       className={`notice ${result.error ? 'error' : ''}`}
       role={result.error ? 'alert' : 'status'}
     >
-      {result.error || result.message}
+      {readable(result.error || result.message)}
     </div>
   ) : null;
 }
@@ -40,7 +72,7 @@ export function ActionButton({
         disabled={pending}
         onClick={() => start(async () => setResult(await runAction(name, input)))}
       >
-        {pending ? 'Saving…' : children}
+        {pending ? 'Сохраняем…' : children}
       </button>
       <Result result={result} />
     </div>
@@ -72,41 +104,40 @@ export function LoginForm() {
       }}
     >
       <label className="field">
-        Email address
+        Email
         <input
           type="email"
           name="email"
           required
           autoComplete="email"
-          placeholder="you@example.com"
+          placeholder="your@email.com"
         />
       </label>
       <label className="field">
-        Password
+        Пароль
         <input
           type="password"
           name="password"
           minLength={8}
           maxLength={128}
           autoComplete="current-password"
-          placeholder="8+ characters"
+          placeholder="минимум 8 символов"
         />
       </label>
       <div className="button-row">
         <button className="button" name="intent" value="signin" disabled={pending}>
-          {pending ? 'Working…' : 'Sign in ↗'}
+          {pending ? 'Проверяем…' : 'Войти ↗'}
         </button>
         <button className="button secondary" name="intent" value="signup" disabled={pending}>
-          Create account
+          Создать аккаунт
         </button>
       </div>
       <button className="text-button" name="intent" value="magic" disabled={pending}>
-        Send magic link instead
+        Отправить ссылку на вход
       </button>
       <Result result={result} />
       <p className="form-note">
-        Admin access is granted to amantaibatyrkhan11@gmail.com after the Supabase admin SQL is
-        applied.
+        Админка доступна для amantaibatyrkhan11@gmail.com после настройки Supabase.
       </p>
     </form>
   );
@@ -129,7 +160,7 @@ export function ApplyForm({
       onSubmit={(e) => {
         e.preventDefault();
         if (!signedIn) {
-          setResult({ error: 'Please sign in using the link below to submit your application.' });
+          setResult({ error: 'Сначала войдите в аккаунт, потом отправьте заявку.' });
           return;
         }
         const f = new FormData(e.currentTarget);
@@ -147,14 +178,14 @@ export function ApplyForm({
     >
       <div className="form-grid">
         <label className="field">
-          Full name
+          ФИО
           <input
             name="name"
             autoComplete="name"
             minLength={2}
             maxLength={120}
             required
-            placeholder="Your full name"
+            placeholder="Ваше имя и фамилия"
           />
         </label>
         <label className="field">
@@ -171,61 +202,55 @@ export function ApplyForm({
         </label>
       </div>
       <label className="field">
-        School / Organization
+        Школа / организация
         <input
           name="organization"
           autoComplete="organization"
           minLength={2}
           maxLength={180}
           required
-          placeholder="Where do you learn or work?"
+          placeholder="Где учитесь или работаете?"
         />
       </label>
       <div className="form-grid">
         <label className="field">
-          Your role
+          Роль
           <select value={role} onChange={(e) => setRole(e.target.value)}>
-            {[
-              'Student',
-              'Teacher',
-              'Startup Founder',
-              'Developer',
-              'Guest',
-              'Partner',
-              'Other',
-            ].map((r) => (
-              <option key={r}>{r}</option>
+            {roleOptions.map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
             ))}
           </select>
         </label>
         {role === 'Student' && (
           <label className="field">
-            Class / Grade (optional)
-            <input name="grade" maxLength={30} placeholder="e.g. Grade 10" />
+            Класс
+            <input name="grade" maxLength={30} placeholder="например, 10 класс" />
           </label>
         )}
       </div>
       <label className="check-field">
         <input type="checkbox" required />
         <span>
-          I agree to the <Link href="/rules">event rules</Link> and{' '}
-          <Link href="/privacy">privacy policy</Link>.
+          Я согласен с <Link href="/rules">правилами мероприятия</Link> и{' '}
+          <Link href="/privacy">политикой конфиденциальности</Link>.
         </span>
       </label>
       <button className="button" disabled={pending || !enabled}>
-        {pending ? 'Submitting…' : 'Apply to Digital NIS Forum ↗'}
+        {pending ? 'Отправляем…' : 'Подать заявку ↗'}
       </button>
       <Result result={result} />
       {!signedIn && (
         <p className="form-note">
           <Link className="text-link" href="/login">
-            Sign in to submit your application ↗
+            Войти, чтобы отправить заявку ↗
           </Link>
         </p>
       )}
       {result?.message && (
         <p className="form-note">
-          <Link href="/dashboard">View your application status →</Link>
+          <Link href="/dashboard">Посмотреть статус заявки →</Link>
         </p>
       )}
     </form>
@@ -246,7 +271,7 @@ export function PromoForm() {
       }}
     >
       <label className="field">
-        Enter your invitation code
+        Введите промокод
         <input
           name="code"
           required
@@ -258,17 +283,16 @@ export function PromoForm() {
         />
       </label>
       <button className="button" disabled={pending}>
-        {pending ? 'Checking…' : 'Activate invitation ↗'}
+        {pending ? 'Проверяем…' : 'Активировать промокод ↗'}
       </button>
       <Result result={result} />
       {result?.message && (
         <Link className="button" href="/dashboard/pass">
-          Open Digital Pass ↗
+          Открыть пропуск ↗
         </Link>
       )}
       <p className="form-note">
-        Sign in and complete your <Link href="/apply">application details</Link> before activating.
-        Your organizer supplies the invitation code.
+        Сначала войдите и заполните <Link href="/apply">заявку</Link>. Промокод выдаёт организатор.
       </p>
     </form>
   );
@@ -298,58 +322,48 @@ export function QuickAdminForm() {
         );
       }}
     >
-      <h2>Quick promo generator</h2>
+      <h2>Генератор промокодов</h2>
       <label className="field">
-        Admin code
+        Код админа
         <input
           name="adminCode"
           type="password"
           minLength={6}
           maxLength={100}
           required
-          placeholder="Enter admin code"
+          placeholder="Введите код админа"
           autoComplete="off"
         />
       </label>
       <div className="form-grid">
         <label className="field">
-          Number of codes
+          Количество кодов
           <input name="count" type="number" min={1} max={500} defaultValue={20} required />
         </label>
         <label className="field">
-          Uses per code
+          Использований на код
           <input name="uses" type="number" min={1} max={10000} defaultValue={1} required />
         </label>
       </div>
       <label className="field">
-        Pass type
+        Тип пропуска
         <select name="type" defaultValue="GENERAL">
-          {[
-            'GENERAL',
-            'GUEST',
-            'PARTICIPANT',
-            'STARTUP_BATTLE',
-            'HACKATHON',
-            'JAS_STARTUPER',
-            'FIFA',
-            'SPEAKER',
-            'PARTNER',
-            'ORGANIZER',
-            'VIP_GUEST',
-          ].map((t) => (
-            <option key={t}>{t}</option>
+          {passTypeOptions.map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
           ))}
         </select>
       </label>
       <button className="button" disabled={pending}>
-        {pending ? 'Generating...' : 'Generate promo codes'}
+        {pending ? 'Генерируем...' : 'Сгенерировать промокоды'}
       </button>
       <Result result={result} />
       {codes.length > 0 && (
         <textarea className="code-output" readOnly value={codes.join('\n')} rows={10} />
       )}
       <p className="form-note">
-        Send one code to each participant. They enter it on the activation page.
+        Выдайте по одному коду каждому участнику. Участник вводит его на странице активации.
       </p>
     </form>
   );
@@ -372,17 +386,17 @@ export function QuestionForm() {
       }}
     >
       <label className="field">
-        Your question for the panel
+        Вопрос для панельной дискуссии
         <textarea
           name="question"
           required
           minLength={10}
           maxLength={1000}
-          placeholder="What would you like to ask?"
+          placeholder="Что хотите спросить?"
         />
       </label>
       <button className="button" disabled={pending}>
-        {pending ? 'Submitting…' : 'Submit question ↗'}
+        {pending ? 'Отправляем…' : 'Отправить вопрос ↗'}
       </button>
       <Result result={result} />
     </form>
@@ -405,15 +419,15 @@ export function CompetitionForm({ id }: { id: string }) {
       }}
     >
       <label className="field">
-        Project / team / participant name
+        Название проекта / команды / участника
         <input name="name" required minLength={2} maxLength={120} />
       </label>
       <label className="field">
-        Tell us about your application
+        Расскажите о заявке
         <textarea name="description" required minLength={20} maxLength={2000} />
       </label>
       <button className="button" disabled={pending}>
-        {pending ? 'Submitting…' : 'Submit competition application ↗'}
+        {pending ? 'Отправляем…' : 'Отправить заявку ↗'}
       </button>
       <Result result={result} />
     </form>

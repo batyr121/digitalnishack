@@ -1,16 +1,24 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { runAction, type ActionResult } from '@/lib/actions';
+import { awardCoinsByTicketToken, runAction, type ActionResult } from '@/lib/actions';
 import { Result } from './forms';
 export function QRScanner({ events }: { events: { id: string; title: string }[] }) {
   const [event, setEvent] = useState('');
   const [token, setToken] = useState('');
   const [result, setResult] = useState<ActionResult | null>(null);
+  const [coinResult, setCoinResult] = useState<ActionResult | null>(null);
   const [inspection, setInspection] = useState<Record<string, unknown> | null>(null);
   const [running, setRunning] = useState(false);
   const [busy, setBusy] = useState(false);
   const scanner = useRef<import('html5-qrcode').Html5Qrcode | null>(null);
   const scanLock = useRef(false);
+  const readableMessage = (value: unknown) =>
+    String(value)
+      .replace('VALID PASS', 'Пропуск действителен')
+      .replace('ALREADY CHECKED IN', 'Уже отмечен')
+      .replace('INVALID PASS', 'Пропуск недействителен')
+      .replace('Coin adjustment recorded', 'Баллы начислены')
+      .replace('CHECKED IN', 'Отмечено');
   useEffect(
     () => () => {
       const s = scanner.current;
@@ -23,6 +31,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
     scanLock.current = true;
     setBusy(true);
     setInspection(null);
+    setCoinResult(null);
     const normalized = raw
       .trim()
       .replace(/^dnf:\/\/ticket\//, '')
@@ -53,14 +62,14 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
       setRunning(true);
     } catch {
       setResult({
-        error: 'Camera unavailable. Allow camera access over HTTPS, or paste the pass token below.',
+        error: 'Камера недоступна. Откройте сайт через HTTPS или вставьте токен вручную.',
       });
     }
   };
   return (
     <>
       <label className="field">
-        Scanner mode
+        Режим сканера
         <select
           value={event}
           onChange={(e) => {
@@ -69,7 +78,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
             setResult(null);
           }}
         >
-          <option value="">GENERAL ENTRY</option>
+          <option value="">Вход на форум</option>
           {events.map((e) => (
             <option value={e.id} key={e.id}>
               {e.title}
@@ -80,7 +89,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
       <div id="qr-camera" className="scanner" />
       <div className="admin-actions">
         <button className="button" onClick={start} disabled={running}>
-          Start camera ↗
+          Включить камеру ↗
         </button>
         {running && (
           <>
@@ -92,7 +101,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
                 setResult(null);
               }}
             >
-              Scan next
+              Сканировать дальше
             </button>
             <button
               className="button secondary"
@@ -101,7 +110,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
                 setRunning(false);
               }}
             >
-              Stop camera
+              Остановить камеру
             </button>
           </>
         )}
@@ -114,7 +123,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
         }}
       >
         <label className="field">
-          Or paste QR content / secure token
+          Или вставьте QR / токен пропуска
           <input
             value={token}
             onChange={(e) => setToken(e.target.value)}
@@ -123,14 +132,14 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
           />
         </label>
         <button className="button secondary" disabled={busy}>
-          {busy ? 'Checking…' : 'Verify pass'}
+          {busy ? 'Проверяем…' : 'Проверить пропуск'}
         </button>
       </form>
       <Result result={result} />
       {inspection && (
         <div className="scanner-result">
           <strong>
-            {inspection.valid ? '✓' : '✕'} {String(inspection.message)}
+            {inspection.valid ? '✓' : '✕'} {readableMessage(inspection.message)}
           </strong>
           {!!inspection.valid && (
             <>
@@ -139,7 +148,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
               </p>
               {!!inspection.checked_in_at && (
                 <p>
-                  Previous check-in: {new Date(String(inspection.checked_in_at)).toLocaleString()}
+                  Уже входил: {new Date(String(inspection.checked_in_at)).toLocaleString()}
                 </p>
               )}
               <button
@@ -158,8 +167,41 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
                   setBusy(false);
                 }}
               >
-                Check in {event ? 'to session' : 'to forum'} ↗
+                Отметить {event ? 'на событии' : 'на входе'} ↗
               </button>
+              <form
+                className="form-card"
+                style={{ marginTop: 20 }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const f = new FormData(e.currentTarget);
+                  setBusy(true);
+                  void awardCoinsByTicketToken(
+                    token,
+                    String(f.get('amount')),
+                    String(f.get('reason')),
+                  ).then((r) => {
+                    setCoinResult(r);
+                    setBusy(false);
+                  });
+                }}
+              >
+                <h2>Начислить баллы</h2>
+                <div className="form-grid">
+                  <label className="field">
+                    Баллы
+                    <input name="amount" type="number" defaultValue={50} min={-10000} max={10000} />
+                  </label>
+                  <label className="field">
+                    Причина
+                    <input name="reason" defaultValue="Активность на форуме" maxLength={500} />
+                  </label>
+                </div>
+                <button className="button secondary" disabled={busy}>
+                  {busy ? 'Сохраняем…' : 'Начислить баллы'}
+                </button>
+                <Result result={coinResult} />
+              </form>
             </>
           )}
         </div>

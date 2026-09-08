@@ -19,7 +19,7 @@ export function Navbar({ lang }: { lang: Locale }) {
   ];
   return (
     <header className="navbar">
-      <Link href="/" aria-label="Digital NIS Forum home" className="brand">
+      <Link href="/" aria-label="Главная страница Digital NIS Forum" className="brand">
         <img src="/logo-mark.svg" width="37" height="37" alt="" />
         <span>
           DIGITAL
@@ -27,7 +27,7 @@ export function Navbar({ lang }: { lang: Locale }) {
           NIS FORUM<small>DIGITAL UNITES</small>
         </span>
       </Link>
-      <nav className={open ? 'navlinks open' : 'navlinks'} aria-label="Main navigation">
+      <nav className={open ? 'navlinks open' : 'navlinks'} aria-label="Основная навигация">
         {links.map(([label, href]) => (
           <Link key={href} href={href} onClick={() => setOpen(false)}>
             {label}
@@ -36,7 +36,7 @@ export function Navbar({ lang }: { lang: Locale }) {
       </nav>
       <div className="nav-actions">
         <select
-          aria-label="Language"
+          aria-label="Язык"
           value={lang}
           onChange={(e) => {
             document.cookie = `locale=${e.target.value};path=/;max-age=31536000;samesite=lax`;
@@ -45,7 +45,6 @@ export function Navbar({ lang }: { lang: Locale }) {
         >
           <option value="kz">ҚАЗ</option>
           <option value="ru">РУС</option>
-          <option value="en">ENG</option>
         </select>
         <Link className="nav-pass" href="/dashboard/pass">
           {t.pass}
@@ -56,7 +55,7 @@ export function Navbar({ lang }: { lang: Locale }) {
         </Link>
         <button
           className="menu-toggle"
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
@@ -78,19 +77,19 @@ export function Footer() {
             NIS FORUM
           </span>
         </Link>
-        <p>Different minds. One digital future.</p>
+        <p>Разные идеи. Общее цифровое будущее.</p>
         <span className="eyebrow">19.09.2026</span>
       </div>
       <div className="footer-links">
         {[
-          ['Program', '/program'],
+          ['Программа', '/program'],
           ['Digital Apta', '/digital-apta'],
-          ['Speakers', '/speakers'],
-          ['Apply', '/apply'],
-          ['My pass', '/dashboard/pass'],
-          ['Privacy', '/privacy'],
-          ['Rules', '/rules'],
-          ['Contact', '/contact'],
+          ['Спикеры', '/speakers'],
+          ['Заявка', '/apply'],
+          ['Мой пропуск', '/dashboard/pass'],
+          ['Конфиденциальность', '/privacy'],
+          ['Правила', '/rules'],
+          ['Контакты', '/contact'],
         ].map(([n, h]) => (
           <Link key={h} href={h}>
             {n}
@@ -99,8 +98,8 @@ export function Footer() {
       </div>
       <div className="footer-bottom">
         <span>© 2026 DIGITAL NIS FORUM</span>
-        <span>CONNECT. BUILD. SHARE. UNITE.</span>
-        <a href="#top">BACK TO TOP ↑</a>
+        <span>СОЗДАЁМ. ДЕЛИМСЯ. ОБЪЕДИНЯЕМ.</span>
+        <a href="#top">НАВЕРХ ↑</a>
       </div>
     </footer>
   );

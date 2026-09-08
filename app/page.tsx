@@ -37,7 +37,7 @@ export default async function Home() {
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             eventStatus: 'https://schema.org/EventScheduled',
             isAccessibleForFree: true,
-            description: 'Technology, startups, education and innovation.',
+            description: 'Технологии, стартапы, образование и инновации.',
             location: { '@type': 'Place', name: eventConfig.location },
             organizer: { '@type': 'Organization', name: 'Nazarbayev Intellectual School' },
             url: eventConfig.siteUrl,
@@ -49,10 +49,10 @@ export default async function Home() {
         <div className="hero-meta">
           <span>
             <i className="live-dot" />
-            {t.eyebrow}
+            {lang === 'kz' ? t.eyebrow : 'Форум технологий и идей'}
           </span>
           <span>
-            NIS · KAZAKHSTAN <Globe size={13} />
+            NIS · Қазақстан <Globe size={13} />
           </span>
         </div>
         <div className="hero-main">
@@ -64,7 +64,7 @@ export default async function Home() {
             </h1>
             <div className="hero-tagline">
               <span />
-              DIGITAL UNITES
+              Бірге жасаймыз
               <span />
             </div>
             <p className="hero-description">{t.intro}</p>
@@ -80,7 +80,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="hero-art" aria-hidden="true">
-            <div className="art-coordinate top">DNF / CONNECTION_001</div>
+            <div className="art-coordinate top">ФОРУМ / 2026</div>
             <svg viewBox="0 0 640 550" className="connection-art">
               <defs>
                 <linearGradient id="beam" x1="0" y1="1" x2="1" y2="0">
@@ -139,9 +139,9 @@ export default async function Home() {
             </svg>
             <div className="art-caption">
               <span>
-                CONNECT.
+                Идея.
                 <br />
-                BUILD. SHARE. UNITE.
+                Команда. Нәтиже.
               </span>
               <span className="art-index">
                 ↗<br />
@@ -153,7 +153,7 @@ export default async function Home() {
         <div className="hero-bottom">
           <div className="big-date">
             19.09<span>.2026</span>
-            <small>THE MAIN FORUM</small>
+            <small>БАСТЫ ФОРУМ</small>
           </div>
           <div className="hero-topics">
             {t.hero.map((s) => (
@@ -161,7 +161,7 @@ export default async function Home() {
             ))}
           </div>
           <Link href="#discover" className="scroll-link">
-            SCROLL TO EXPLORE
+            СМОТРЕТЬ ДАЛЬШЕ
             <ArrowDown size={18} />
           </Link>
         </div>
@@ -170,8 +170,8 @@ export default async function Home() {
         <div>
           {Array.from({ length: 2 }, (_, i) => (
             <span key={i}>
-              STARTUPS <i>✳</i> AI <i>✳</i> ROBOTICS <i>✳</i> EDUCATION <i>✳</i> CODE <i>✳</i> 3D{' '}
-              <i>✳</i> INNOVATION <i>✳</i> PEOPLE <i>✳</i> DIGITAL UNITES <i>✳</i>{' '}
+              СТАРТАПЫ <i>✳</i> ЖИ <i>✳</i> РОБОТОТЕХНИКА <i>✳</i> БІЛІМ <i>✳</i> КОД <i>✳</i> 3D{' '}
+              <i>✳</i> ИННОВАЦИИ <i>✳</i> АДАМДАР <i>✳</i> БІРГЕ <i>✳</i>{' '}
             </span>
           ))}
         </div>
@@ -181,23 +181,23 @@ export default async function Home() {
         <Reveal>
           <section id="about" className="manifesto section">
             <div className="eyebrow" id="discover">
-              01 / DIGITAL UNITES
+              01 / БІРГЕ ЖАСАЙМЫЗ
             </div>
             <div>
               <h2>{t.manifesto}</h2>
               <p>{t.manifestoText}</p>
-              <span className="mini-label">CURIOUS MINDS. MEANINGFUL CONNECTIONS.</span>
+              <span className="mini-label">ИДЕИ. ЛЮДИ. НОВЫЕ СВЯЗИ.</span>
             </div>
             <MoveUpRight size={96} strokeWidth={0.6} />
           </section>
           <div className="stats-row">
             {(
               content.stats ?? [
-                ['01', 'FORUM'],
-                ['07', 'DAYS OF DIGITAL APTA'],
-                ['04', 'COMPETITIONS'],
-                ['06', 'SPEAKERS & PANELISTS'],
-                ['08', 'STARTUP FINALISTS'],
+                ['01', 'ФОРУМ'],
+                ['07', 'ДНЕЙ DIGITAL APTA'],
+                ['04', 'СОРЕВНОВАНИЯ'],
+                ['06', 'СПИКЕРОВ'],
+                ['08', 'ФИНАЛИСТОВ'],
               ]
             ).map(([v, l]: string[]) => (
               <StatsCard key={l} value={v} label={l} />
@@ -208,40 +208,40 @@ export default async function Home() {
           <section className="section" id="apta">
             <SectionHeader
               number="02"
-              label="THE WARM-UP"
+              label="НЕДЕЛЯ ПОДГОТОВКИ"
               title={t.week}
               href="/digital-apta"
-              link="Explore Digital Apta"
+              link="Смотреть Digital Apta"
             />
             <div className="apta-panel">
               <div className="apta-copy">
-                <span className="pill">12—18 SEPTEMBER 2026</span>
+                <span className="pill">12—18 СЕНТЯБРЯ 2026</span>
                 <h3>
                   DIGITAL
                   <br />
                   <span>APTA.</span>
                 </h3>
                 <p>
-                  Seven days of learning, building and preparing.
+                  Семь дней практики, встреч и подготовки.
                   <br />
-                  Your next chapter starts before the main stage.
+                  Форум начинается ещё до главного дня.
                 </p>
                 <Button href="/digital-apta" secondary>
-                  Discover the week
+                  Смотреть неделю
                 </Button>
               </div>
               <div className="apta-agenda">
                 {[
-                  ['12', 'THE BEGINNING', 'Opening & startup acceleration'],
-                  ['15', 'BUILD & SCALE', 'Vibe coding & commercialization'],
-                  ['16', 'PITCH DAY', 'Pitch deck & storytelling'],
-                  ['17', 'CREATORS DAY', '3D printing & finalists reveal'],
-                  ['18', 'THE FINAL REHEARSAL', 'Mock pitching'],
+                  ['12', 'СТАРТ', 'Открытие и акселерация стартапов'],
+                  ['15', 'ПРАКТИКА', 'Кодинг и коммерциализация'],
+                  ['16', 'ПИТЧИНГ', 'Презентация проекта'],
+                  ['17', 'СОЗДАТЕЛИ', '3D-печать и финалисты'],
+                  ['18', 'РЕПЕТИЦИЯ', 'Пробный питчинг'],
                 ].map(([d, n, s]) => (
                   <Link href={`/program?day=${d}`} key={d}>
                     <span className="agenda-day">
                       {d}
-                      <small>SEP</small>
+                      <small>СЕН</small>
                     </span>
                     <div>
                       <h4>{n}</h4>
@@ -256,13 +256,13 @@ export default async function Home() {
         </Reveal>
         <Reveal>
           <section className="main-day">
-            <span className="eyebrow">03 / THE MAIN DAY</span>
+            <span className="eyebrow">03 / ГЛАВНЫЙ ДЕНЬ</span>
             <div>
               <h2>{t.main}</h2>
-              <p>Ideas meet opportunity. A community comes together.</p>
+              <p>Идеи встречают возможности. Команды находят поддержку.</p>
             </div>
             <Link href="/program?day=19">
-              19<span>SEP ↗</span>
+              19<span>СЕН ↗</span>
             </Link>
           </section>
         </Reveal>
@@ -270,15 +270,15 @@ export default async function Home() {
           <section className="section">
             <SectionHeader
               number="04"
-              label="THE PROGRAM"
+              label="ПРОГРАММА"
               title={t.programTitle}
               href="/program"
-              link="Full program"
+              link="Вся программа"
             />
             <div className="preview-tabs">
-              <span className="active">19 SEPTEMBER</span>
-              <span>THE MAIN FORUM</span>
-              <span className="schedule-note">EXACT TIMES TO BE ANNOUNCED</span>
+              <span className="active">19 СЕНТЯБРЯ</span>
+              <span>БАСТЫ ФОРУМ</span>
+              <span className="schedule-note">ТОЧНОЕ ВРЕМЯ СКОРО</span>
             </div>
             {program
               .filter((e) => e.day === 19)
@@ -287,7 +287,7 @@ export default async function Home() {
                 <Link className="program-row" href="/program?day=19" key={e.id}>
                   <div className="program-time">
                     0{i + 1}
-                    <small>SESSION</small>
+                    <small>СЕССИЯ</small>
                   </div>
                   <div>
                     <span className="eyebrow">{e.track}</span>
@@ -303,10 +303,10 @@ export default async function Home() {
           <section className="section" id="speakers">
             <SectionHeader
               number="05"
-              label="MEET YOUR NEXT INSPIRATION"
+              label="СПИКЕРЫ"
               title={t.speakersTitle}
               href="/speakers"
-              link="All speakers"
+              link="Все спикеры"
             />
             <div className="speaker-grid">
               {[1, 2, 3].map((n) => (
@@ -314,13 +314,13 @@ export default async function Home() {
               ))}
             </div>
             <div className="section-footnote">
-              <Lock size={12} /> GREAT CONVERSATIONS ARE WORTH THE WAIT. IDENTITIES REVEALED SOON.
+              <Lock size={12} /> Имена спикеров скоро откроем.
             </div>
           </section>
         </Reveal>
         <Reveal>
           <section className="section" id="battles">
-            <SectionHeader number="06" label="FOUR WAYS TO MAKE YOUR MARK" title={t.battlesTitle} />
+            <SectionHeader number="06" label="СОРЕВНОВАНИЯ" title={t.battlesTitle} />
             <div className="competition-grid">
               {competitions.map((c, i) => (
                 <Link
@@ -329,14 +329,14 @@ export default async function Home() {
                   className={`competition-card competition-${i}`}
                 >
                   <div className="competition-top">
-                    <span className="eyebrow">0{i + 1} / COMPETITION</span>
+                    <span className="eyebrow">0{i + 1} / СОРЕВНОВАНИЕ</span>
                     <ArrowUpRight size={22} />
                   </div>
                   <span className="competition-symbol">{c.icon}</span>
                   <h3>{c.title}</h3>
                   <p>{c.description}</p>
                   <div className="competition-bottom">
-                    19 SEPTEMBER <span>EXPLORE ↗</span>
+                    19 СЕНТЯБРЯ <span>СМОТРЕТЬ ↗</span>
                   </div>
                 </Link>
               ))}
@@ -344,30 +344,29 @@ export default async function Home() {
             <div className="reveal-banner">
               <Lock size={20} />
               <span>17.09</span>
-              <strong>FINALISTS REVEALED.</strong>
+              <strong>ФИНАЛИСТЫ БУДУТ ОПУБЛИКОВАНЫ.</strong>
               <span className="pill">
-                {content.finalists_published ? 'PUBLISHED' : 'LOCKED UNTIL THE REVEAL'}
+                {content.finalists_published ? 'ОПУБЛИКОВАНО' : 'СКОРО'}
               </span>
             </div>
           </section>
         </Reveal>
         <Reveal>
           <section className="panel-banner">
-            <span className="eyebrow">07 / PANEL DISCUSSION</span>
+            <span className="eyebrow">07 / ПАНЕЛЬНАЯ ДИСКУССИЯ</span>
             <h2>
-              Three minds.
+              Три взгляда.
               <br />
-              One conversation.
+              Один разговор.
               <br />
-              <span>Your questions.</span>
+              <span>Ваши вопросы.</span>
             </h2>
             <div>
               <p>
-                A different perspective changes everything. Join three panelists for an open
-                exchange on technology, ideas and what comes next.
+                Спикеры обсудят технологии, идеи и будущее образования.
               </p>
               <Button href="/dashboard/questions" secondary>
-                Ask a question
+                Задать вопрос
               </Button>
             </div>
           </section>
@@ -376,10 +375,10 @@ export default async function Home() {
           <section className="section">
             <SectionHeader
               number="08"
-              label="EXPLORE THE FORUM"
+              label="ЗОНЫ ФОРУМА"
               title={t.zoneTitle}
               href="/zones"
-              link="Explore all zones"
+              link="Все зоны"
             />
             <div className="zones-grid">
               {(zoneData ?? zones).slice(0, 8).map((z, i) => (
@@ -396,33 +395,32 @@ export default async function Home() {
         <Reveal>
           <section className="rewards section">
             <div className="coin-feature">
-              <span className="eyebrow">09 / CURIOSITY HAS ITS REWARDS</span>
+              <span className="eyebrow">09 / БАЛЛЫ ЗА АКТИВНОСТЬ</span>
               <h2>
-                Show up.
+                Приходи.
                 <br />
-                Get involved.
+                Участвуй.
                 <br />
-                <span>Make it count.</span>
+                <span>Получай баллы.</span>
               </h2>
               <p>
-                Earn Digital Coins as you learn, build and connect. Every experience brings you
-                closer to your certificate.
+                Собирайте баллы за участие в событиях форума. Баллы помогут получить сертификат.
               </p>
               <Button href="/dashboard/coins" secondary>
-                Explore Digital Coin
+                Смотреть баллы
               </Button>
               <div className="coin-object" aria-hidden="true">
                 <span>↗</span>
-                <small>DIGITAL COIN</small>
+                <small>БАЛЛЫ</small>
               </div>
-              <span className="coin-disclaimer">PARTICIPATION POINTS. NOT CRYPTOCURRENCY.</span>
+              <span className="coin-disclaimer">ЭТО БАЛЛЫ УЧАСТИЯ.</span>
             </div>
             <div className="pass-feature">
-              <span className="eyebrow">10 / YOUR ACCESS TO WHAT’S NEXT</span>
+              <span className="eyebrow">10 / ВАШ ПРОПУСК</span>
               <h2>
-                One pass.
+                Один пропуск.
                 <br />
-                Your possibilities.
+                Все события.
               </h2>
               <div className="sample-pass">
                 <div className="sample-pass-top">
@@ -434,46 +432,46 @@ export default async function Home() {
                   </strong>
                   <span>2026 ↗</span>
                 </div>
-                <span className="eyebrow">YOUR DIGITAL PASS</span>
+                <span className="eyebrow">ВАШ ЦИФРОВОЙ ПРОПУСК</span>
                 <h3>
-                  Future starts
+                  Будущее
                   <br />
-                  with you.
+                  начинается с вас.
                 </h3>
                 <div className="sample-pass-bottom">
                   <span>
                     19.09.2026
                     <br />
-                    <small>PERSONAL · SECURE · DIGITAL</small>
+                    <small>ЛИЧНЫЙ · ЦИФРОВОЙ</small>
                   </span>
                   <ScanLine size={52} strokeWidth={1} />
                 </div>
               </div>
               <Button href="/activate" secondary>
-                Activate invitation code
+                Активировать промокод
               </Button>
               <p>
-                Already applied? <Link href="/dashboard/pass">Open my pass ↗</Link>
+                Уже подали заявку? <Link href="/dashboard/pass">Открыть пропуск ↗</Link>
               </p>
             </div>
           </section>
         </Reveal>
         <section className="section partners" id="partners">
-          <SectionHeader number="11" label="MADE POSSIBLE TOGETHER" title="A shared vision." />
+          <SectionHeader number="11" label="ПАРТНЁРЫ" title="Вместе сильнее." />
           <div className="partner-columns">
             <div>
-              <span className="eyebrow">ORGANIZED BY</span>
+              <span className="eyebrow">ОРГАНИЗАТОР</span>
               <div className="organizer-placeholder">
                 <span className="partner-monogram">NIS</span>
                 <p>
                   Nazarbayev
                   <br />
-                  Intellectual School<small>OFFICIAL LOGO COMING SOON</small>
+                  Intellectual School<small>ЛОГОТИП СКОРО</small>
                 </p>
               </div>
             </div>
             <div>
-              <span className="eyebrow">OUR PARTNERS</span>
+              <span className="eyebrow">ПАРТНЁРЫ</span>
               <div className="partner-list">
                 {partnerData?.length ? (
                   partnerData.map((p) => (
@@ -501,10 +499,10 @@ export default async function Home() {
                 ) : (
                   <>
                     <span className="partner-placeholder">
-                      YOUR LOGO HERE <small>PARTNER</small>
+                      МЕСТО ДЛЯ ЛОГОТИПА <small>ПАРТНЁР</small>
                     </span>
                     <span className="partner-placeholder">
-                      LET’S BUILD TOGETHER <small>TECH PARTNER</small>
+                      ДЕЛАЕМ ВМЕСТЕ <small>ТЕХНОЛОГИЧЕСКИЙ ПАРТНЁР</small>
                     </span>
                   </>
                 )}
@@ -513,9 +511,9 @@ export default async function Home() {
           </div>
         </section>
         <section className="section faq">
-          <SectionHeader number="12" label="BEFORE YOU JOIN" title={t.faqTitle} />
+          <SectionHeader number="12" label="ВОПРОСЫ" title={t.faqTitle} />
           <div>
-            {(content.faq ?? (lang === 'en' ? faq : translatedFaq[lang])).map(
+            {(content.faq ?? (lang === 'kz' ? translatedFaq.kz : faq)).map(
               ([q, a]: string[], i: number) => (
                 <details key={q}>
                   <summary>
@@ -534,17 +532,17 @@ export default async function Home() {
         <div className="container">
           <span className="eyebrow">
             <i className="live-dot" />
-            19 SEPTEMBER 2026 · NIS · KAZAKHSTAN
+            19 СЕНТЯБРЯ 2026 · NIS · ҚАЗАҚСТАН
           </span>
           <h2>
             {t.future}
             <br />
-            <span>DIGITAL UNITES.</span>
+            <span>БІРГЕ ЖАСАЙМЫЗ.</span>
           </h2>
           <Button href="/apply">{t.apply}</Button>
           <div className="final-bottom">
             <span>{t.free}</span>
-            <span>SEE YOU ON THE OTHER SIDE. ↗</span>
+            <span>УВИДИМСЯ НА ФОРУМЕ. ↗</span>
           </div>
         </div>
       </section>

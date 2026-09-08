@@ -11,7 +11,22 @@ import {
 } from '@/components/admin';
 import { QRScanner } from '@/components/scanner';
 import { adminCollections } from '@/lib/admin-config';
-export const metadata = { title: 'Organizer panel', robots: { index: false, follow: false } };
+export const metadata = { title: 'Админка', robots: { index: false, follow: false } };
+const sectionTitles: Record<string, string> = {
+  applications: 'Заявки',
+  promocodes: 'Промокоды',
+  tickets: 'Пропуска',
+  events: 'Программа',
+  speakers: 'Спикеры',
+  competitions: 'Соревнования',
+  coins: 'Баллы',
+  certificates: 'Сертификаты',
+  partners: 'Партнёры',
+  content: 'Контент',
+  questions: 'Вопросы',
+  logs: 'Журнал',
+  'check-in': 'QR и баллы',
+};
 export default async function Admin({
   params,
   searchParams,
@@ -27,7 +42,7 @@ export default async function Admin({
   let content: React.ReactNode;
   async function read(table: string, select = '*') {
     const { data, error } = await client.from(table).select(select).limit(2000);
-    if (error) throw new Error(`Unable to load ${table}. Please retry.`);
+    if (error) throw new Error(`Не удалось загрузить ${table}. Попробуйте ещё раз.`);
     return data as unknown as Record<string, unknown>[];
   }
   if (!section) {
@@ -53,13 +68,13 @@ export default async function Admin({
       ].map((t) => read(t)),
     );
     const stats = [
-      ['TOTAL REGISTRATIONS', applications.length],
-      ['APPROVED', applications.filter((r) => r.status === 'APPROVED').length],
-      ['CHECKED IN', tickets.filter((r) => r.checked_in_at).length],
-      ['ACTIVE PASSES', tickets.filter((r) => r.status === 'ACTIVE').length],
-      ['PROMO ACTIVATIONS', redemptions.length],
-      ['COINS ISSUED', coins.reduce((n, r) => n + Math.max(0, Number(r.amount)), 0)],
-      ['CERTIFICATES UNLOCKED', certificates.filter((r) => r.status === 'ISSUED').length],
+      ['ВСЕГО ЗАЯВОК', applications.length],
+      ['ОДОБРЕНО', applications.filter((r) => r.status === 'APPROVED').length],
+      ['ОТМЕЧЕНО НА ВХОДЕ', tickets.filter((r) => r.checked_in_at).length],
+      ['АКТИВНЫХ ПРОПУСКОВ', tickets.filter((r) => r.status === 'ACTIVE').length],
+      ['АКТИВАЦИЙ ПРОМОКОДОВ', redemptions.length],
+      ['НАЧИСЛЕНО БАЛЛОВ', coins.reduce((n, r) => n + Math.max(0, Number(r.amount)), 0)],
+      ['СЕРТИФИКАТОВ', certificates.filter((r) => r.status === 'ISSUED').length],
     ] as [string, number][];
     const roles = Object.entries(
       profiles.reduce(
@@ -88,7 +103,7 @@ export default async function Admin({
         </div>
         <div className="dashboard-grid">
           <div className="form-card">
-            <h2>Participants by role</h2>
+            <h2>Участники по ролям</h2>
             {roles.length ? (
               roles.map(([r, n]) => (
                 <div key={r}>
@@ -102,11 +117,11 @@ export default async function Admin({
                 </div>
               ))
             ) : (
-              <p>No participants yet.</p>
+              <p>Пока нет участников.</p>
             )}
           </div>
           <div className="form-card">
-            <h2>Registrations by day</h2>
+            <h2>Заявки по дням</h2>
             {byDay.length ? (
               byDay.map(([d, n]) => (
                 <div key={d}>
@@ -120,11 +135,11 @@ export default async function Admin({
                 </div>
               ))
             ) : (
-              <p>No applications yet.</p>
+              <p>Пока нет заявок.</p>
             )}
           </div>
         </div>
-        <h2>Attendance & popular events</h2>
+        <h2>Посещаемость событий</h2>
         <DataTable
           table="stats"
           rows={eventRows
@@ -136,8 +151,7 @@ export default async function Admin({
           columns={['title', 'attendance']}
         />
         <p className="form-note">
-          Dashboard displays up to 2,000 records per collection. Use database reporting for larger
-          datasets.
+          Админка показывает до 2 000 записей в разделе.
         </p>
       </>
     );
@@ -158,7 +172,7 @@ export default async function Admin({
       const zones = await read('zones');
       extra = (
         <>
-          <h2>Forum zones</h2>
+          <h2>Зоны форума</h2>
           <DataTable table="zones" rows={zones} columns={['id', 'name', 'description']} />
           <RecordEditor
             table="zones"
@@ -172,7 +186,7 @@ export default async function Admin({
       const entries = await read('competition_entries');
       extra = (
         <>
-          <h2>Competition entries & finalists</h2>
+          <h2>Заявки и финалисты</h2>
           <DataTable
             table="competition_entries"
             rows={entries}
@@ -201,7 +215,7 @@ export default async function Admin({
       extra = (
         <>
           <CoinAdjustment />
-          <h2>Reward rules</h2>
+          <h2>Правила начисления баллов</h2>
           <DataTable
             table="coin_rules"
             rows={rules}
@@ -219,7 +233,7 @@ export default async function Admin({
       const settings = await read('site_settings');
       extra = (
         <>
-          <h2>Certificate target</h2>
+          <h2>Порог для сертификата</h2>
           <RecordEditor
             table="site_settings"
             rows={settings.filter((s) => s.key === 'certificateThreshold')}
@@ -238,7 +252,7 @@ export default async function Admin({
               href="/admin/promocodes/export"
               style={{ marginTop: 22 }}
             >
-              Export CSV ↓
+              Скачать CSV ↓
             </a>
           </>
         )}
@@ -253,28 +267,28 @@ export default async function Admin({
   }
   return (
     <div className="container workspace">
-      <aside className="sidebar" aria-label="Admin navigation">
-        <Link href="/admin">Overview</Link>
-        <Link href="/admin/check-in">QR check-in</Link>
+      <aside className="sidebar" aria-label="Навигация админки">
+        <Link href="/admin">Главная</Link>
+        <Link href="/admin/check-in">QR и баллы</Link>
         {Object.keys(adminCollections).map((key) => (
           <Link
             key={key}
             href={`/admin/${key}`}
             aria-current={section === key ? 'page' : undefined}
           >
-            {key}
+            {sectionTitles[key] || key}
           </Link>
         ))}
-        <Link href="/dashboard">← My dashboard</Link>
+        <Link href="/dashboard">← Мой кабинет</Link>
       </aside>
       <div className="workspace-main">
         <span className="eyebrow" style={{ marginBottom: 15 }}>
-          ORGANIZER WORKSPACE
+          АДМИНКА
         </span>
         <h1>
           {section
-            ? section.replace('-', ' ').replace(/^./, (c) => c.toUpperCase())
-            : 'A connected overview.'}
+            ? sectionTitles[section] || section.replace('-', ' ')
+            : 'Обзор форума'}
         </h1>
         {content}
       </div>

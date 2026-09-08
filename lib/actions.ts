@@ -64,35 +64,35 @@ const userOperations = ['apply_forum', 'activate_promo', 'register_event'];
 export async function runAction(name: string, input: unknown): Promise<ActionResult> {
   try {
     const schema = schemas[name];
-    if (!schema) return { error: 'Unknown action' };
+    if (!schema) return { error: 'Неизвестное действие.' };
     const parsed = schema.safeParse(input);
     if (!parsed.success) return { error: parsed.error.issues.map((i) => i.message).join('. ') };
     const client = await db();
     const {
       data: { user },
     } = await client.auth.getUser();
-    if (!user) return { error: 'Please sign in to continue.' };
+    if (!user) return { error: 'Сначала войдите в аккаунт.' };
     if (!userOperations.includes(name)) {
       const { data: profile } = await client
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single();
-      if (!['ADMIN', 'ORGANIZER'].includes(profile?.role)) return { error: 'Access denied' };
+      if (!['ADMIN', 'ORGANIZER'].includes(profile?.role)) return { error: 'Нет доступа.' };
     }
     const { data, error } = await client.rpc(name, parsed.data);
     if (error) return { error: error.message };
     if (data?.error) return { error: data.error };
     revalidatePath('/', 'layout');
-    return { message: data?.message || 'Saved', data };
+    return { message: data?.message || 'Сохранено.', data };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : 'Unable to complete this action' };
+    return { error: e instanceof Error ? e.message : 'Не удалось выполнить действие.' };
   }
 }
 export async function sendMagicLink(email: string): Promise<ActionResult> {
   try {
     const parsed = z.email().safeParse(email);
-    if (!parsed.success) return { error: 'Enter a valid email address.' };
+    if (!parsed.success) return { error: 'Введите корректный email.' };
     const client = await db();
     const { error } = await client.auth.signInWithOtp({
       email: parsed.data,
@@ -100,9 +100,9 @@ export async function sendMagicLink(email: string): Promise<ActionResult> {
     });
     return error
       ? { error: error.message }
-      : { message: 'Check your email for a secure sign-in link.' };
+      : { message: 'Проверьте почту: туда отправлена ссылка для входа.' };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : 'Sign-in unavailable' };
+    return { error: e instanceof Error ? e.message : 'Вход временно недоступен.' };
   }
 }
 export async function signInWithPassword(email: string, password: string): Promise<ActionResult> {
@@ -110,7 +110,7 @@ export async function signInWithPassword(email: string, password: string): Promi
     const parsed = z
       .object({ email: z.email(), password: z.string().min(8).max(128) })
       .safeParse({ email, password });
-    if (!parsed.success) return { error: 'Enter a valid email and a password with 8+ characters.' };
+    if (!parsed.success) return { error: 'Введите email и пароль минимум из 8 символов.' };
     const client = await db();
     const { error } = await client.auth.signInWithPassword(parsed.data);
     if (error) return { error: error.message };
@@ -118,11 +118,11 @@ export async function signInWithPassword(email: string, password: string): Promi
     return {
       message:
         parsed.data.email.toLowerCase() === adminEmail
-          ? 'Signed in. Open the admin panel.'
-          : 'Signed in.',
+          ? 'Вы вошли. Можно открыть админку.'
+          : 'Вы вошли.',
     };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : 'Sign-in unavailable' };
+    return { error: e instanceof Error ? e.message : 'Вход временно недоступен.' };
   }
 }
 export async function signUpWithPassword(email: string, password: string): Promise<ActionResult> {
@@ -130,7 +130,7 @@ export async function signUpWithPassword(email: string, password: string): Promi
     const parsed = z
       .object({ email: z.email(), password: z.string().min(8).max(128) })
       .safeParse({ email, password });
-    if (!parsed.success) return { error: 'Enter a valid email and a password with 8+ characters.' };
+    if (!parsed.success) return { error: 'Введите email и пароль минимум из 8 символов.' };
     const client = await db();
     const { error } = await client.auth.signUp({
       email: parsed.data.email,
@@ -141,10 +141,10 @@ export async function signUpWithPassword(email: string, password: string): Promi
     revalidatePath('/', 'layout');
     return {
       message:
-        'Account created. If email confirmation is disabled in Supabase, you are signed in now.',
+        'Аккаунт создан. Если подтверждение почты выключено в Supabase, вход уже выполнен.',
     };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : 'Sign-up unavailable' };
+    return { error: e instanceof Error ? e.message : 'Регистрация временно недоступна.' };
   }
 }
 export async function quickGeneratePromos(
@@ -179,14 +179,59 @@ export async function quickGeneratePromos(
         type_input: type,
         max_uses_input: uses,
       });
-    if (!parsed.success) return { error: 'Check the admin code, count, pass type and uses.' };
+    if (!parsed.success) return { error: 'Проверьте код админа, количество, тип пропуска и лимит.' };
     const client = await db();
     const { data, error } = await client.rpc('quick_generate_promos', parsed.data);
     if (error) return { error: error.message };
     if (data?.error) return { error: data.error };
-    return { message: data?.message || 'Codes generated', data };
+    return { message: data?.message || 'Коды сгенерированы.', data };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : 'Promo generation unavailable' };
+    return { error: e instanceof Error ? e.message : 'Генерация промокодов недоступна.' };
+  }
+}
+export async function awardCoinsByTicketToken(
+  ticketToken: string,
+  amount: string,
+  reason: string,
+): Promise<ActionResult> {
+  try {
+    const parsed = z
+      .object({
+        ticket_token: z.string().trim().regex(/^[a-f0-9]{64}$/),
+        amount_input: z.coerce.number().int().min(-10000).max(10000),
+        reason_input: z.string().trim().min(3).max(500),
+      })
+      .safeParse({ ticket_token: ticketToken, amount_input: amount, reason_input: reason });
+    if (!parsed.success) return { error: 'Проверьте QR, количество баллов и причину.' };
+    if (parsed.data.amount_input === 0) return { error: 'Баллы не должны быть равны нулю.' };
+    const client = await db();
+    const {
+      data: { user },
+    } = await client.auth.getUser();
+    if (!user) return { error: 'Сначала войдите в аккаунт.' };
+    const { data: profile } = await client
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    if (!['ADMIN', 'ORGANIZER'].includes(profile?.role)) return { error: 'Нет доступа.' };
+    const { data: ticket, error: ticketError } = await client
+      .from('tickets')
+      .select('user_id,status')
+      .eq('token', parsed.data.ticket_token)
+      .single();
+    if (ticketError || !ticket || ticket.status !== 'ACTIVE') return { error: 'Пропуск не найден.' };
+    const { data, error } = await client.rpc('adjust_coins', {
+      user_id_input: ticket.user_id,
+      amount_input: parsed.data.amount_input,
+      reason_input: parsed.data.reason_input,
+    });
+    if (error) return { error: error.message };
+    if (data?.error) return { error: data.error };
+    revalidatePath('/', 'layout');
+    return { message: data?.message || 'Баллы начислены.', data };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Не удалось начислить баллы.' };
   }
 }
 export async function signOut() {
