@@ -31,6 +31,12 @@ const speakerSlides = [
   ['04', 'Панельная дискуссия', 'Три участника, вопросы из зала и разговор о будущем.'],
 ];
 
+const partnerSlides = [
+  ['01', 'General Partner', 'Главный партнёр форума: поддержка идей, команд и общего цифрового будущего.', '◆'],
+  ['02', 'Technical Partner', 'Технологический партнёр: инструменты, экспертиза и среда для сильных решений.', '⌘'],
+  ['03', 'Operational Partner', 'Операционный партнёр: организация, пространство и точная работа в день форума.', '↗'],
+];
+
 const css = `
 @page{size:1080px 1350px;margin:0}
 *{box-sizing:border-box}
@@ -79,6 +85,8 @@ p{position:relative;color:#a9b0a6;font-size:27px;line-height:1.42;margin:24px 0 
 .plus-gift:after{content:"";position:absolute;top:-32px;left:50%;width:115px;height:68px;margin-left:-58px;border:14px solid #cfff75;border-bottom:0;border-radius:60px 60px 0 0}
 .plus-gift small{position:relative;z-index:2;display:block;font:15px monospace;letter-spacing:3px;text-transform:uppercase}.plus-gift b{position:relative;z-index:2;display:block;margin-top:42px;font-size:74px;line-height:.86;letter-spacing:-4px}.plus-gift span{position:absolute;right:30px;bottom:28px;font-size:64px;z-index:2}
 .mini-list{position:relative;margin-top:46px;display:grid;gap:16px}.mini-list div{border-top:1px solid #31402e;padding:18px 0;display:flex;justify-content:space-between;color:#dfe6dc;font:19px monospace;letter-spacing:2px;text-transform:uppercase}.mini-list b{color:#bcf75a}
+.partner-stack{position:relative;margin-top:50px;display:grid;gap:22px;z-index:7}.partner-row{height:176px;border:1px solid #354332;background:#10150f;display:grid;grid-template-columns:130px 1fr;align-items:center;padding:28px}.partner-row .mark{width:86px;height:86px;border:1px solid #bcf75a;display:grid;place-items:center;color:#bcf75a;font-size:46px}.partner-row h2{font-size:42px;line-height:1;margin:0;letter-spacing:-2px;text-transform:uppercase}.partner-row p{font-size:19px;margin:12px 0 0}.partner-frame{position:relative;margin-top:58px;height:660px;border:1px solid #bcf75a;background:#10150f;padding:48px;display:flex;flex-direction:column;justify-content:space-between;z-index:7}.partner-frame .mark{width:118px;height:118px;border:1px solid #bcf75a;display:grid;place-items:center;color:#bcf75a;font-size:62px}.partner-frame h2{font-size:76px;line-height:.96;letter-spacing:-4px;margin:0;text-transform:uppercase}.partner-frame p{font-size:25px}.partner-frame .num{position:absolute;right:38px;bottom:22px;font-size:190px;font-weight:800;color:#bcf75a10;letter-spacing:-12px}
+.vote-final{display:grid;place-items:center;text-align:center}.vote-final h1{font-size:104px;line-height:.88;letter-spacing:-6px;margin:0 auto;max-width:960px}.vote-final .vote-word{color:#bcf75a}.vote-final p{margin-left:auto;margin-right:auto;max-width:720px}.vote-ring{position:absolute;left:50%;top:50%;width:760px;height:760px;margin:-380px 0 0 -380px;border:1px dashed #bcf75a44;border-radius:50%;z-index:1}.vote-ring:before,.vote-ring:after{content:"";position:absolute;inset:74px;border:1px solid #2e3c2a;border-radius:50%}.vote-ring:after{inset:148px;border-color:#bcf75a33}.vote-final>*:not(.vote-ring){position:relative;z-index:4}
 `;
 
 function frame(id, group, number, inner) {
@@ -112,6 +120,16 @@ const slides = [
       html: `<img class="brand" src="${logo}" alt=""><div class="topline">СПИКЕРЫ<br>${n}</div><div class="kicker"><b>${n}</b>Главная сцена</div><h1>${title}</h1><article class="event-card" style="height:670px;background:linear-gradient(180deg,#111a11,#090d0b)"><div class="avatar" style="width:320px;height:320px;margin:35px auto 0"></div><div><h2>${i === 3 ? 'Панельная дискуссия' : 'Тема скоро'}</h2><p>${desc}</p></div><span class="num">${n}</span></article><div class="footer"><span>Люди · идеи · диалог</span><span>${String(i + 2).padStart(2, '0')} / 05</span></div>`,
     }),
   ),
+  frame('partners-01', 'partners', 1, {
+    className: 'xl',
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">19.09.2026<br>ПАРТНЁРЫ</div><div class="kicker"><b>11</b>Поддержка форума</div><h1>Вместе<br>делаем форум.</h1><p>Партнёры помогают собрать людей, технологии и идеи в одном пространстве.</p><div class="partner-stack">${partnerSlides.map(([n, title, desc, icon]) => `<article class="partner-row"><div class="mark">${icon}</div><div><h2>${title}</h2><p>${desc}</p></div></article>`).join('')}</div><div class="footer"><span>General · Technical · Operational</span><span>01 / 04</span></div>`,
+  }),
+  ...partnerSlides.map(([n, title, desc, icon], i) =>
+    frame(`partners-${String(i + 2).padStart(2, '0')}`, 'partners', i + 2, {
+      className: 'xl',
+      html: `<img class="brand" src="${logo}" alt=""><div class="topline">ПАРТНЁРЫ<br>${n}</div><div class="kicker"><b>${n}</b>DIGITAL NIS FORUM</div><h1>${title}</h1><article class="partner-frame"><div class="mark">${icon}</div><div><h2>${title}</h2><p>${desc}</p></div><span class="num">${n}</span></article><div class="footer"><span>Спасибо за поддержку</span><span>${String(i + 2).padStart(2, '0')} / 04</span></div>`,
+    }),
+  ),
   frame('competitions-01', 'competitions', 1, {
     className: 'xl',
     html: `<img class="brand" src="${logo}" alt=""><div class="topline">19.09.2026<br>СОРЕВНОВАНИЯ</div><div class="kicker"><b>06</b>Для тех, кто создаёт</div><h1>Твоя идея.<br>Твоя игра.<br>Твой ход.</h1><div class="cards">${competitions.map((c, i) => `<article class="card ${i === 3 ? 'active' : ''}"><div><span class="icon">${c[3]}</span><h2 class="${c[1].length > 28 ? 'long' : ''}">${c[1]}</h2><p>${c[2]}</p></div><div class="footer" style="position:static;padding-top:18px"><span>19 сентября</span><span>↗</span></div></article>`).join('')}</div><div class="prize-line"><span>Общий призовой фонд</span><b>200 000 ТГ</b></div><div class="footer"><span>4 направления</span><span>01 / 05</span></div>`,
@@ -129,6 +147,10 @@ const slides = [
   frame('extra-02', 'extra', 2, {
     className: 'xl',
     html: `<img class="brand" src="${logo}" alt=""><div class="topline">DIGITAL PASS<br>2026</div><div class="kicker"><b>10</b>Ваш пропуск</div><h1>Один пропуск.<br>Все события.</h1><p>Цифровой QR-пропуск для входа, расписания и начисления баллов.</p><div class="pass"><div class="pass-top"><span>DIGITAL<br>NIS FORUM</span><span>2026 ↗</span></div><h2>Будущее<br>начинается<br>с вас.</h2><div class="qr">QR</div></div><div class="button">Активировать промокод <span>↗</span></div><div class="footer"><span>Личный · цифровой</span><span>02 / 02</span></div>`,
+  }),
+  frame('final-01', 'final', 1, {
+    className: 'vote-final',
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">FINAL<br>2026</div><div class="vote-ring"></div><div><div class="kicker"><b>12</b>Финальный слайд</div><h1><span class="vote-word">VOTE</span> FOR FUTURE,<br><span class="vote-word">VOTE</span> FOR BEKZHAN</h1><p>Идеи становятся сильнее, когда за ними стоит команда.</p></div><div class="ticker"><span>БІРГЕ ✳ FUTURE ✳ BEKZHAN ✳ DIGITAL NIS FORUM ✳ ИДЕЯ ✳ КОМАНДА ✳ НӘТИЖЕ</span></div>`,
   }),
 ];
 
@@ -159,7 +181,7 @@ await page.pdf({
   margin: { top: 0, right: 0, bottom: 0, left: 0 },
   scale: 1,
 });
-for (const series of ['forum', 'digital-apta', 'speakers']) {
+for (const series of ['forum', 'digital-apta', 'speakers', 'partners']) {
   await copyFile(`${root}/instagram/${series}/01.png`, `${root}/instagram-${series}.png`);
 }
 
@@ -184,7 +206,7 @@ spawnSync(
 from PIL import Image
 root = Path('${root}')
 order = []
-for folder in ['forum', 'digital-apta', 'speakers', 'competitions', 'extra']:
+for folder in ['forum', 'digital-apta', 'speakers', 'partners', 'competitions', 'extra', 'final']:
     order.extend(sorted((root / 'instagram' / folder).glob('*.png')))
 images = [Image.open(path).convert('RGB') for path in order]
 images[0].save(root / 'instagram-preview.pdf', save_all=True, append_images=images[1:], resolution=96.0)`,
