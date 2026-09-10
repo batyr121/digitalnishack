@@ -5,7 +5,6 @@ import { pathToFileURL } from 'node:url';
 
 const root = 'materials/ru';
 const logo = '../../public/logo-horizontal.svg';
-const mark = '../../public/logo-mark.svg';
 
 const competitions = [
   ['01', 'Startup Battle', '8 стартапов на одной сцене. Покажи свою идею.', '↗'],
@@ -49,8 +48,8 @@ p{position:relative;color:#a9b0a6;font-size:27px;line-height:1.42;margin:24px 0 
 .button{position:absolute;left:58px;bottom:148px;width:340px;height:74px;border:1px solid #43503f;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:#f0f2eb;font-size:15px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
 .button.fill{background:#bcf75a;color:#10180b;border-color:#bcf75a}
 .footer{position:absolute;left:58px;right:58px;bottom:70px;display:flex;justify-content:space-between;color:#8f9b8d;font:12px monospace;letter-spacing:3px;text-transform:uppercase}
-.hero-logo{position:absolute;left:50%;top:565px;width:340px;height:340px;margin-left:-170px;display:grid;place-items:center;background:radial-gradient(circle,#bcf75a28,transparent 68%);z-index:4}
-.hero-logo img{width:260px;transform:rotate(-7deg);filter:drop-shadow(0 0 42px #bcf75a35)}
+.hero-logo{position:absolute;left:50%;top:568px;width:430px;height:365px;margin-left:-215px;display:grid;place-items:center;background:radial-gradient(ellipse,#bcf75a20,transparent 70%);z-index:4}
+.hero-logo svg{width:430px;height:365px;filter:drop-shadow(0 0 42px #bcf75a24)}
 .hero-center{position:absolute;left:90px;right:90px;top:145px;text-align:center;z-index:5}
 .hero-center h1{font-size:88px;line-height:.88;letter-spacing:-6px;margin:42px auto 0;max-width:850px}
 .hero-center p{margin-left:auto;margin-right:auto}.hero-tag{font-size:28px;letter-spacing:14px;color:#bcf75a;margin-top:26px}
@@ -80,10 +79,12 @@ function frame(id, group, number, inner) {
   return [group, number, `<section id="${id}" class="post ${inner.className || ''}">${inner.html}</section>`];
 }
 
+const siteLogoArt = `<svg viewBox="0 0 640 550" fill="none" aria-hidden="true"><defs><linearGradient id="post-beam" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#36540a"/><stop offset=".45" stop-color="#c1ff53"/><stop offset=".7" stop-color="#98d52d"/><stop offset="1" stop-color="#edffc8"/></linearGradient><linearGradient id="post-side" x1="0" x2="1"><stop stop-color="#263711"/><stop offset="1" stop-color="#749d35"/></linearGradient><pattern id="post-lines" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 0V5" stroke="#071004" stroke-width="1.4" opacity=".35"/></pattern><filter id="post-glow"><feGaussianBlur stdDeviation="28"/></filter></defs><ellipse cx="330" cy="430" rx="205" ry="32" fill="#a9ff32" opacity=".1" filter="url(#post-glow)"/><g transform="translate(20 2)"><path d="M74 299 209 168 301 168 164 302 164 400 74 400Z" fill="url(#post-side)"/><path d="M74 299 209 168 257 195 122 328 122 430 74 400Z" fill="url(#post-beam)"/><path d="M122 328 257 195 349 195 211 329 211 429 122 430Z" fill="url(#post-beam)"/><path d="M122 328 257 195 349 195 211 329 211 429 122 430Z" fill="url(#post-lines)"/><path d="M303 145 393 145 528 277 528 377 439 377 439 304 303 171Z" fill="url(#post-side)"/><path d="M303 145 350 117 443 117 576 249 528 277 393 145Z" fill="url(#post-beam)"/><path d="M393 145 443 117 576 249 576 350 528 377 528 277Z" fill="url(#post-beam)"/><path d="M393 145 443 117 576 249 576 350 528 377 528 277Z" fill="url(#post-lines)"/><path d="M235 287 326 198 373 225 283 314 283 414 235 388Z" fill="url(#post-side)"/><path d="M283 314 373 225 464 225 372 315 372 414 283 414Z" fill="url(#post-beam)"/><path d="M283 314 373 225 464 225 372 315 372 414 283 414Z" fill="url(#post-lines)"/><path d="m326 198 91 0 47 27-91 0Z" fill="#ceff82"/><path d="m74 299 135-131h92M303 145h90l135 132M283 314l90-89h91" fill="none" stroke="#e4ffb2" stroke-width="1"/></g><g stroke="#748462" stroke-width=".6" fill="none" opacity=".7"><path d="M80 125h72M116 89v72M516 436h70M551 401v70"/><circle cx="334" cy="278" r="236" stroke-dasharray="2 11"/></g></svg>`;
+
 const slides = [
   frame('forum-01', 'forum', 1, {
     className: 'huge',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">NIS · ҚАЗАҚСТАН<br>19.09.2026</div><div class="hero-center"><div class="kicker"><b>●</b>Форум технологий и идей</div><h1>DIGITAL<br>NIS FORUM</h1><div class="hero-tag">БІРГЕ ЖАСАЙМЫЗ</div><p>Один день. Одно сообщество. Общее цифровое будущее.</p></div><div class="people"><div class="person left-one"><i class="leg a"></i><i class="leg b"></i></div><div class="person left-two"><i class="leg a"></i><i class="leg b"></i></div><div class="person right-one"><i class="leg a"></i><i class="leg b"></i></div><div class="person right-two"><i class="leg a"></i><i class="leg b"></i></div></div><div class="hero-logo"><img src="${mark}" alt=""></div><div class="hero-card"><div><div class="date">19.09<span>.2026</span></div><small>Басты форум</small></div><div class="note">Идея · команда · нәтиже<br>01 / 03</div></div><div class="ticker"><span>СТАРТАПЫ ✳ ЖИ ✳ РОБОТОТЕХНИКА ✳ БІЛІМ ✳ КОД ✳ 3D ✳ ИННОВАЦИИ ✳ АДАМДАР ✳ БІРГЕ</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">NIS · ҚАЗАҚСТАН<br>19.09.2026</div><div class="hero-center"><div class="kicker"><b>●</b>Форум технологий и идей</div><h1>DIGITAL<br>NIS FORUM</h1><div class="hero-tag">БІРГЕ ЖАСАЙМЫЗ</div><p>Один день. Одно сообщество. Общее цифровое будущее.</p></div><div class="people"><div class="person left-one"><i class="leg a"></i><i class="leg b"></i></div><div class="person left-two"><i class="leg a"></i><i class="leg b"></i></div><div class="person right-one"><i class="leg a"></i><i class="leg b"></i></div><div class="person right-two"><i class="leg a"></i><i class="leg b"></i></div></div><div class="hero-logo">${siteLogoArt}</div><div class="hero-card"><div><div class="date">19.09<span>.2026</span></div><small>Басты форум</small></div><div class="note">Идея · команда · нәтиже<br>01 / 03</div></div><div class="ticker"><span>СТАРТАПЫ ✳ ЖИ ✳ РОБОТОТЕХНИКА ✳ БІЛІМ ✳ КОД ✳ 3D ✳ ИННОВАЦИИ ✳ АДАМДАР ✳ БІРГЕ</span></div>`,
   }),
   frame('digital-apta-01', 'digital-apta', 1, {
     className: 'huge',
