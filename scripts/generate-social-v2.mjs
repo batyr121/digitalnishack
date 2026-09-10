@@ -72,6 +72,10 @@ p{position:relative;color:#a9b0a6;font-size:27px;line-height:1.42;margin:24px 0 
 .speaker-grid{position:relative;margin-top:44px;display:grid;grid-template-columns:1fr;gap:18px}.speaker{height:210px;border:1px solid #354332;background:linear-gradient(180deg,#111a11,#090d0b);display:grid;grid-template-columns:220px 1fr 80px;align-items:center;padding:24px}.avatar{width:155px;height:155px;border-radius:50%;background:radial-gradient(circle at 45% 35%,#9fb18f,#172015 68%);box-shadow:0 0 60px #bcf75a18;justify-self:center}.speaker h2{font-size:42px;letter-spacing:-2px;margin:0}.speaker p{font-size:20px;margin:12px 0 0}.speaker .n{font-size:70px;color:#bcf75a25;font-weight:800}
 .pass{position:absolute;right:74px;bottom:170px;width:470px;height:585px;background:#c3dea7;color:#12200e;border-radius:4px;transform:rotate(-3deg);padding:42px;box-shadow:0 22px 80px #0008}.pass .pass-top{display:flex;justify-content:space-between;font-size:22px;font-weight:800}.pass h2{font-size:54px;line-height:.95;letter-spacing:-3px;margin:120px 0 0}.qr{position:absolute;left:42px;right:42px;bottom:42px;height:150px;background:#f7f7f2;display:grid;place-items:center;color:#111;font:28px monospace}
 .coin{position:absolute;right:86px;bottom:180px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle at 35% 32%,#d4ff8b,#628d2c 66%,#243b15);box-shadow:12px 18px 0 #2b4817,0 0 70px #bcf75a22;display:grid;place-items:center;color:#dfff9d;font-size:116px}.outline{position:absolute;inset:18px;border:7px double #c9ff86;border-radius:50%;opacity:.7}
+.plus-gift{position:absolute;right:76px;bottom:185px;width:390px;height:330px;border:1px solid #bcf75a;background:linear-gradient(145deg,#bcf75a,#7fb52d 58%,#1d2c11);box-shadow:18px 22px 0 #17240f,0 0 70px #bcf75a22;transform:rotate(-4deg);padding:34px;color:#111b0c}
+.plus-gift:before{content:"";position:absolute;left:-24px;right:-24px;top:122px;height:42px;background:#e3ffae;opacity:.82}
+.plus-gift:after{content:"";position:absolute;top:-32px;left:50%;width:115px;height:68px;margin-left:-58px;border:14px solid #cfff75;border-bottom:0;border-radius:60px 60px 0 0}
+.plus-gift small{display:block;font:15px monospace;letter-spacing:3px;text-transform:uppercase}.plus-gift b{display:block;margin-top:42px;font-size:80px;line-height:.85;letter-spacing:-5px}.plus-gift span{position:absolute;right:30px;bottom:28px;font-size:64px}
 .mini-list{position:relative;margin-top:46px;display:grid;gap:16px}.mini-list div{border-top:1px solid #31402e;padding:18px 0;display:flex;justify-content:space-between;color:#dfe6dc;font:19px monospace;letter-spacing:2px;text-transform:uppercase}.mini-list b{color:#bcf75a}
 `;
 
@@ -118,7 +122,7 @@ const slides = [
   ),
   frame('extra-01', 'extra', 1, {
     className: 'xl',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">QR · БАЛЛЫ<br>АДМИНКА</div><div class="kicker"><b>09</b>Баллы за активность</div><h1>Приходи.<br>Участвуй.<br><span class="lime">Получай баллы.</span></h1><p>Организатор сканирует QR-пропуск и начисляет баллы за активность на форуме.</p><div class="coin"><div class="outline"></div>↗</div><div class="button">Смотреть баллы <span>↗</span></div><div class="footer"><span>Это баллы участия</span><span>01 / 02</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">МАСТЕР-КЛАССЫ<br>РОЗЫГРЫШ</div><div class="kicker"><b>09</b>Подарок на каждом мастер-классе</div><h1>Участвуй.<br>Выигрывай.<br><span class="lime">ChatGPT Plus.</span></h1><p>На каждом мастер-классе форума мы разыграем подписку ChatGPT Plus среди участников.</p><div class="plus-gift"><small>Приз мастер-класса</small><b>CHATGPT<br>PLUS</b><span>↗</span></div><div class="button">Приходи на мастер-класс <span>↗</span></div><div class="footer"><span>Розыгрыш среди участников</span><span>01 / 02</span></div>`,
   }),
   frame('extra-02', 'extra', 2, {
     className: 'xl',
