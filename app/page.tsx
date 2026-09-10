@@ -342,6 +342,11 @@ export default async function Home() {
               ))}
             </div>
             <div className="reveal-banner">
+              <span>ПРИЗОВОЙ ФОНД</span>
+              <strong>200 000 ТГ НА ВСЕ КОНКУРСЫ</strong>
+              <span className="pill">ОБЩИЙ</span>
+            </div>
+            <div className="reveal-banner">
               <Lock size={20} />
               <span>17.09</span>
               <strong>ФИНАЛИСТЫ БУДУТ ОПУБЛИКОВАНЫ.</strong>
