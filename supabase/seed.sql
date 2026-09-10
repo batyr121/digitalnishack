@@ -12,11 +12,11 @@ insert into events(id,title,description,day,time,track,location,capacity,registr
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000033','Session 03 · Secret Speaker','Topic to be revealed.',19,'TBA','MAIN STAGE','Main Stage',null,true,30) on conflict(id) do nothing;
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000019','Panel Discussion','Three minds. One conversation. Your questions. Meet three independent panelists and join the Q&A.',19,'TBA','MAIN STAGE','Main Stage',null,true,40) on conflict(id) do nothing;
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000029','Startup Battle · The Final','Eight startups. One stage. Discover ideas ready for their next chapter.',19,'TBA','STARTUPS','Main Stage',null,true,30) on conflict(id) do nothing;
-insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000039','FIFA League · The Final','The final rounds and championship match. Tournament rules and timing to be announced.',19,'TBA','GAMING','Guest Area',null,true,80) on conflict(id) do nothing;
+insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000039','FIFA Tournament for 7–8 Grades · The Final','Tournament for 7–8 grade students, final rounds and championship match.',19,'TBA','GAMING','Guest Area',null,true,80) on conflict(id) do nothing;
 insert into competitions(id,slug,title,description) values('10000000-0000-4000-8000-000000000001','startup-battle','STARTUP BATTLE','8 startups. One stage. Bring your idea into the spotlight.') on conflict(slug) do nothing;
 insert into competitions(id,slug,title,description) values('10000000-0000-4000-8000-000000000002','hackathon','NIS EDUTECH HACKATHON','Real challenges. Bold solutions. Build something that changes how we learn.') on conflict(slug) do nothing;
-insert into competitions(id,slug,title,description) values('10000000-0000-4000-8000-000000000003','jas-startuper','JAS STARTUPER','A first stage for the next generation of founders and creators.') on conflict(slug) do nothing;
-insert into competitions(id,slug,title,description) values('10000000-0000-4000-8000-000000000004','fifa','FIFA LEAGUE','Bring your skill. Find your team. Play for the final.') on conflict(slug) do nothing;
+insert into competitions(id,slug,title,description) values('10000000-0000-4000-8000-000000000003','jas-startuper','STARTUP WOMEN','A stage for girls and young women launching their own ideas.') on conflict(slug) do nothing;
+insert into competitions(id,slug,title,description) values('10000000-0000-4000-8000-000000000004','fifa','FIFA TOURNAMENT FOR 7–8 GRADES','Tournament for 7–8 grade students.') on conflict(slug) do nothing;
 insert into zones(id,name,description,icon,sort_order) values('20000000-0000-4000-8000-000000000001','Main Stage','Big ideas, speaker sessions and the panel discussion.','01',0) on conflict(id) do nothing;
 insert into zones(id,name,description,icon,sort_order) values('20000000-0000-4000-8000-000000000002','Startup Battle','Meet the eight startup finalists and their ideas.','02',1) on conflict(id) do nothing;
 insert into zones(id,name,description,icon,sort_order) values('20000000-0000-4000-8000-000000000003','Hackathon Zone','Where teams build the future of education.','03',2) on conflict(id) do nothing;
@@ -39,8 +39,8 @@ insert into coin_rules(key,name,points) values('panel','Panel discussion',40) on
 insert into coin_rules(key,name,points) values('startup_audience','Startup Battle audience',30) on conflict(key) do nothing;
 insert into coin_rules(key,name,points) values('hackathon','Hackathon participant',100) on conflict(key) do nothing;
 insert into coin_rules(key,name,points) values('startup_finalist','Startup Battle finalist',150) on conflict(key) do nothing;
-insert into coin_rules(key,name,points) values('jas_startuper','Jas Startuper participant',100) on conflict(key) do nothing;
-insert into coin_rules(key,name,points) values('fifa','FIFA League participant',80) on conflict(key) do nothing;
+insert into coin_rules(key,name,points) values('jas_startuper','Startup Women participant',100) on conflict(key) do nothing;
+insert into coin_rules(key,name,points) values('fifa','FIFA Tournament 7–8 participant',80) on conflict(key) do nothing;
 insert into coin_rules(key,name,points) values('3d','3D workshop',50) on conflict(key) do nothing;
 insert into coin_rules(key,name,points) values('special','Special activity',20) on conflict(key) do nothing;
 insert into achievements(key,name,description) values('FIRST_STEP','FIRST STEP','Registration completed') on conflict(key) do nothing;

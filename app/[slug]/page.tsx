@@ -82,7 +82,7 @@ export default async function PublicPage({
             <Lock size={22} />
             <span>17.09</span>
             <strong>ФИНАЛИСТЫ БУДУТ ОПУБЛИКОВАНЫ</strong>
-            <span className="pill">STARTUP BATTLE / HACKATHON / JAS STARTUPER / FIFA</span>
+            <span className="pill">STARTUP BATTLE / STARTUP WOMEN / HACKATHON / FIFA 7–8</span>
           </div>
         )}
         <ScheduleTimeline
