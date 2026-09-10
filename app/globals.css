@@ -1166,6 +1166,11 @@ img {
   font: 10px monospace;
   color: #a3b095;
   text-align: center;
+  display: flex;
+  min-height: 126px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .partner-placeholder small {
   display: block;

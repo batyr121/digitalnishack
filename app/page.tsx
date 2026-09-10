@@ -22,6 +22,16 @@ export default async function Home() {
   );
   const speakers = speakerData?.filter((s) => s.kind === 'KEYNOTE');
   const program = eventData ?? events;
+  const featuredPartners = [
+    {
+      id: 'artisan-education-general',
+      name: 'Artisan Education',
+      logo: '/partners/artisan-education.svg',
+      website: 'https://artisan.education',
+      type: 'GENERAL PARTNER',
+    },
+    ...(partnerData ?? []).filter((p) => p.name !== 'Artisan Education'),
+  ];
   const content = Object.fromEntries((settings ?? []).map((s) => [s.key, s.value]));
   return (
     <>
@@ -478,8 +488,8 @@ export default async function Home() {
             <div>
               <span className="eyebrow">ПАРТНЁРЫ</span>
               <div className="partner-list">
-                {partnerData?.length ? (
-                  partnerData.map((p) => (
+                {featuredPartners.length ? (
+                  featuredPartners.map((p) => (
                     <a
                       key={p.id}
                       href={p.website || '#partners'}

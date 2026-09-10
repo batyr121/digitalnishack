@@ -6,7 +6,7 @@ const sql = (s: unknown) =>
     : typeof s === 'boolean' || typeof s === 'number'
       ? String(s)
       : "'" + String(s).replaceAll("'", "''") + "'";
-let output = '-- Generated from lib/config.ts. No fabricated people or partners.\n';
+let output = '-- Generated from lib/config.ts with confirmed partner records.\n';
 output += events
   .map(
     (e) =>
@@ -57,6 +57,8 @@ for (const [key, name, description] of [
   output += `\ninsert into achievements(key,name,description) values(${[key, name, description].map(sql).join(',')}) on conflict(key) do nothing;`;
 output +=
   "\ninsert into site_settings(key,value) values('certificateThreshold','400'),('registrationEnabled','true'),('finalists_published','false'),('announcement','\"\"') on conflict(key) do nothing;\n";
+output +=
+  "\ninsert into partners(id,name,logo,website,type) values('40000000-0000-4000-8000-000000000001','Artisan Education','/partners/artisan-education.svg','https://artisan.education','GENERAL PARTNER') on conflict(id) do update set name=excluded.name,logo=excluded.logo,website=excluded.website,type=excluded.type;\n";
 output += `
 update events set reward_rule_key=case when title='Panel Discussion' then 'panel' when title like 'Session %' then 'speaker' when title like 'Startup Battle%' then 'startup_audience' when track='3D' then '3d' when track='GAMING' then 'fifa' when track in ('WORKSHOPS','HACKATHON') or title in ('Startup Commercialization','Startup & Pitching','Mock Day: Hackathon & Startup Battle','Startup acceleration') then 'masterclass' else null end;
 `;

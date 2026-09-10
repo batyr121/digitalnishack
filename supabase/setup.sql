@@ -24,7 +24,7 @@ create table competitions(id uuid primary key default gen_random_uuid(),slug tex
 create table teams(id uuid primary key default gen_random_uuid(),name text not null,owner_id uuid not null references profiles,members jsonb not null default '[]');
 create table competition_entries(id uuid primary key default gen_random_uuid(),competition_id uuid not null references competitions,user_id uuid not null references profiles,team_id uuid references teams,name text not null,description text not null default '',logo text,founders text,category text,website text,pitch_time text,status text not null default 'APPLICATION' check(status in ('APPLICATION','REVIEW','FINALIST','FINAL','WINNER','REJECTED')),place integer check(place>0),created_at timestamptz not null default now(),unique(competition_id,user_id));
 create table zones(id uuid primary key default gen_random_uuid(),name text not null,description text not null default '',icon text,sort_order integer not null default 0);
-create table partners(id uuid primary key default gen_random_uuid(),name text not null,logo text,website text,type text not null check(type in ('ORGANIZER','GENERAL PARTNER','PARTNER','TECH PARTNER','COMMUNITY PARTNER','MEDIA PARTNER')));
+create table partners(id uuid primary key default gen_random_uuid(),name text not null,logo text,website text,type text not null check(type in ('ORGANIZER','GENERAL PARTNER','PARTNER','TECH PARTNER','TECHNICAL PARTNER','OPERATIONAL PARTNER','COMMUNITY PARTNER','MEDIA PARTNER')));
 create table coin_rules(id uuid primary key default gen_random_uuid(),key text not null unique,name text not null,points integer not null check(points>=0),active boolean not null default true);
 create table coin_transactions(id uuid primary key default gen_random_uuid(),user_id uuid not null references profiles,amount integer not null check(amount<>0),reason text not null check(length(reason)>2),source_key text not null,admin_id uuid references profiles,created_at timestamptz not null default now(),unique(user_id,source_key));
 create table achievements(id uuid primary key default gen_random_uuid(),key text not null unique,name text not null,description text not null);
@@ -260,6 +260,8 @@ insert into achievements(key,name,description) values('NETWORKER','NETWORKER','P
 insert into achievements(key,name,description) values('STARTUP_MIND','STARTUP MIND','Attend Startup Battle') on conflict(key) do nothing;
 insert into achievements(key,name,description) values('DIGITAL_MASTER','DIGITAL MASTER','Reach the certificate target') on conflict(key) do nothing;
 insert into site_settings(key,value) values('certificateThreshold','400'),('registrationEnabled','true'),('finalists_published','false'),('announcement','""') on conflict(key) do nothing;
+
+insert into partners(id,name,logo,website,type) values('40000000-0000-4000-8000-000000000001','Artisan Education','/partners/artisan-education.svg','https://artisan.education','GENERAL PARTNER') on conflict(id) do update set name=excluded.name,logo=excluded.logo,website=excluded.website,type=excluded.type;
 
 update events set reward_rule_key=case when title='Panel Discussion' then 'panel' when title like 'Session %' then 'speaker' when title like 'Startup Battle%' then 'startup_audience' when track='3D' then '3d' when track='GAMING' then 'fifa' when track in ('WORKSHOPS','HACKATHON') or title in ('Startup Commercialization','Startup & Pitching','Mock Day: Hackathon & Startup Battle','Startup acceleration') then 'masterclass' else null end;
 

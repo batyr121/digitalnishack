@@ -1,4 +1,4 @@
--- Generated from lib/config.ts. No fabricated people or partners.
+-- Generated from lib/config.ts with confirmed partner records.
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000012','Opening of Digital Apta','The first connection. Meet the community and start a week of building.',12,'TBA','DIGITAL APTA','Venue TBA',null,false,20) on conflict(id) do nothing;
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000013','Startup acceleration','12–18 September: mentoring, business models, pitch decks and preparation for Startup Battle.',12,'TBA','STARTUPS','Venue TBA',null,true,50) on conflict(id) do nothing;
 insert into events(id,title,description,day,time,track,location,capacity,registration_required,coins) values('00000000-0000-4000-8000-000000000015','Vibe Coding','AI-assisted coding, rapid prototyping and turning an idea into an MVP. A one-hour workshop for hackathon teams.',15,'TBA','HACKATHON','Digital Lab',null,true,50) on conflict(id) do nothing;
@@ -50,5 +50,7 @@ insert into achievements(key,name,description) values('NETWORKER','NETWORKER','P
 insert into achievements(key,name,description) values('STARTUP_MIND','STARTUP MIND','Attend Startup Battle') on conflict(key) do nothing;
 insert into achievements(key,name,description) values('DIGITAL_MASTER','DIGITAL MASTER','Reach the certificate target') on conflict(key) do nothing;
 insert into site_settings(key,value) values('certificateThreshold','400'),('registrationEnabled','true'),('finalists_published','false'),('announcement','""') on conflict(key) do nothing;
+
+insert into partners(id,name,logo,website,type) values('40000000-0000-4000-8000-000000000001','Artisan Education','/partners/artisan-education.svg','https://artisan.education','GENERAL PARTNER') on conflict(id) do update set name=excluded.name,logo=excluded.logo,website=excluded.website,type=excluded.type;
 
 update events set reward_rule_key=case when title='Panel Discussion' then 'panel' when title like 'Session %' then 'speaker' when title like 'Startup Battle%' then 'startup_audience' when track='3D' then '3d' when track='GAMING' then 'fifa' when track in ('WORKSHOPS','HACKATHON') or title in ('Startup Commercialization','Startup & Pitching','Mock Day: Hackathon & Startup Battle','Startup acceleration') then 'masterclass' else null end;
