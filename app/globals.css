@@ -2676,12 +2676,14 @@ footer {
 }
 .partner-logo {
   max-height: 74px;
-  max-width: 168px;
+  max-width: 176px;
   object-fit: contain;
   margin: auto;
-  padding: 8px 12px;
-  background: #f4f7ef;
-  border-radius: 4px;
+  filter: brightness(0) invert(1);
+}
+.partner-placeholder:nth-child(2) .partner-logo,
+.partner-placeholder:nth-child(3) .partner-logo {
+  filter: none;
 }
 .coin-toast {
   position: fixed;
