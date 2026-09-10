@@ -35,7 +35,7 @@ export default async function Home() {
       name: 'S7 Robotics',
       logo: '/partners/s7-robotics-white.svg',
       website: '#partners',
-      type: 'TECH PARTNER',
+      type: 'TECHNOLOGICAL PARTNER',
     },
     {
       id: 'nis-aktau-operational',

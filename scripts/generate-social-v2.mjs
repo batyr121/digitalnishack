@@ -36,8 +36,8 @@ const speakerSlides = [
 
 const partnerSlides = [
   ['01', 'General Partner', 'Artisan Education', 'Главный партнёр форума: идеи, команды и цифровое будущее.', artisanLogo],
-  ['02', 'Tech Partner', 'S7 Robotics', 'Технологический партнёр: робототехника, инженерная практика и сильные решения.', s7Logo],
-  ['03', 'Oper Partner', 'NIS Aktau', 'Операционный партнёр: организация, пространство и точная работа в день форума.', nisAktauLogo],
+  ['02', 'Technological Partner', 'S7 Robotics', 'Технологический партнёр: робототехника, инженерная практика и сильные решения.', s7Logo],
+  ['03', 'Operational Partner', 'NIS Aktau', 'Операционный партнёр: организация, пространство и точная работа в день форума.', nisAktauLogo],
 ];
 
 const css = `
@@ -86,7 +86,7 @@ p{position:relative;color:#a9b0a6;font-size:27px;line-height:1.42;margin:24px 0 
 .plus-gift{position:absolute;right:76px;bottom:185px;width:390px;height:330px;border:1px solid #bcf75a;background:linear-gradient(145deg,#bcf75a,#7fb52d 58%,#1d2c11);box-shadow:18px 22px 0 #17240f,0 0 70px #bcf75a22;transform:rotate(-4deg);padding:34px;color:#111b0c}
 .plus-gift:before{content:"";position:absolute;left:30px;right:30px;top:104px;height:2px;background:#e3ffae;opacity:.55}
 .plus-gift:after{content:"";position:absolute;top:-32px;left:50%;width:115px;height:68px;margin-left:-58px;border:14px solid #cfff75;border-bottom:0;border-radius:60px 60px 0 0}
-.plus-gift small{position:relative;z-index:2;display:block;font:15px monospace;letter-spacing:3px;text-transform:uppercase}.plus-gift b{position:relative;z-index:2;display:block;margin-top:42px;font-size:74px;line-height:.86;letter-spacing:-4px}.plus-gift span{position:absolute;right:30px;bottom:28px;font-size:64px;z-index:2}
+.plus-gift small{position:relative;z-index:2;display:block;font:15px monospace;letter-spacing:3px;text-transform:uppercase}.plus-gift b{position:relative;z-index:2;display:block;margin-top:42px;font-size:55px;line-height:.9;letter-spacing:-3px}.plus-gift em{position:relative;z-index:2;display:block;margin-top:18px;font-style:normal;font-size:27px;line-height:1.05;font-weight:900;letter-spacing:-1px}.plus-gift span{position:absolute;right:30px;bottom:28px;font-size:64px;z-index:2}
 .mini-list{position:relative;margin-top:46px;display:grid;gap:16px}.mini-list div{border-top:1px solid #31402e;padding:18px 0;display:flex;justify-content:space-between;color:#dfe6dc;font:19px monospace;letter-spacing:2px;text-transform:uppercase}.mini-list b{color:#bcf75a}
 .partner-stack{position:relative;margin-top:50px;display:grid;gap:22px;z-index:7}.partner-row{height:176px;border:1px solid #354332;background:#10150f;display:grid;grid-template-columns:150px 1fr;align-items:center;padding:28px}.partner-row .partner-logo-img{width:118px;height:86px;object-fit:contain;filter:brightness(0) invert(1);opacity:.98}.partner-row:nth-child(2) .partner-logo-img,.partner-row:nth-child(3) .partner-logo-img{filter:none}.partner-row:nth-child(2) .partner-logo-img{width:132px;height:96px}.partner-row:nth-child(3) .partner-logo-img{width:145px;height:104px}.partner-row h2{font-size:42px;line-height:1;margin:0;letter-spacing:-2px;text-transform:uppercase}.partner-row p{font-size:19px;margin:12px 0 0}.partner-name{display:block;margin-top:12px;color:#bcf75a;font:15px monospace;letter-spacing:3px;text-transform:uppercase}.partner-frame{position:relative;margin-top:58px;height:660px;border:1px solid #bcf75a;background:#10150f;padding:56px;display:flex;flex-direction:column;justify-content:space-between;z-index:7}.partner-frame .partner-logo-img{width:285px;height:180px;object-fit:contain;filter:brightness(0) invert(1);opacity:.98}.partner-frame h2{font-size:76px;line-height:.96;letter-spacing:-4px;margin:0;text-transform:uppercase}.partner-frame p{font-size:25px}.partner-frame .num{position:absolute;right:38px;bottom:22px;font-size:190px;font-weight:800;color:#bcf75a10;letter-spacing:-12px}
 .vote-final{display:grid;place-items:center;text-align:center}.vote-final h1{font-size:104px;line-height:.88;letter-spacing:-6px;margin:0 auto;max-width:960px}.vote-final .vote-word{color:#bcf75a}.vote-final p{margin-left:auto;margin-right:auto;max-width:720px}.vote-ring{position:absolute;left:50%;top:50%;width:760px;height:760px;margin:-380px 0 0 -380px;border:1px dashed #bcf75a44;border-radius:50%;z-index:1}.vote-ring:before,.vote-ring:after{content:"";position:absolute;inset:74px;border:1px solid #2e3c2a;border-radius:50%}.vote-ring:after{inset:148px;border-color:#bcf75a33}.vote-final>*:not(.vote-ring){position:relative;z-index:4}
@@ -125,7 +125,7 @@ const slides = [
   ),
   frame('partners-01', 'partners', 1, {
     className: 'xl',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">19.09.2026<br>ПАРТНЁРЫ</div><div class="kicker"><b>11</b>Поддержка форума</div><h1>Вместе<br>делаем форум.</h1><p>Партнёры помогают собрать людей, технологии и идеи в одном пространстве.</p><div class="partner-stack">${partnerSlides.map(([, title, name, desc, partnerLogo]) => `<article class="partner-row"><img class="partner-logo-img" src="${partnerLogo}" alt="${name}"><div><h2>${title}</h2><span class="partner-name">${name}</span><p>${desc}</p></div></article>`).join('')}</div><div class="footer"><span>General · Tech · Oper</span><span>01 / 04</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">19.09.2026<br>ПАРТНЁРЫ</div><div class="kicker"><b>11</b>Поддержка форума</div><h1>Вместе<br>делаем форум.</h1><p>Партнёры помогают собрать людей, технологии и идеи в одном пространстве.</p><div class="partner-stack">${partnerSlides.map(([, title, name, desc, partnerLogo]) => `<article class="partner-row"><img class="partner-logo-img" src="${partnerLogo}" alt="${name}"><div><h2>${title}</h2><span class="partner-name">${name}</span><p>${desc}</p></div></article>`).join('')}</div><div class="footer"><span>General · Technological · Operational</span><span>01 / 04</span></div>`,
   }),
   ...partnerSlides.map(([n, title, name, desc, partnerLogo], i) =>
     frame(`partners-${String(i + 2).padStart(2, '0')}`, 'partners', i + 2, {
@@ -145,7 +145,7 @@ const slides = [
   ),
   frame('extra-01', 'extra', 1, {
     className: 'xl',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">МАСТЕР-КЛАССЫ<br>РОЗЫГРЫШ</div><div class="kicker"><b>09</b>Подарок на каждом мастер-классе</div><h1>Участвуй.<br>Выигрывай.<br><span class="lime">ChatGPT Plus.</span></h1><p>На каждом мастер-классе форума мы разыграем подписку ChatGPT Plus среди участников.</p><div class="plus-gift"><small>Приз мастер-класса</small><b>CHATGPT<br>PLUS</b><span>↗</span></div><div class="button">Приходи на мастер-класс <span>↗</span></div><div class="footer"><span>Розыгрыш среди участников</span><span>01 / 02</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">МАСТЕР-КЛАССЫ<br>РОЗЫГРЫШ</div><div class="kicker"><b>09</b>Подарок на каждом мастер-классе</div><h1>Участвуй.<br>Выигрывай.<br><span class="lime">Подарок.</span></h1><p>На каждом мастер-классе разыграем Chat GPT Plus или сертификат «Золотое Яблоко» на 10 000 ₸.</p><div class="plus-gift"><small>Приз мастер-класса</small><b>CHAT GPT<br>PLUS</b><em>или Золотое Яблоко<br>10 000 ₸</em><span>↗</span></div><div class="button">Приходи на мастер-класс <span>↗</span></div><div class="footer"><span>Розыгрыш среди участников</span><span>01 / 02</span></div>`,
   }),
   frame('extra-02', 'extra', 2, {
     className: 'xl',
