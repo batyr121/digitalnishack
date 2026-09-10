@@ -2675,11 +2675,13 @@ footer {
   border-bottom: 1px solid #42572c;
 }
 .partner-logo {
-  max-height: 65px;
-  max-width: 160px;
+  max-height: 74px;
+  max-width: 168px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
   margin: auto;
+  padding: 8px 12px;
+  background: #f4f7ef;
+  border-radius: 4px;
 }
 .coin-toast {
   position: fixed;

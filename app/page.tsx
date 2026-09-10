@@ -33,14 +33,14 @@ export default async function Home() {
     {
       id: 's7-robotics-tech',
       name: 'S7 Robotics',
-      logo: '/partners/s7-robotics-white.svg',
+      logo: '/partners/s7-robotics-logo.svg',
       website: '#partners',
       type: 'TECH PARTNER',
     },
     {
       id: 'nis-aktau-operational',
       name: 'NIS Aktau',
-      logo: '/partners/nis-aktau-white.svg',
+      logo: '/partners/nis-aktau-logo.svg',
       website: '#partners',
       type: 'OPERATIONAL PARTNER',
     },
