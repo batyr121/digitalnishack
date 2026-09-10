@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 120" role="img" aria-label="NIS Aktau">
+  <g fill="none" stroke="#f0f2eb" stroke-width="8" stroke-linejoin="miter">
+    <path d="M24 82V51l31-31h24L48 51v31z"/>
+    <path d="M63 82V51l24-24 24 24v31H87V59"/>
+  </g>
+  <text x="135" y="55" fill="#f0f2eb" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="900" letter-spacing="1">NIS</text>
+  <text x="135" y="91" fill="#f0f2eb" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" letter-spacing="5">AKTAU</text>
+</svg>

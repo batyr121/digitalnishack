@@ -22,7 +22,7 @@ export default async function Home() {
   );
   const speakers = speakerData?.filter((s) => s.kind === 'KEYNOTE');
   const program = eventData ?? events;
-  const featuredPartners = [
+  const hardcodedPartners = [
     {
       id: 'artisan-education-general',
       name: 'Artisan Education',
@@ -30,7 +30,24 @@ export default async function Home() {
       website: 'https://artisan.education',
       type: 'GENERAL PARTNER',
     },
-    ...(partnerData ?? []).filter((p) => p.name !== 'Artisan Education'),
+    {
+      id: 's7-robotics-tech',
+      name: 'S7 Robotics',
+      logo: '/partners/s7-robotics-white.svg',
+      website: '#partners',
+      type: 'TECH PARTNER',
+    },
+    {
+      id: 'nis-aktau-operational',
+      name: 'NIS Aktau',
+      logo: '/partners/nis-aktau-white.svg',
+      website: '#partners',
+      type: 'OPERATIONAL PARTNER',
+    },
+  ];
+  const featuredPartners = [
+    ...hardcodedPartners,
+    ...(partnerData ?? []).filter((p) => !hardcodedPartners.some((partner) => partner.name === p.name)),
   ];
   const content = Object.fromEntries((settings ?? []).map((s) => [s.key, s.value]));
   return (

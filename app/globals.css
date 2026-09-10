@@ -2678,7 +2678,7 @@ footer {
   max-height: 65px;
   max-width: 160px;
   object-fit: contain;
-  filter: grayscale(1);
+  filter: brightness(0) invert(1);
   margin: auto;
 }
 .coin-toast {
