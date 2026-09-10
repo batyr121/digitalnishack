@@ -58,6 +58,6 @@ for (const [key, name, description] of [
 output +=
   "\ninsert into site_settings(key,value) values('certificateThreshold','400'),('registrationEnabled','true'),('finalists_published','false'),('announcement','\"\"') on conflict(key) do nothing;\n";
 output += `
-update events set reward_rule_key=case when title='Panel Discussion' then 'panel' when title like 'Session %' then 'speaker' when title like 'Startup Battle%' then 'startup_audience' when track='3D' then '3d' when track='GAMING' then 'fifa' when track in ('WORKSHOPS','HACKATHON') or title in ('Startup Commercialization','Mock Pitching','Startup acceleration') then 'masterclass' else null end;
+update events set reward_rule_key=case when title='Panel Discussion' then 'panel' when title like 'Session %' then 'speaker' when title like 'Startup Battle%' then 'startup_audience' when track='3D' then '3d' when track='GAMING' then 'fifa' when track in ('WORKSHOPS','HACKATHON') or title in ('Startup Commercialization','Startup & Pitching','Mock Day: Hackathon & Startup Battle','Startup acceleration') then 'masterclass' else null end;
 `;
 writeFileSync('supabase/seed.sql', output);

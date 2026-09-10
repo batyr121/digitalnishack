@@ -91,12 +91,12 @@ export const events: EventRecord[] = [
   },
   {
     id: '00000000-0000-4000-8000-000000000016',
-    title: 'Презентация и питчинг',
+    title: 'Startup & Pitching',
     description:
-      'Проблема, решение, рынок, команда и запрос. Практика выступления и ответы жюри.',
-    day: 16,
+      'Стартап-мышление, сильная идея, структура питча и уверенная презентация проекта.',
+    day: 14,
     time: 'TBA',
-    track: 'ВОРКШОПЫ',
+    track: 'СТАРТАПЫ',
     location: 'Главная сцена',
     capacity: null,
     registration_required: true,
@@ -104,10 +104,10 @@ export const events: EventRecord[] = [
   },
   {
     id: '00000000-0000-4000-8000-000000000017',
-    title: '3D-моделирование и печать',
+    title: 'Artisan 3D Modeling',
     description:
-      'Практический воркшоп для учителей NIS: моделирование, слайсинг и печать.',
-    day: 17,
+      'Практический мастер-класс по 3D-моделированию: от формы и идеи до аккуратного цифрового объекта.',
+    day: 16,
     time: 'TBA',
     track: '3D',
     location: '3D Lab',
@@ -129,11 +129,12 @@ export const events: EventRecord[] = [
   },
   {
     id: '00000000-0000-4000-8000-000000000018',
-    title: 'Mock Pitching',
-    description: 'Репетиция питча, ответы на вопросы и доработка презентации с экспертами.',
-    day: 18,
+    title: 'Mock Day: Hackathon & Startup Battle',
+    description:
+      'Тестовый день для команд хакатона и Startup Battle: прогон решений, питчей и обратная связь перед финалом.',
+    day: 17,
     time: 'TBA',
-    track: 'СТАРТАПЫ',
+    track: 'ХАКАТОН',
     location: 'Главная сцена',
     capacity: null,
     registration_required: true,

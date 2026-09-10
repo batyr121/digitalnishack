@@ -115,28 +115,27 @@ Opening of Digital Apta
 Startup acceleration
 
 **Слайд 3:**  
+14 сентября  
+Startup & Pitching
+
+**Слайд 4:**  
 15 сентября  
 Vibe Coding  
 Startup Commercialization
 
-**Слайд 4:**  
-16 сентября  
-Pitch Deck & Pitching
-
 **Слайд 5:**  
-17 сентября  
-3D Modeling & 3D Printing  
-Finalists Reveal
+16 сентября  
+Artisan 3D Modeling
 
 **Слайд 6:**  
-18 сентября  
-Mock Pitching  
-Последняя репетиция перед главным форумом.
+17 сентября  
+Finalists Reveal
+Mock Day: Hackathon & Startup Battle
 
 **Caption:**  
 Digital Apta — это неделя подготовки перед DIGITAL NIS FORUM 2026.
 
-Участники смогут пройти воркшопы, поработать над стартап-идеями, подготовить pitch deck, потренировать выступление, попробовать AI-assisted coding и 3D-направление.
+Участники смогут пройти воркшопы, поработать над стартап-идеями, прокачать питчинг, попробовать AI-assisted coding, 3D-моделирование и пройти Mock Day перед финалом.
 
 Финал Digital Apta — отбор и подготовка команд к главному форуму 19 сентября.
 
@@ -157,13 +156,13 @@ Startup acceleration: идея, модель, презентация, подго
 Vibe Coding: AI-assisted coding и быстрый MVP.
 
 **Story 4:**  
-Pitch Deck & Pitching: как рассказать идею понятно и убедительно.
+Startup & Pitching: идея, структура и уверенная презентация проекта.
 
 **Story 5:**  
-3D Modeling & 3D Printing: от модели до физического объекта.
+Artisan 3D Modeling: от идеи и формы до аккуратного цифрового объекта.
 
 **Story 6:**  
-Mock Pitching: финальная репетиция перед форумом.
+Mock Day: Hackathon & Startup Battle — прогон решений, питчей и обратная связь.
 
 ## 7. Короткие анонсы для Reels
 
