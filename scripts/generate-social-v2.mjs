@@ -49,8 +49,23 @@ p{position:relative;color:#a9b0a6;font-size:27px;line-height:1.42;margin:24px 0 
 .button{position:absolute;left:58px;bottom:148px;width:340px;height:74px;border:1px solid #43503f;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:#f0f2eb;font-size:15px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
 .button.fill{background:#bcf75a;color:#10180b;border-color:#bcf75a}
 .footer{position:absolute;left:58px;right:58px;bottom:70px;display:flex;justify-content:space-between;color:#8f9b8d;font:12px monospace;letter-spacing:3px;text-transform:uppercase}
-.hero-mark{position:absolute;right:-20px;top:310px;width:560px;height:560px;display:grid;place-items:center;background:radial-gradient(circle,#bcf75a24,transparent 66%)}
-.hero-mark img{width:440px;transform:rotate(-8deg)}
+.hero-logo{position:absolute;left:50%;top:565px;width:340px;height:340px;margin-left:-170px;display:grid;place-items:center;background:radial-gradient(circle,#bcf75a28,transparent 68%);z-index:4}
+.hero-logo img{width:260px;transform:rotate(-7deg);filter:drop-shadow(0 0 42px #bcf75a35)}
+.hero-center{position:absolute;left:90px;right:90px;top:145px;text-align:center;z-index:5}
+.hero-center h1{font-size:88px;line-height:.88;letter-spacing:-6px;margin:42px auto 0;max-width:850px}
+.hero-center p{margin-left:auto;margin-right:auto}.hero-tag{font-size:28px;letter-spacing:14px;color:#bcf75a;margin-top:26px}
+.people{position:absolute;left:0;right:0;bottom:150px;height:560px;z-index:2;pointer-events:none}
+.person{position:absolute;bottom:0;width:190px;height:500px;opacity:.9;filter:drop-shadow(0 0 42px #bcf75a18)}
+.person:before{content:"";position:absolute;left:50%;top:0;width:92px;height:104px;margin-left:-46px;border-radius:48%;background:linear-gradient(145deg,#dce7d2,#4d6244 55%,#111a10)}
+.person:after{content:"";position:absolute;left:50%;top:116px;width:170px;height:300px;margin-left:-85px;border-radius:56% 56% 22% 22%;background:linear-gradient(145deg,#b3c4a2,#263520 62%,#0b1009)}
+.person .leg{position:absolute;bottom:0;width:56px;height:190px;background:linear-gradient(180deg,#445339,#11170f);border-radius:26px 26px 8px 8px}
+.person .leg.a{left:38px}.person .leg.b{right:38px}
+.person.left-one{left:8px;transform:scale(1.08)}
+.person.left-two{left:142px;bottom:28px;transform:scale(.82);opacity:.52}
+.person.right-one{right:8px;transform:scale(1.08)}
+.person.right-two{right:142px;bottom:28px;transform:scale(.82);opacity:.52}
+.hero-card{position:absolute;left:92px;right:92px;bottom:110px;border-top:1px solid #34422f;padding-top:30px;display:flex;justify-content:space-between;align-items:flex-end;z-index:6}
+.hero-card .date{font-size:76px;line-height:.9;letter-spacing:-5px;font-weight:800}.hero-card .date span{color:#8f9b82}.hero-card small{display:block;margin-top:18px;color:#9ba594;font:14px monospace;letter-spacing:4px;text-transform:uppercase}.hero-card .note{max-width:360px;text-align:right;color:#c4ccc0;font:15px monospace;letter-spacing:3px;text-transform:uppercase}
 .ticker{position:absolute;left:0;right:0;bottom:0;height:64px;background:#bcf75a;color:#0b1208;display:flex;align-items:center;white-space:nowrap;font:18px monospace;font-weight:800;letter-spacing:2px;text-transform:uppercase}.ticker span{padding-left:18px}
 .cards{position:relative;margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{height:335px;border:1px solid #354332;background:#10150f;padding:28px;display:flex;flex-direction:column;justify-content:space-between}.card.active{border-color:#bcf75a;box-shadow:0 0 0 1px #bcf75a inset}.card .icon{color:#bcf75a;font-size:78px;line-height:1}.card h2{font-size:34px;line-height:1.03;margin:0;letter-spacing:-1.8px;text-transform:uppercase}.card p{font-size:17px;line-height:1.45;margin:10px 0 0}
 .bar{position:absolute;left:58px;right:58px;bottom:180px;height:94px;border:1px solid #2d392b;display:flex;align-items:center;gap:28px;padding:0 32px;color:#f0f2eb;font:19px monospace;letter-spacing:2px;text-transform:uppercase}.bar .lock{color:#bcf75a;font-size:31px}
@@ -68,7 +83,7 @@ function frame(id, group, number, inner) {
 const slides = [
   frame('forum-01', 'forum', 1, {
     className: 'huge',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">NIS · ҚАЗАҚСТАН<br>19.09.2026</div><div class="kicker"><b>●</b>Форум технологий и идей</div><h1>DIGITAL<br>NIS FORUM</h1><p><span class="lime">Бірге жасаймыз</span></p><p>Один день. Одно сообщество. Общее цифровое будущее.</p><div class="hero-mark"><img src="${mark}" alt=""></div><div class="button fill">Подать заявку <span>↗</span></div><div class="footer"><span>Вход бесплатный · нужна регистрация</span><span>01 / 01</span></div><div class="ticker"><span>СТАРТАПЫ ✳ ЖИ ✳ РОБОТОТЕХНИКА ✳ БІЛІМ ✳ КОД ✳ 3D ✳ ИННОВАЦИИ ✳ АДАМДАР ✳ БІРГЕ</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">NIS · ҚАЗАҚСТАН<br>19.09.2026</div><div class="hero-center"><div class="kicker"><b>●</b>Форум технологий и идей</div><h1>DIGITAL<br>NIS FORUM</h1><div class="hero-tag">БІРГЕ ЖАСАЙМЫЗ</div><p>Один день. Одно сообщество. Общее цифровое будущее.</p></div><div class="people"><div class="person left-one"><i class="leg a"></i><i class="leg b"></i></div><div class="person left-two"><i class="leg a"></i><i class="leg b"></i></div><div class="person right-one"><i class="leg a"></i><i class="leg b"></i></div><div class="person right-two"><i class="leg a"></i><i class="leg b"></i></div></div><div class="hero-logo"><img src="${mark}" alt=""></div><div class="hero-card"><div><div class="date">19.09<span>.2026</span></div><small>Басты форум</small></div><div class="note">Идея · команда · нәтиже<br>01 / 03</div></div><div class="ticker"><span>СТАРТАПЫ ✳ ЖИ ✳ РОБОТОТЕХНИКА ✳ БІЛІМ ✳ КОД ✳ 3D ✳ ИННОВАЦИИ ✳ АДАМДАР ✳ БІРГЕ</span></div>`,
   }),
   frame('digital-apta-01', 'digital-apta', 1, {
     className: 'huge',
