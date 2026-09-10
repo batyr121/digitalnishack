@@ -12,7 +12,6 @@ const bekzhanCutout = '../../public/people/bekzhan-cutout.png';
 
 const competitions = [
   ['01', 'Startup Battle', '8 стартапов на одной сцене. Покажи свою идею.', '↗'],
-  ['02', 'Startup Women', 'Сцена для девушек, которые запускают свои идеи.', '✳'],
   ['03', 'NIS Edutech Hackathon', 'Реальные задачи и технологические решения для обучения.', '⌘'],
   ['04', 'FIFA Tournament for 7–8 Grades', 'Турнир для учеников 7–8 классов.', '⊕'],
 ];
@@ -121,7 +120,7 @@ const slides = [
   ...speakerSlides.map(([n, title, desc], i) =>
     frame(`speakers-${String(i + 2).padStart(2, '0')}`, 'speakers', i + 2, {
       className: 'xl',
-      html: `<img class="brand" src="${logo}" alt=""><div class="topline">СПИКЕРЫ<br>${n}</div><div class="kicker"><b>${n}</b>Главная сцена</div><h1>${title}</h1><article class="event-card" style="height:670px;background:linear-gradient(180deg,#111a11,#090d0b)"><div class="avatar" style="width:320px;height:320px;margin:35px auto 0"></div><div><h2>${i === 3 ? 'Панельная дискуссия' : 'Тема скоро'}</h2><p>${desc}</p></div><span class="num">${n}</span></article><div class="footer"><span>Люди · идеи · диалог</span><span>${String(i + 2).padStart(2, '0')} / 05</span></div>`,
+      html: `<img class="brand" src="${logo}" alt=""><div class="topline">СПИКЕРЫ<br>${n}</div><div class="kicker"><b>${n}</b>Главная сцена</div><h1>${title}</h1><article class="event-card" style="height:670px;background:linear-gradient(180deg,#111a11,#090d0b)"><div class="avatar" style="width:320px;height:320px;margin:35px auto 0"></div><div><h2>${i === 3 ? 'Панельная дискуссия' : 'Тема скоро'}</h2><p>${desc}</p></div><span class="num">${n}</span></article><div class="footer"><span>Люди · идеи · диалог</span><span>${String(i + 2).padStart(2, '0')} / 04</span></div>`,
     }),
   ),
   frame('partners-01', 'partners', 1, {
@@ -136,12 +135,12 @@ const slides = [
   ),
   frame('competitions-01', 'competitions', 1, {
     className: 'xl',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">19.09.2026<br>СОРЕВНОВАНИЯ</div><div class="kicker"><b>06</b>Для тех, кто создаёт</div><h1>Твоя идея.<br>Твоя игра.<br>Твой ход.</h1><div class="cards">${competitions.map((c, i) => `<article class="card ${i === 3 ? 'active' : ''}"><div><span class="icon">${c[3]}</span><h2 class="${c[1].length > 28 ? 'long' : ''}">${c[1]}</h2><p>${c[2]}</p></div><div class="footer" style="position:static;padding-top:18px"><span>19 сентября</span><span>↗</span></div></article>`).join('')}</div><div class="prize-line"><span>Общий призовой фонд</span><b>200 000 ТГ</b></div><div class="footer"><span>4 направления</span><span>01 / 05</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">19.09.2026<br>СОРЕВНОВАНИЯ</div><div class="kicker"><b>06</b>Для тех, кто создаёт</div><h1>Твоя идея.<br>Твоя игра.<br>Твой ход.</h1><div class="cards">${competitions.map((c, i) => `<article class="card ${i === 3 ? 'active' : ''}"><div><span class="icon">${c[3]}</span><h2 class="${c[1].length > 28 ? 'long' : ''}">${c[1]}</h2><p>${c[2]}</p></div><div class="footer" style="position:static;padding-top:18px"><span>19 сентября</span><span>↗</span></div></article>`).join('')}</div><div class="prize-line"><span>Общий призовой фонд</span><b>200 000 ТГ</b></div><div class="footer"><span>3 направления</span><span>01 / 04</span></div>`,
   }),
   ...competitions.map(([n, title, desc, icon], i) =>
     frame(`competitions-${String(i + 2).padStart(2, '0')}`, 'competitions', i + 2, {
       className: 'xl',
-      html: `<img class="brand" src="${logo}" alt=""><div class="topline">СОРЕВНОВАНИЕ<br>${n}</div><div class="kicker"><b>${n}</b>19 сентября</div><h1 class="${title.length > 28 ? 'long-title' : ''}">${title}</h1><article class="event-card"><div><div class="day">${icon}</div><h2>${title}</h2><p>${desc}</p></div><div class="button fill" style="position:static;width:100%">Смотреть подробнее <span>↗</span></div><span class="num">${n}</span></article><div class="footer"><span>DIGITAL NIS FORUM</span><span>${String(i + 2).padStart(2, '0')} / 05</span></div>`,
+      html: `<img class="brand" src="${logo}" alt=""><div class="topline">СОРЕВНОВАНИЕ<br>${n}</div><div class="kicker"><b>${n}</b>19 сентября</div><h1 class="${title.length > 28 ? 'long-title' : ''}">${title}</h1><article class="event-card"><div><div class="day">${icon}</div><h2>${title}</h2><p>${desc}</p></div><div class="button fill" style="position:static;width:100%">Смотреть подробнее <span>↗</span></div><span class="num">${n}</span></article><div class="footer"><span>DIGITAL NIS FORUM</span><span>${String(i + 2).padStart(2, '0')} / 04</span></div>`,
     }),
   ),
   frame('extra-01', 'extra', 1, {

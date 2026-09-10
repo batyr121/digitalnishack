@@ -15,7 +15,7 @@ DIGITAL UNITES
 
 **Слайд 3:**  
 Что будет:  
-спикеры, панельная дискуссия, Startup Battle, Startup Women, EdTech Hackathon, 3D Lab, FIFA Tournament for 7–8 Grades и Digital Coins.
+спикеры, панельная дискуссия, Startup Battle, EdTech Hackathon, 3D Lab, FIFA Tournament for 7–8 Grades и Digital Coins.
 
 **Слайд 4:**  
 Форум для тех, кто хочет создавать, презентовать, кодить, играть, задавать вопросы и находить свою digital-команду.

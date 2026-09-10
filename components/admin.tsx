@@ -14,7 +14,6 @@ const passTypeOptions = [
   ['PARTICIPANT', 'Участник'],
   ['STARTUP_BATTLE', 'Startup Battle'],
   ['HACKATHON', 'Хакатон'],
-  ['JAS_STARTUPER', 'Startup Women'],
   ['FIFA', 'FIFA Tournament 7–8'],
   ['SPEAKER', 'Спикер'],
   ['PARTNER', 'Партнёр'],

@@ -208,14 +208,6 @@ export const competitions = [
     icon: '⌘',
   },
   {
-    slug: 'jas-startuper',
-    title: 'STARTUP WOMEN',
-    tag: 'ИДЕИ. ЛИДЕРСТВО. СЦЕНА.',
-    description: 'Площадка для девушек, которые запускают свои идеи.',
-    slots: 0,
-    icon: '✳',
-  },
-  {
     slug: 'fifa',
     title: 'FIFA TOURNAMENT FOR 7–8 GRADES',
     tag: 'ТВОЯ ИГРА. ТВОЙ ФИНАЛ.',

@@ -34,7 +34,6 @@ begin
     'PARTICIPANT',
     'STARTUP_BATTLE',
     'HACKATHON',
-    'JAS_STARTUPER',
     'FIFA',
     'SPEAKER',
     'PARTNER',

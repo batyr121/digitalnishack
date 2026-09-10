@@ -8,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/speakers',
     '/startup-battle',
     '/hackathon',
-    '/jas-startuper',
     '/fifa',
     '/zones',
     '/apply',

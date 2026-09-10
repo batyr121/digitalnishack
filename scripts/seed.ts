@@ -40,7 +40,6 @@ for (const [key, name, points] of [
   ['startup_audience', 'Startup Battle audience', 30],
   ['hackathon', 'Hackathon participant', 100],
   ['startup_finalist', 'Startup Battle finalist', 150],
-  ['jas_startuper', 'Startup Women participant', 100],
   ['fifa', 'FIFA Tournament 7–8 participant', 80],
   ['3d', '3D workshop', 50],
   ['special', 'Special activity', 20],

@@ -42,7 +42,6 @@ test('FAQ opens and public pages contain no dead destinations', async ({ page })
     '/speakers',
     '/startup-battle',
     '/hackathon',
-    '/jas-startuper',
     '/fifa',
     '/zones',
     '/activate',
