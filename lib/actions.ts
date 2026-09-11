@@ -4,6 +4,7 @@ import { db } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { eventConfig } from '@/lib/config';
 import { adminCode, clearSimpleAdminAccess, hasSimpleAdminAccess, setSimpleAdminAccess } from '@/lib/simple-admin';
+import { setSimpleTicketToken } from '@/lib/simple-pass';
 export type ActionResult = { message?: string; error?: string; data?: unknown };
 const adminEmail = 'amantaibatyrkhan11@gmail.com';
 
@@ -40,6 +41,13 @@ const schemas: Record<string, z.ZodType> = {
     grade_input: z.string().max(30).nullable(),
   }),
   activate_promo: z.object({ invitation_code: z.string().trim().min(6).max(50) }),
+  quick_activate_promo: z.object({
+    invitation_code: z.string().trim().min(6).max(50),
+    full_name_input: z.string().trim().min(2).max(120),
+    organization_input: z.string().trim().min(2).max(180),
+    participant_role_input: z.string().trim().min(2).max(80),
+    grade_input: z.string().trim().max(30).nullable(),
+  }),
   register_event: z.object({ event_id_input: uuid }),
   review_application: z.object({
     application_id: uuid,
@@ -106,6 +114,23 @@ export async function runAction(name: string, input: unknown): Promise<ActionRes
     return { error: e instanceof Error ? e.message : 'Не удалось выполнить действие.' };
   }
 }
+
+export async function quickActivatePromo(input: unknown): Promise<ActionResult> {
+  try {
+    const parsed = schemas.quick_activate_promo.safeParse(input);
+    if (!parsed.success) return { error: 'Заполните промокод, имя и школу/организацию.' };
+    const client = await db();
+    const { data, error } = await client.rpc('quick_activate_promo', parsed.data);
+    if (error) return { error: error.message };
+    if (data?.error) return { error: data.error };
+    if (typeof data?.ticket_token === 'string') await setSimpleTicketToken(data.ticket_token);
+    revalidatePath('/dashboard', 'layout');
+    return { message: data?.message || 'Пропуск готов.', data };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Не удалось активировать промокод.' };
+  }
+}
+
 export async function sendMagicLink(email: string): Promise<ActionResult> {
   try {
     const parsed = z.email().safeParse(email);

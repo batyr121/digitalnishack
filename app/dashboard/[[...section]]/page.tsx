@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { CoinNotifier } from '@/components/coin-notifier';
 import { notFound } from 'next/navigation';
-import { requireUser } from '@/lib/supabase';
+import { db, requireUser } from '@/lib/supabase';
+import { getSimpleTicketToken } from '@/lib/simple-pass';
 import { StatsCard, Empty, Button } from '@/components/ui';
 import { DigitalPass } from '@/components/pass';
 import { QuestionForm } from '@/components/forms';
@@ -10,17 +11,66 @@ import { signOut } from '@/lib/actions';
 import type { EventRecord } from '@/lib/config';
 export const metadata = { title: 'Your digital journey', robots: { index: false, follow: false } };
 const links = [
-  ['Overview', ''],
-  ['My pass', 'pass'],
-  ['My schedule', 'schedule'],
-  ['Digital Coin', 'coins'],
-  ['Activity', 'activity'],
-  ['Certificate', 'certificate'],
-  ['Ask a question', 'questions'],
+  ['Главная', ''],
+  ['Мой пропуск', 'pass'],
+  ['Программа', 'schedule'],
+  ['Баллы', 'coins'],
+  ['Активность', 'activity'],
+  ['Сертификат', 'certificate'],
+  ['Вопрос', 'questions'],
 ];
+
+function SimpleDashboard({ section, pass }: { section: string; pass: any }) {
+  const ticket = { id: pass.id, token: pass.token, type: pass.type, status: pass.status };
+  const balance = Number(pass.balance || 0);
+  const target = 400;
+  const progress = Math.min(100, Math.max(0, Math.round((balance / target) * 100)));
+  const passCard = <DigitalPass name={pass.name} role={pass.role || 'Участник'} ticket={ticket} />;
+  const coins = (
+    <div className="form-card">
+      <span className="eyebrow">БАЛЛЫ ЗА АКТИВНОСТЬ</span>
+      <h2>{balance} баллов</h2>
+      <div className="progress-track"><div style={{ width: `${progress}%` }} /></div>
+      <p className="form-note">Организатор начисляет баллы после сканирования QR на мастер-классах и событиях.</p>
+    </div>
+  );
+  let content: React.ReactNode = (
+    <>
+      <p style={{ marginBottom: 25 }}>Ваш пропуск активен. Покажите QR организатору на входе или на мастер-классе.</p>
+      <div className="dashboard-grid"><div>{passCard}</div><div>{coins}</div></div>
+    </>
+  );
+  if (section === 'pass') content = passCard;
+  if (section === 'coins' || section === 'activity') content = coins;
+  if (section === 'schedule') content = <Empty title="Программа форума"><p>Программа доступна на главной странице сайта.</p><Button href="/program">Открыть программу</Button></Empty>;
+  if (section === 'certificate') content = <Empty title="Сертификат"><p>Сертификат будет доступен после участия в активностях форума.</p></Empty>;
+  if (section === 'questions') content = <Empty title="Вопросы"><p>Задайте вопрос организаторам на площадке форума.</p></Empty>;
+  return (
+    <div className="container workspace">
+      <aside className="sidebar" aria-label="Навигация пропуска">
+        {links.map(([name, href]) => (
+          <Link key={name} href={`/dashboard${href ? '/' + href : ''}`} aria-current={section === href ? 'page' : undefined}>{name}</Link>
+        ))}
+      </aside>
+      <div className="workspace-main">
+        <CoinNotifier initialBalance={balance} />
+        <span className="eyebrow" style={{ marginBottom: 15 }}>DIGITAL NIS FORUM</span>
+        <h1>{section ? links.find((l) => l[1] === section)?.[0] : 'Ваш цифровой пропуск'}</h1>
+        {content}
+      </div>
+    </div>
+  );
+}
+
 export default async function Dashboard({ params }: { params: Promise<{ section?: string[] }> }) {
   const section = (await params).section?.join('/') || '';
   if (!links.some((l) => l[1] === section)) notFound();
+  const simpleToken = await getSimpleTicketToken();
+  if (simpleToken) {
+    const client = await db();
+    const { data: simplePass } = await client.rpc('quick_pass_by_token', { ticket_token: simpleToken });
+    if (simplePass?.valid) return <SimpleDashboard section={section} pass={simplePass} />;
+  }
   const { client, user, profile } = await requireUser();
   const results = await Promise.all([
     client.from('tickets').select('*').eq('user_id', user.id).maybeSingle(),

@@ -8,6 +8,7 @@ import {
   signInWithPassword,
   signUpWithPassword,
   quickGeneratePromos,
+  quickActivatePromo,
   askQuestion,
   enterCompetition,
   type ActionResult,
@@ -258,19 +259,30 @@ export function ApplyForm({
 export function PromoForm() {
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, start] = useTransition();
+  const router = useRouter();
   return (
     <form
       className="form-card"
       onSubmit={(e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        start(async () =>
-          setResult(await runAction('activate_promo', { invitation_code: data.get('code') })),
-        );
+        start(async () => {
+          const next = await quickActivatePromo({
+            invitation_code: data.get('code'),
+            full_name_input: data.get('name'),
+            organization_input: data.get('organization'),
+            participant_role_input: data.get('role'),
+            grade_input: data.get('grade') || null,
+          });
+          setResult(next);
+          if (!next.error) router.push('/dashboard/pass');
+        });
       }}
     >
+      <h2>Вход по промокоду</h2>
+      <p className="form-note">Регистрация не нужна. Промокод сразу создаёт ваш цифровой пропуск.</p>
       <label className="field">
-        Введите промокод
+        Промокод
         <input
           name="code"
           required
@@ -281,18 +293,39 @@ export function PromoForm() {
           autoComplete="off"
         />
       </label>
+      <label className="field">
+        Имя и фамилия
+        <input name="name" required minLength={2} maxLength={120} placeholder="Например, Батырхан Амантай" autoComplete="name" />
+      </label>
+      <label className="field">
+        Школа / организация
+        <input name="organization" required minLength={2} maxLength={180} placeholder="Например, NIS Aktau" autoComplete="organization" />
+      </label>
+      <div className="form-grid">
+        <label className="field">
+          Роль
+          <select name="role" defaultValue="Участник">
+            <option value="Участник">Участник</option>
+            <option value="Ученик">Ученик</option>
+            <option value="Гость">Гость</option>
+            <option value="Спикер">Спикер</option>
+            <option value="Партнёр">Партнёр</option>
+          </select>
+        </label>
+        <label className="field">
+          Класс
+          <input name="grade" maxLength={30} placeholder="например, 10 класс" />
+        </label>
+      </div>
       <button className="button" disabled={pending}>
-        {pending ? 'Проверяем…' : 'Активировать промокод ↗'}
+        {pending ? 'Проверяем…' : 'Открыть пропуск ↗'}
       </button>
       <Result result={result} />
       {result?.message && (
         <Link className="button" href="/dashboard/pass">
-          Открыть пропуск ↗
+          Открыть QR-пропуск ↗
         </Link>
       )}
-      <p className="form-note">
-        Сначала войдите и заполните <Link href="/apply">заявку</Link>. Промокод выдаёт организатор.
-      </p>
     </form>
   );
 }
