@@ -296,7 +296,7 @@ export function PromoForm() {
     </form>
   );
 }
-export function QuickAdminForm() {
+export function QuickAdminForm({ simpleAdmin = false }: { simpleAdmin?: boolean }) {
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, start] = useTransition();
   const codes =
@@ -312,7 +312,7 @@ export function QuickAdminForm() {
         start(async () =>
           setResult(
             await quickGeneratePromos(
-              String(f.get('adminCode')),
+              simpleAdmin ? '' : String(f.get('adminCode')),
               String(f.get('count')),
               String(f.get('type')),
               String(f.get('uses')),
@@ -322,18 +322,20 @@ export function QuickAdminForm() {
       }}
     >
       <h2>Генератор промокодов</h2>
-      <label className="field">
-        Код админа
-        <input
-          name="adminCode"
-          type="password"
-          minLength={6}
-          maxLength={100}
-          required
-          placeholder="Введите код админа"
-          autoComplete="off"
-        />
-      </label>
+      {!simpleAdmin && (
+        <label className="field">
+          Код админа
+          <input
+            name="adminCode"
+            type="password"
+            minLength={6}
+            maxLength={100}
+            required
+            placeholder="Введите код админа"
+            autoComplete="off"
+          />
+        </label>
+      )}
       <div className="form-grid">
         <label className="field">
           Количество кодов

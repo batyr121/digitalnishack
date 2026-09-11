@@ -3,8 +3,26 @@ import { z } from 'zod';
 import { db } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { eventConfig } from '@/lib/config';
+import { adminCode, clearSimpleAdminAccess, hasSimpleAdminAccess, setSimpleAdminAccess } from '@/lib/simple-admin';
 export type ActionResult = { message?: string; error?: string; data?: unknown };
 const adminEmail = 'amantaibatyrkhan11@gmail.com';
+
+export async function simpleAdminLogin(password: string): Promise<ActionResult> {
+  try {
+    if (password.trim() !== adminCode()) return { error: 'Неверный админ-пароль.' };
+    await setSimpleAdminAccess();
+    revalidatePath('/admin');
+    return { message: 'Вход выполнен.' };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Не удалось войти.' };
+  }
+}
+
+export async function simpleAdminLogout() {
+  await clearSimpleAdminAccess();
+  revalidatePath('/admin');
+}
+
 const uuid = z.string().uuid();
 const schemas: Record<string, z.ZodType> = {
   apply_forum: z.object({
@@ -147,7 +165,7 @@ export async function signUpWithPassword(email: string, password: string): Promi
   }
 }
 export async function quickGeneratePromos(
-  adminCode: string,
+  adminCodeInput: string,
   count: string,
   type: string,
   uses: string,
@@ -163,7 +181,7 @@ export async function quickGeneratePromos(
           'PARTICIPANT',
           'STARTUP_BATTLE',
           'HACKATHON',
-              'FIFA',
+          'FIFA',
           'SPEAKER',
           'PARTNER',
           'ORGANIZER',
@@ -172,7 +190,7 @@ export async function quickGeneratePromos(
         max_uses_input: z.coerce.number().int().min(1).max(10000),
       })
       .safeParse({
-        admin_code_input: adminCode,
+        admin_code_input: adminCodeInput || ((await hasSimpleAdminAccess()) ? adminCode() : ''),
         count_input: count,
         type_input: type,
         max_uses_input: uses,
@@ -232,6 +250,84 @@ export async function awardCoinsByTicketToken(
     return { error: e instanceof Error ? e.message : 'Не удалось начислить баллы.' };
   }
 }
+
+export async function quickInspectTicket(ticketToken: string): Promise<ActionResult> {
+  try {
+    const parsed = z.string().trim().regex(/^[a-f0-9]{64}$/).safeParse(
+      ticketToken.trim().replace(/^dnf:\/\/ticket\//, '').replace(/^https?:\/\/[^/]+\/verify\//, ''),
+    );
+    if (!parsed.success) return { error: 'QR/токен неправильный.' };
+    if (!(await hasSimpleAdminAccess())) return { error: 'Сначала войдите в простую админку.' };
+    const client = await db();
+    const { data, error } = await client.rpc('quick_inspect_ticket', {
+      admin_code_input: adminCode(),
+      ticket_token: parsed.data,
+    });
+    if (error) return { error: error.message };
+    if (data?.error) return { error: data.error };
+    return { message: data?.message || 'Пропуск проверен.', data };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Не удалось проверить пропуск.' };
+  }
+}
+
+export async function quickScanTicket(ticketToken: string, eventId: string | null): Promise<ActionResult> {
+  try {
+    const parsed = z
+      .object({ ticket_token: z.string().trim().regex(/^[a-f0-9]{64}$/), event_id_input: uuid.nullable() })
+      .safeParse({
+        ticket_token: ticketToken.trim().replace(/^dnf:\/\/ticket\//, '').replace(/^https?:\/\/[^/]+\/verify\//, ''),
+        event_id_input: eventId || null,
+      });
+    if (!parsed.success) return { error: 'QR/событие неправильные.' };
+    if (!(await hasSimpleAdminAccess())) return { error: 'Сначала войдите в простую админку.' };
+    const client = await db();
+    const { data, error } = await client.rpc('quick_scan_ticket', {
+      admin_code_input: adminCode(),
+      ...parsed.data,
+    });
+    if (error) return { error: error.message };
+    if (data?.error) return { error: data.error };
+    revalidatePath('/', 'layout');
+    return { message: data?.message || 'Отмечено.', data };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Не удалось отметить пропуск.' };
+  }
+}
+
+export async function quickAwardCoinsByTicketToken(
+  ticketToken: string,
+  amount: string,
+  reason: string,
+): Promise<ActionResult> {
+  try {
+    const parsed = z
+      .object({
+        ticket_token: z.string().trim().regex(/^[a-f0-9]{64}$/),
+        amount_input: z.coerce.number().int().min(-10000).max(10000),
+        reason_input: z.string().trim().min(3).max(500),
+      })
+      .safeParse({
+        ticket_token: ticketToken.trim().replace(/^dnf:\/\/ticket\//, '').replace(/^https?:\/\/[^/]+\/verify\//, ''),
+        amount_input: amount,
+        reason_input: reason,
+      });
+    if (!parsed.success) return { error: 'Проверьте QR, количество баллов и причину.' };
+    if (!(await hasSimpleAdminAccess())) return { error: 'Сначала войдите в простую админку.' };
+    const client = await db();
+    const { data, error } = await client.rpc('quick_award_coins_by_ticket', {
+      admin_code_input: adminCode(),
+      ...parsed.data,
+    });
+    if (error) return { error: error.message };
+    if (data?.error) return { error: data.error };
+    revalidatePath('/', 'layout');
+    return { message: data?.message || 'Баллы начислены.', data };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : 'Не удалось начислить баллы.' };
+  }
+}
+
 export async function signOut() {
   const client = await db();
   await client.auth.signOut();

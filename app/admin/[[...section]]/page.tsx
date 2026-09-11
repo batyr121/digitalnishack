@@ -1,297 +1,57 @@
-import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
-import { requireUser } from '@/lib/supabase';
-import { StatsCard } from '@/components/ui';
-import {
-  DataTable,
-  RecordEditor,
-  PromoGenerator,
-  CoinAdjustment,
-  AssetUploader,
-} from '@/components/admin';
+import { redirect } from 'next/navigation';
+import { QuickAdminForm } from '@/components/forms';
 import { QRScanner } from '@/components/scanner';
-import { adminCollections } from '@/lib/admin-config';
+import { SimpleAdminLogoutButton } from '@/components/simple-admin-login';
+import { publicRows } from '@/lib/supabase';
+import { requireSimpleAdminAccess } from '@/lib/simple-admin';
+
 export const metadata = { title: 'Админка', robots: { index: false, follow: false } };
-const sectionTitles: Record<string, string> = {
-  applications: 'Заявки',
-  promocodes: 'Промокоды',
-  tickets: 'Пропуска',
-  events: 'Программа',
-  speakers: 'Спикеры',
-  competitions: 'Соревнования',
-  coins: 'Баллы',
-  certificates: 'Сертификаты',
-  partners: 'Партнёры',
-  content: 'Контент',
-  questions: 'Вопросы',
-  logs: 'Журнал',
-  'check-in': 'QR и баллы',
-};
+
 export default async function Admin({
   params,
-  searchParams,
 }: {
   params: Promise<{ section?: string[] }>;
-  searchParams: Promise<{ user?: string }>;
 }) {
+  await requireSimpleAdminAccess();
   const section = (await params).section?.join('/') || '';
-  const filter = (await searchParams).user;
-  const { client } = await requireUser(true);
-  if (section === 'program') redirect('/admin/events');
-  if (section && !adminCollections[section] && section !== 'check-in') notFound();
-  let content: React.ReactNode;
-  async function read(table: string, select = '*') {
-    const { data, error } = await client.from(table).select(select).limit(2000);
-    if (error) throw new Error(`Не удалось загрузить ${table}. Попробуйте ещё раз.`);
-    return data as unknown as Record<string, unknown>[];
-  }
-  if (!section) {
-    const [
-      applications,
-      tickets,
-      redemptions,
-      coins,
-      certificates,
-      attendance,
-      profiles,
-      eventRows,
-    ] = await Promise.all(
-      [
-        'applications',
-        'tickets',
-        'promo_code_redemptions',
-        'coin_transactions',
-        'certificates',
-        'attendance',
-        'profiles',
-        'events',
-      ].map((t) => read(t)),
-    );
-    const stats = [
-      ['ВСЕГО ЗАЯВОК', applications.length],
-      ['ОДОБРЕНО', applications.filter((r) => r.status === 'APPROVED').length],
-      ['ОТМЕЧЕНО НА ВХОДЕ', tickets.filter((r) => r.checked_in_at).length],
-      ['АКТИВНЫХ ПРОПУСКОВ', tickets.filter((r) => r.status === 'ACTIVE').length],
-      ['АКТИВАЦИЙ ПРОМОКОДОВ', redemptions.length],
-      ['НАЧИСЛЕНО БАЛЛОВ', coins.reduce((n, r) => n + Math.max(0, Number(r.amount)), 0)],
-      ['СЕРТИФИКАТОВ', certificates.filter((r) => r.status === 'ISSUED').length],
-    ] as [string, number][];
-    const roles = Object.entries(
-      profiles.reduce(
-        (a: Record<string, number>, p) => ({
-          ...a,
-          [String(p.participant_role)]: (a[String(p.participant_role)] || 0) + 1,
-        }),
-        {},
-      ),
-    );
-    const byDay = Object.entries(
-      applications.reduce(
-        (a: Record<string, number>, p) => ({
-          ...a,
-          [String(p.created_at).slice(0, 10)]: (a[String(p.created_at).slice(0, 10)] || 0) + 1,
-        }),
-        {},
-      ),
-    );
-    content = (
-      <>
-        <div className="workspace-stats">
-          {stats.map(([l, v]) => (
-            <StatsCard key={l} label={l} value={v} />
-          ))}
-        </div>
-        <div className="dashboard-grid">
-          <div className="form-card">
-            <h2>Участники по ролям</h2>
-            {roles.length ? (
-              roles.map(([r, n]) => (
-                <div key={r}>
-                  <span className="eyebrow">
-                    {r} · {n}
-                  </span>
-                  <div
-                    className="chart-bar"
-                    style={{ width: `${(n / Math.max(1, profiles.length)) * 100}%` }}
-                  />
-                </div>
-              ))
-            ) : (
-              <p>Пока нет участников.</p>
-            )}
-          </div>
-          <div className="form-card">
-            <h2>Заявки по дням</h2>
-            {byDay.length ? (
-              byDay.map(([d, n]) => (
-                <div key={d}>
-                  <span className="eyebrow">
-                    {d} · {n}
-                  </span>
-                  <div
-                    className="chart-bar"
-                    style={{ width: `${(n / Math.max(1, applications.length)) * 100}%` }}
-                  />
-                </div>
-              ))
-            ) : (
-              <p>Пока нет заявок.</p>
-            )}
-          </div>
-        </div>
-        <h2>Посещаемость событий</h2>
-        <DataTable
-          table="stats"
-          rows={eventRows
-            .map((e) => ({
-              title: e.title,
-              attendance: attendance.filter((a) => a.event_id === e.id).length,
-            }))
-            .sort((a, b) => b.attendance - a.attendance)}
-          columns={['title', 'attendance']}
-        />
-        <p className="form-note">
-          Админка показывает до 2 000 записей в разделе.
-        </p>
-      </>
-    );
-  } else if (section === 'check-in') {
-    const events = await read('events');
-    content = <QRScanner events={events as { id: string; title: string }[]} />;
-  } else {
-    const collection = adminCollections[section];
-    const allRows = await read(
-      collection.table,
-      ['applications', 'tickets'].includes(section)
-        ? '*,profiles(full_name,email,participant_role)'
-        : '*',
-    );
-    const rows = filter ? allRows.filter((r) => r.user_id === filter) : allRows;
-    let extra: React.ReactNode = null;
-    if (section === 'content') {
-      const zones = await read('zones');
-      extra = (
-        <>
-          <h2>Зоны форума</h2>
-          <DataTable table="zones" rows={zones} columns={['id', 'name', 'description']} />
-          <RecordEditor
-            table="zones"
-            rows={zones}
-            template={{ name: '', description: '', icon: '', sort_order: 0 }}
-          />
-        </>
-      );
-    }
-    if (section === 'competitions') {
-      const entries = await read('competition_entries');
-      extra = (
-        <>
-          <h2>Заявки и финалисты</h2>
-          <DataTable
-            table="competition_entries"
-            rows={entries}
-            columns={['id', 'competition_id', 'name', 'user_id', 'status', 'place']}
-          />
-          <RecordEditor
-            table="competition_entries"
-            rows={entries}
-            template={{
-              name: '',
-              description: '',
-              logo: null,
-              founders: '',
-              category: '',
-              website: null,
-              pitch_time: 'TBA',
-              status: 'APPLICATION',
-              place: null,
-            }}
-          />
-        </>
-      );
-    }
-    if (section === 'coins') {
-      const rules = await read('coin_rules');
-      extra = (
-        <>
-          <CoinAdjustment />
-          <h2>Правила начисления баллов</h2>
-          <DataTable
-            table="coin_rules"
-            rows={rules}
-            columns={['key', 'name', 'points', 'active']}
-          />
-          <RecordEditor
-            table="coin_rules"
-            rows={rules}
-            template={{ key: '', name: '', points: 20, active: true }}
-          />
-        </>
-      );
-    }
-    if (section === 'certificates') {
-      const settings = await read('site_settings');
-      extra = (
-        <>
-          <h2>Порог для сертификата</h2>
-          <RecordEditor
-            table="site_settings"
-            rows={settings.filter((s) => s.key === 'certificateThreshold')}
-            template={{ value: 400 }}
-          />
-        </>
-      );
-    }
-    content = (
-      <>
-        {section === 'promocodes' && (
-          <>
-            <PromoGenerator />
-            <a
-              className="button secondary"
-              href="/admin/promocodes/export"
-              style={{ marginTop: 22 }}
-            >
-              Скачать CSV ↓
-            </a>
-          </>
-        )}
-        <DataTable table={collection.table} rows={rows} columns={collection.columns} />
-        {collection.template && (
-          <RecordEditor table={collection.table} rows={rows} template={collection.template} />
-        )}{' '}
-        {extra}
-        {['speakers', 'partners', 'competitions', 'content'].includes(section) && <AssetUploader />}
-      </>
-    );
-  }
+  if (section && section !== 'check-in' && section !== 'promocodes') redirect('/admin');
+  const eventRows = ((await publicRows('events')) ?? []) as Record<string, unknown>[];
+  const events = eventRows.map((event) => ({
+    id: String(event.id),
+    title: String(event.title),
+  }));
   return (
     <div className="container workspace">
       <aside className="sidebar" aria-label="Навигация админки">
-        <Link href="/admin">Главная</Link>
-        <Link href="/admin/check-in">QR и баллы</Link>
-        {Object.keys(adminCollections).map((key) => (
-          <Link
-            key={key}
-            href={`/admin/${key}`}
-            aria-current={section === key ? 'page' : undefined}
-          >
-            {sectionTitles[key] || key}
-          </Link>
-        ))}
-        <Link href="/dashboard">← Мой кабинет</Link>
+        <a href="/admin">Главная</a>
+        <a href="/admin/promocodes">Промокоды</a>
+        <a href="/admin/check-in">QR и баллы</a>
+        <SimpleAdminLogoutButton />
       </aside>
-      <div className="workspace-main">
+      <main className="workspace-main">
         <span className="eyebrow" style={{ marginBottom: 15 }}>
-          АДМИНКА
+          ПРОСТАЯ АДМИНКА
         </span>
-        <h1>
-          {section
-            ? sectionTitles[section] || section.replace('-', ' ')
-            : 'Обзор форума'}
-        </h1>
-        {content}
-      </div>
+        <h1>{section === 'check-in' ? 'QR и баллы' : section === 'promocodes' ? 'Промокоды' : 'Пульт форума'}</h1>
+        {!section && (
+          <div className="dashboard-grid">
+            <div>
+              <QuickAdminForm simpleAdmin />
+            </div>
+            <div className="form-card">
+              <h2>Как пользоваться</h2>
+              <p>1. Генерируешь промокоды.</p>
+              <p>2. Участники активируют код и получают QR-пропуск.</p>
+              <p>3. На форуме открываешь “QR и баллы”, сканируешь QR и начисляешь баллы.</p>
+              <a className="button secondary" href="/admin/check-in" style={{ marginTop: 20 }}>
+                Открыть QR-сканер ↗
+              </a>
+            </div>
+          </div>
+        )}
+        {section === 'promocodes' && <QuickAdminForm simpleAdmin />}
+        {section === 'check-in' && <QRScanner events={events} simpleAdmin />}
+      </main>
     </div>
   );
 }

@@ -1,8 +1,21 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { awardCoinsByTicketToken, runAction, type ActionResult } from '@/lib/actions';
+import {
+  awardCoinsByTicketToken,
+  quickAwardCoinsByTicketToken,
+  quickInspectTicket,
+  quickScanTicket,
+  runAction,
+  type ActionResult,
+} from '@/lib/actions';
 import { Result } from './forms';
-export function QRScanner({ events }: { events: { id: string; title: string }[] }) {
+export function QRScanner({
+  events,
+  simpleAdmin = false,
+}: {
+  events: { id: string; title: string }[];
+  simpleAdmin?: boolean;
+}) {
   const [event, setEvent] = useState('');
   const [token, setToken] = useState('');
   const [result, setResult] = useState<ActionResult | null>(null);
@@ -37,7 +50,9 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
       .replace(/^dnf:\/\/ticket\//, '')
       .replace(/^https?:\/\/[^/]+\/verify\//, '');
     setToken(normalized);
-    const r = await runAction('inspect_ticket', { ticket_token: normalized });
+    const r = simpleAdmin
+      ? await quickInspectTicket(normalized)
+      : await runAction('inspect_ticket', { ticket_token: normalized });
     setResult(r);
     if (!r.error) setInspection(r.data as Record<string, unknown>);
     setBusy(false);
@@ -158,10 +173,12 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
                 onClick={async () => {
                   setBusy(true);
                   setResult(
-                    await runAction('scan_ticket', {
-                      ticket_token: token,
-                      event_id_input: event || null,
-                    }),
+                    simpleAdmin
+                      ? await quickScanTicket(token, event || null)
+                      : await runAction('scan_ticket', {
+                          ticket_token: token,
+                          event_id_input: event || null,
+                        }),
                   );
                   setInspection(null);
                   setBusy(false);
@@ -176,7 +193,7 @@ export function QRScanner({ events }: { events: { id: string; title: string }[] 
                   e.preventDefault();
                   const f = new FormData(e.currentTarget);
                   setBusy(true);
-                  void awardCoinsByTicketToken(
+                  void (simpleAdmin ? quickAwardCoinsByTicketToken : awardCoinsByTicketToken)(
                     token,
                     String(f.get('amount')),
                     String(f.get('reason')),
