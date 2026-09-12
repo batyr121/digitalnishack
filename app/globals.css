@@ -2730,7 +2730,7 @@ footer {
   overflow: hidden;
   background: radial-gradient(circle at 72% 45%, #203016 0, #0c120b 38%, #050706 78%);
   color: #f5f7ef;
-  animation: ledSlideClock 8s linear infinite;
+  animation: ledSlideClock 14s linear infinite;
 }
 .led-grid,
 .led-noise,
@@ -2782,8 +2782,8 @@ footer {
 .led-copy { animation: ledCopyIn .7s ease both; }
 .led-kicker { display: inline-flex; gap: 1vw; align-items: center; color: #aab3a3; font: clamp(14px, 1.2vw, 26px) monospace; letter-spacing: .36em; text-transform: uppercase; margin-bottom: 3vh; }
 .led-kicker b { color: var(--lime); text-shadow: 0 0 28px #bcf75a; }
-.led-copy h1 { font-size: clamp(76px, 8.7vw, 185px); line-height: .86; letter-spacing: -.08em; white-space: pre-line; text-transform: uppercase; text-shadow: 0 0 42px #ffffff18; }
-.led-copy p { width: min(48vw, 900px); margin-top: 3vh; color: #b4b9ae; font-size: clamp(24px, 2vw, 46px); line-height: 1.25; }
+.led-copy h1 { font-size: clamp(64px, 7.2vw, 146px); line-height: .86; letter-spacing: -.08em; white-space: pre-line; text-transform: uppercase; text-shadow: 0 0 42px #ffffff18; }
+.led-copy p { width: min(48vw, 900px); margin-top: 3vh; color: #b4b9ae; font-size: clamp(20px, 1.55vw, 34px); line-height: 1.25; }
 .led-actions { margin-top: 4vh; display: flex; gap: 1vw; flex-wrap: wrap; font: 800 clamp(14px, 1vw, 24px) monospace; letter-spacing: .22em; text-transform: uppercase; }
 .led-actions span { border: 1px solid #41503d; padding: 1.7vh 1.8vw; background: #0f160dcc; }
 .led-actions span:last-child { background: var(--lime); color: #10170c; border-color: var(--lime); box-shadow: 0 0 38px #bcf75a40; }
@@ -2797,18 +2797,18 @@ footer {
 .led-pulse.three { bottom: 8%; left: 0; animation-delay: 1s; }
 .led-pulse.four { bottom: 13%; right: 10%; animation-delay: 1.5s; }
 .led-cards { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1vw; padding: 0 5vw; }
-.led-cards article { min-height: 20vh; border: 1px solid #354332; background: linear-gradient(180deg, #10170fdd, #090d0bdd); padding: 2vh 1.6vw; display: flex; flex-direction: column; justify-content: space-between; transition: .45s ease; }
+.led-cards article { min-height: 17vh; border: 1px solid #354332; background: linear-gradient(180deg, #10170fdd, #090d0bdd); padding: 2vh 1.6vw; display: flex; flex-direction: column; justify-content: space-between; transition: .45s ease; }
 .led-cards article.active { border-color: var(--lime); box-shadow: 0 0 0 1px var(--lime) inset, 0 0 46px #bcf75a25; transform: translateY(-1.2vh); }
 .led-cards span { color: #9da895; font: 800 clamp(12px, .8vw, 17px) monospace; letter-spacing: .25em; text-transform: uppercase; }
-.led-cards h2 { margin-top: 2vh; font-size: clamp(25px, 2.05vw, 48px); line-height: .98; text-transform: uppercase; }
-.led-cards p { margin-top: 1.5vh; color: #969d91; font-size: clamp(14px, 1vw, 24px); line-height: 1.35; }
+.led-cards h2 { margin-top: 2vh; font-size: clamp(21px, 1.55vw, 36px); line-height: .98; text-transform: uppercase; }
+.led-cards p { margin-top: 1.5vh; color: #969d91; font-size: clamp(13px, .82vw, 19px); line-height: 1.35; }
 .led-footer { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; }
 .led-ticker { height: 7.4vh; background: var(--lime); color: #10170c; overflow: hidden; display: flex; align-items: center; font: 900 clamp(16px, 1.35vw, 31px) monospace; letter-spacing: .22em; text-transform: uppercase; }
 .led-ticker div { display: flex; min-width: max-content; animation: ledTicker 26s linear infinite; }
 .led-ticker span { padding: 0 2vw; position: relative; }
 .led-ticker span::after { content: '✳'; position: absolute; right: -.45vw; }
 .led-progress { height: .8vh; background: #1e2a19; }
-.led-progress span { display: block; height: 100%; width: 0; background: #fff; box-shadow: 0 0 24px #fff; animation: ledProgress 8s linear infinite; }
+.led-progress span { display: block; height: 100%; width: 0; background: #fff; box-shadow: 0 0 24px #fff; animation: ledProgress 14s linear infinite; }
 @keyframes ledSlideClock { from { opacity: .999; } to { opacity: 1; } }
 @keyframes ledCopyIn { from { opacity: 0; transform: translateY(2vh); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes ledFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-2vh) rotate(1.5deg); } }
@@ -2824,4 +2824,99 @@ footer {
   .led-cards { grid-template-columns: 1fr 1fr; }
   .led-copy h1 { font-size: 18vw; }
   .led-copy p { width: 90vw; }
+}
+
+.led-static {
+  animation: none;
+}
+.led-static .led-progress span {
+  animation-duration: 22s;
+}
+.led-static-main {
+  position: relative;
+  z-index: 2;
+  min-height: 78vh;
+  padding: 10vh 7vw 12vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.led-static-main h1 {
+  font-size: clamp(86px, 9.5vw, 190px);
+  line-height: .88;
+  letter-spacing: -.075em;
+  white-space: pre-line;
+  text-transform: uppercase;
+}
+.led-static-main p {
+  width: min(1050px, 78vw);
+  margin-top: 3vh;
+  font-size: clamp(26px, 2vw, 46px);
+  line-height: 1.25;
+  color: #c2c8bc;
+}
+.led-speaker .led-static-main h1 {
+  color: var(--lime);
+  text-shadow: 0 0 52px #bcf75a35;
+}
+.led-panel-main {
+  position: relative;
+  z-index: 2;
+  min-height: 74vh;
+  padding: 7vh 5vw 13vh;
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 4vw;
+  align-items: center;
+}
+.led-panel-main h1 {
+  font-size: clamp(66px, 6.4vw, 140px);
+  line-height: .9;
+  white-space: pre-line;
+  text-transform: uppercase;
+}
+.led-panel-main p {
+  margin-top: 3vh;
+  font-size: clamp(22px, 1.5vw, 34px);
+  line-height: 1.3;
+}
+.led-panel-people {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2vw;
+}
+.led-panel-people article {
+  min-height: 22vh;
+  border: 1px solid #354332;
+  background: linear-gradient(180deg, #10170fe8, #080d0ae8);
+  padding: 2.5vh 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.led-panel-people article.moderator {
+  grid-column: 1 / -1;
+  border-color: var(--lime);
+  box-shadow: 0 0 44px #bcf75a20;
+}
+.led-panel-people span {
+  color: var(--lime);
+  font: 800 clamp(12px, .8vw, 18px) monospace;
+  letter-spacing: .25em;
+}
+.led-panel-people h2 {
+  font-size: clamp(30px, 2.4vw, 58px);
+  line-height: .95;
+  text-transform: uppercase;
+}
+.led-panel-people p {
+  font-size: clamp(16px, 1vw, 24px);
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .led-static-main h1 { font-size: 18vw; }
+  .led-static-main p { width: 86vw; }
+  .led-panel-main { grid-template-columns: 1fr; }
 }
