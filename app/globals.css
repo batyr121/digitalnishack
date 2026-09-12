@@ -2722,3 +2722,106 @@ footer {
     opacity: 0;
   }
 }
+
+.led-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: radial-gradient(circle at 72% 45%, #203016 0, #0c120b 38%, #050706 78%);
+  color: #f5f7ef;
+  animation: ledSlideClock 8s linear infinite;
+}
+.led-grid,
+.led-noise,
+.led-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.led-grid {
+  background-image: linear-gradient(#bcf75a14 1px, transparent 1px), linear-gradient(90deg, #bcf75a14 1px, transparent 1px);
+  background-size: 7.2vw 7.2vw;
+  mask-image: linear-gradient(180deg, #000 0%, #000 76%, transparent 100%);
+}
+.led-noise {
+  opacity: .11;
+  background-image: repeating-radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 1px 5px);
+  mix-blend-mode: screen;
+  animation: ledNoise 1.2s steps(2) infinite;
+}
+.led-scan {
+  background: linear-gradient(180deg, transparent, #bcf75a10, transparent);
+  height: 34vh;
+  animation: ledScan 5s ease-in-out infinite;
+}
+.led-header {
+  position: relative;
+  z-index: 2;
+  height: 12vh;
+  padding: 4vh 5vw 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: monospace;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+.led-header img { width: min(16vw, 260px); height: auto; }
+.led-header div { text-align: right; display: grid; gap: 1vh; color: #aab3a3; font-size: clamp(12px, 1vw, 21px); }
+.led-header strong { color: var(--lime); font-size: clamp(20px, 2vw, 42px); }
+.led-main {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  min-height: 55vh;
+  align-items: center;
+  padding: 1vh 5vw 0;
+}
+.led-copy { animation: ledCopyIn .7s ease both; }
+.led-kicker { display: inline-flex; gap: 1vw; align-items: center; color: #aab3a3; font: clamp(14px, 1.2vw, 26px) monospace; letter-spacing: .36em; text-transform: uppercase; margin-bottom: 3vh; }
+.led-kicker b { color: var(--lime); text-shadow: 0 0 28px #bcf75a; }
+.led-copy h1 { font-size: clamp(76px, 8.7vw, 185px); line-height: .86; letter-spacing: -.08em; white-space: pre-line; text-transform: uppercase; text-shadow: 0 0 42px #ffffff18; }
+.led-copy p { width: min(48vw, 900px); margin-top: 3vh; color: #b4b9ae; font-size: clamp(24px, 2vw, 46px); line-height: 1.25; }
+.led-actions { margin-top: 4vh; display: flex; gap: 1vw; flex-wrap: wrap; font: 800 clamp(14px, 1vw, 24px) monospace; letter-spacing: .22em; text-transform: uppercase; }
+.led-actions span { border: 1px solid #41503d; padding: 1.7vh 1.8vw; background: #0f160dcc; }
+.led-actions span:last-child { background: var(--lime); color: #10170c; border-color: var(--lime); box-shadow: 0 0 38px #bcf75a40; }
+.led-orbit { position: relative; height: 54vh; display: grid; place-items: center; }
+.led-halo { position: absolute; width: min(43vw, 760px); aspect-ratio: 1; border: 1px dashed #bcf75a40; border-radius: 50%; animation: ledRotate 16s linear infinite; box-shadow: inset 0 0 120px #bcf75a10; }
+.led-logo-mark { position: relative; width: min(34vw, 650px); filter: drop-shadow(0 0 55px #bcf75a55); animation: ledFloat 5s ease-in-out infinite; }
+.led-logo-mark img { width: 100%; height: auto; }
+.led-pulse { position: absolute; display: grid; place-items: center; min-width: 5.6vw; height: 5.6vw; padding: 0 1vw; border: 1px solid #bcf75a80; background: #10180dcc; color: var(--lime); border-radius: 999px; font: 800 clamp(12px, 1vw, 22px) monospace; letter-spacing: .18em; box-shadow: 0 0 38px #bcf75a30; animation: ledPulse 2.6s ease-in-out infinite; }
+.led-pulse.one { top: 5%; left: 8%; }
+.led-pulse.two { top: 10%; right: 4%; animation-delay: .5s; }
+.led-pulse.three { bottom: 8%; left: 0; animation-delay: 1s; }
+.led-pulse.four { bottom: 13%; right: 10%; animation-delay: 1.5s; }
+.led-cards { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1vw; padding: 0 5vw; }
+.led-cards article { min-height: 20vh; border: 1px solid #354332; background: linear-gradient(180deg, #10170fdd, #090d0bdd); padding: 2vh 1.6vw; display: flex; flex-direction: column; justify-content: space-between; transition: .45s ease; }
+.led-cards article.active { border-color: var(--lime); box-shadow: 0 0 0 1px var(--lime) inset, 0 0 46px #bcf75a25; transform: translateY(-1.2vh); }
+.led-cards span { color: #9da895; font: 800 clamp(12px, .8vw, 17px) monospace; letter-spacing: .25em; text-transform: uppercase; }
+.led-cards h2 { margin-top: 2vh; font-size: clamp(25px, 2.05vw, 48px); line-height: .98; text-transform: uppercase; }
+.led-cards p { margin-top: 1.5vh; color: #969d91; font-size: clamp(14px, 1vw, 24px); line-height: 1.35; }
+.led-footer { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; }
+.led-ticker { height: 7.4vh; background: var(--lime); color: #10170c; overflow: hidden; display: flex; align-items: center; font: 900 clamp(16px, 1.35vw, 31px) monospace; letter-spacing: .22em; text-transform: uppercase; }
+.led-ticker div { display: flex; min-width: max-content; animation: ledTicker 26s linear infinite; }
+.led-ticker span { padding: 0 2vw; position: relative; }
+.led-ticker span::after { content: '✳'; position: absolute; right: -.45vw; }
+.led-progress { height: .8vh; background: #1e2a19; }
+.led-progress span { display: block; height: 100%; width: 0; background: #fff; box-shadow: 0 0 24px #fff; animation: ledProgress 8s linear infinite; }
+@keyframes ledSlideClock { from { opacity: .999; } to { opacity: 1; } }
+@keyframes ledCopyIn { from { opacity: 0; transform: translateY(2vh); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes ledFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-2vh) rotate(1.5deg); } }
+@keyframes ledRotate { to { transform: rotate(360deg); } }
+@keyframes ledPulse { 0%,100% { transform: scale(1); opacity: .75; } 50% { transform: scale(1.08); opacity: 1; } }
+@keyframes ledTicker { to { transform: translateX(-50%); } }
+@keyframes ledProgress { from { width: 0; } to { width: 100%; } }
+@keyframes ledScan { 0% { transform: translateY(-40vh); } 100% { transform: translateY(110vh); } }
+@keyframes ledNoise { 0% { transform: translate(0); } 100% { transform: translate(1.5vw, -1vh); } }
+@media (max-width: 900px) {
+  .led-main { grid-template-columns: 1fr; }
+  .led-orbit { opacity: .28; position: absolute; inset: 18vh 0 auto 30vw; }
+  .led-cards { grid-template-columns: 1fr 1fr; }
+  .led-copy h1 { font-size: 18vw; }
+  .led-copy p { width: 90vw; }
+}
