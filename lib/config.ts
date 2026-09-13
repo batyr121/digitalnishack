@@ -70,7 +70,7 @@ export const events: EventRecord[] = [
     description:
       'Мастер-класс про стартап-мышление, сильную идею, структуру питча и уверенную презентацию проекта.',
     day: 14,
-    time: 'TBA',
+    time: '16:20–17:20',
     track: 'СТАРТАПЫ',
     location: 'Главная сцена',
     capacity: null,

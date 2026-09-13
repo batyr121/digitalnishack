@@ -2,6 +2,7 @@ update events
 set title = 'Startup + Pitching',
     description = 'Мастер-класс про стартап-мышление, сильную идею, структуру питча и уверенную презентацию проекта.',
     day = 14,
+    time = '16:20–17:20',
     track = 'СТАРТАПЫ',
     location = 'Главная сцена',
     published = true,
