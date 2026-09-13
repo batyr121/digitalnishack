@@ -11,7 +11,7 @@ const nisAktauLogo = '../../public/partners/nis-aktau-white.svg';
 const bekzhanCutout = '../../public/people/bekzhan-cutout.png';
 
 const competitions = [
-  ['01', 'Startup Battle', '8 стартапов на одной сцене. Покажи свою идею.', '↗'],
+  ['01', 'Startup Battle', '15 команд на одной сцене. Покажи свою идею.', '↗'],
   ['03', 'NIS Edutech Hackathon', 'Реальные задачи и технологические решения для обучения.', '⌘'],
   ['04', 'FIFA Tournament for 7–8 Grades', 'Турнир для учеников 7–8 классов.', '⊕'],
 ];
@@ -19,12 +19,9 @@ const competitions = [
 const aptaEvents = [
   ['12.09', 'Открытие Digital Apta', 'Знакомство с участниками и старт недели практики.', '01'],
   ['12–18.09', 'Акселерация стартапов', 'Менторство, бизнес-модель, презентация и подготовка к Startup Battle.', '02'],
-  ['14.09', 'Startup & Pitching', 'Стартап-мышление, сильная идея, структура питча и уверенная презентация проекта.', '03'],
-  ['15.09', 'Vibe Coding', 'Кодинг с ИИ, быстрый прототип и путь от идеи к MVP для команд хакатона.', '04'],
-  ['15.09', 'Коммерциализация стартапа', 'Проблема клиента, ценность продукта, монетизация и первые клиенты.', '05'],
-  ['16.09', 'Artisan 3D Modeling', 'Практический мастер-класс по 3D-моделированию: от формы и идеи до цифрового объекта.', '06'],
-  ['17.09', 'Объявление финалистов', 'Команды и участники четырёх соревнований будут объявлены онлайн.', '07'],
-  ['17.09', 'Mock Day: Hackathon & Startup Battle', 'Тестовый день для команд хакатона и Startup Battle: прогон решений, питчей и обратная связь.', '08'],
+  ['14.09', 'Startup + Pitching', 'Стартап-мышление, сильная идея, структура питча и уверенная презентация проекта.', '03'],
+  ['17.09', 'Artisan 3D Modeling', 'Практический мастер-класс от Artisan Education: 3D-моделирование, форма, идея и цифровой объект.', '04'],
+  ['18.09', 'Объявление финалистов', 'Финалисты Startup Battle, NIS EduTech Hackathon и FIFA будут объявлены онлайн.', '05'],
 ];
 
 const speakerSlides = [
@@ -105,12 +102,12 @@ const slides = [
   }),
   frame('digital-apta-01', 'digital-apta', 1, {
     className: 'huge',
-    html: `<img class="brand" src="${logo}" alt=""><div class="topline">12–18.09.2026<br>НЕДЕЛЯ ПОДГОТОВКИ</div><div class="kicker"><b>02</b>Digital Apta</div><h1>DIGITAL<br>APTA</h1><p><span class="lime">Неделя, чтобы создать своё.</span></p><p>Практика, менторы, прототипы и подготовка к главному форуму.</p><div class="mini-list">${aptaEvents.slice(0, 5).map(([d, n]) => `<div><span>${d}</span><b>${n}</b></div>`).join('')}</div><div class="footer"><span>Программа недели</span><span>01 / 09</span></div>`,
+    html: `<img class="brand" src="${logo}" alt=""><div class="topline">12–18.09.2026<br>НЕДЕЛЯ ПОДГОТОВКИ</div><div class="kicker"><b>02</b>Digital Apta</div><h1>DIGITAL<br>APTA</h1><p><span class="lime">Неделя, чтобы создать своё.</span></p><p>Практика, менторы, прототипы и подготовка к главному форуму.</p><div class="mini-list">${aptaEvents.slice(0, 5).map(([d, n]) => `<div><span>${d}</span><b>${n}</b></div>`).join('')}</div><div class="footer"><span>Программа недели</span><span>01 / 06</span></div>`,
   }),
   ...aptaEvents.map(([date, title, desc, num], i) =>
     frame(`digital-apta-${String(i + 2).padStart(2, '0')}`, 'digital-apta', i + 2, {
       className: 'xl',
-      html: `<img class="brand" src="${logo}" alt=""><div class="topline">DIGITAL APTA<br>${date}</div><div class="kicker"><b>${String(i + 1).padStart(2, '0')}</b>Событие недели</div><h1>${title}</h1><article class="event-card"><div><div class="day">${date}</div><h2>${title}</h2><p>${desc}</p></div><div class="button fill" style="position:static;width:100%">Добавить в расписание <span>↗</span></div><span class="num">${num}</span></article><div class="footer"><span>DIGITAL APTA</span><span>${String(i + 2).padStart(2, '0')} / 09</span></div>`,
+      html: `<img class="brand" src="${logo}" alt=""><div class="topline">DIGITAL APTA<br>${date}</div><div class="kicker"><b>${String(i + 1).padStart(2, '0')}</b>Событие недели</div><h1>${title}</h1><article class="event-card"><div><div class="day">${date}</div><h2>${title}</h2><p>${desc}</p></div><div class="button fill" style="position:static;width:100%">Добавить в расписание <span>↗</span></div><span class="num">${num}</span></article><div class="footer"><span>DIGITAL APTA</span><span>${String(i + 2).padStart(2, '0')} / 06</span></div>`,
     }),
   ),
   frame('speakers-01', 'speakers', 1, {

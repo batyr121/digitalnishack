@@ -129,7 +129,7 @@ export const events: EventRecord[] = [
   {
     id: '00000000-0000-4000-8000-000000000029',
     title: 'Startup Battle · финал',
-    description: 'Восемь стартапов на одной сцене.',
+    description: '15 команд на одной сцене.',
     day: 19,
     time: 'TBA',
     track: 'СТАРТАПЫ',
@@ -157,7 +157,7 @@ export const competitions = [
     slug: 'startup-battle',
     title: 'STARTUP BATTLE',
     tag: 'ИДЕЯ. ПИТЧ. СЦЕНА.',
-    description: '8 стартапов на одной сцене. Покажи свою идею.',
+    description: '15 команд на одной сцене. Покажи свою идею.',
     slots: 8,
     icon: '↗',
   },
@@ -186,7 +186,7 @@ export const zones = [
   },
   {
     name: 'Startup Battle',
-    description: 'Восемь финалистов и их идеи.',
+    description: '15 команд и их идеи.',
     icon: '02',
   },
   { name: 'Зона хакатона', description: 'Команды создают решения для образования.', icon: '03' },
