@@ -138,7 +138,7 @@ const slides = [
   ...competitions.map(([n, title, desc, icon], i) =>
     frame(`competitions-${String(i + 2).padStart(2, '0')}`, 'competitions', i + 2, {
       className: 'xl',
-      html: `<img class="brand" src="${logo}" alt=""><div class="topline">СОРЕВНОВАНИЕ<br>${n}</div><div class="kicker"><b>${n}</b>19 сентября</div><h1 class="${title.length > 28 ? 'long-title' : ''}">${title}</h1><article class="event-card"><div><div class="day">${icon}</div><h2>${title}</h2><p>${desc}</p></div><div class="button fill" style="position:static;width:100%">Смотреть подробнее <span>↗</span></div><span class="num">${n}</span></article><div class="footer"><span>DIGITAL NIS FORUM</span><span>${String(i + 2).padStart(2, '0')} / 04</span></div>`,
+      html: `<img class="brand" src="${logo}" alt="">${sponsorStrip}<div class="topline">СОРЕВНОВАНИЕ<br>${n}</div><div class="kicker"><b>${n}</b>19 сентября</div><h1 class="${title.length > 28 ? 'long-title' : ''}">${title}</h1><article class="event-card"><div><div class="day">${icon}</div><h2>${title}</h2><p>${desc}</p></div><div class="button fill" style="position:static;width:100%">Смотреть подробнее <span>↗</span></div><span class="num">${n}</span></article><div class="footer"><span>DIGITAL NIS FORUM</span><span>${String(i + 2).padStart(2, '0')} / 04</span></div>`,
     }),
   ),
   frame('extra-01', 'extra', 1, {
