@@ -93,7 +93,7 @@ export const events: EventRecord[] = [
   {
     id: '00000000-0000-4000-8000-000000000027',
     title: 'Объявление финалистов',
-    description: 'Публикация финалистов Startup Battle, NIS EduTech Hackathon и FIFA Tournament for 7–8 Grades.',
+    description: 'Публикация финалистов Startup Battle, NIS EduTech Hackathon и FIFA League.',
     day: 18,
     time: 'TBA',
     track: 'DIGITAL APTA',
@@ -140,9 +140,9 @@ export const events: EventRecord[] = [
   },
   {
     id: '00000000-0000-4000-8000-000000000039',
-    title: 'FIFA Tournament for 7–8 Grades · финал',
+    title: 'FIFA League · финал',
     description:
-      'Турнир для 7–8 классов, финальные раунды и главный матч.',
+      'FIFA League: финальные раунды и главный матч.',
     day: 19,
     time: 'TBA',
     track: 'ИГРЫ',
@@ -171,9 +171,9 @@ export const competitions = [
   },
   {
     slug: 'fifa',
-    title: 'FIFA TOURNAMENT FOR 7–8 GRADES',
+    title: 'FIFA LEAGUE',
     tag: 'ТВОЯ ИГРА. ТВОЙ ФИНАЛ.',
-    description: 'Турнир для учеников 7–8 классов.',
+    description: 'FIFA League для участников форума.',
     slots: 0,
     icon: '⊕',
   },

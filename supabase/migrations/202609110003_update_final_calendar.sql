@@ -22,7 +22,7 @@ where id = '00000000-0000-4000-8000-000000000017';
 
 update events
 set title = 'Объявление финалистов',
-    description = 'Публикация финалистов Startup Battle, NIS EduTech Hackathon и FIFA Tournament for 7–8 Grades.',
+    description = 'Публикация финалистов Startup Battle, NIS EduTech Hackathon и FIFA League.',
     day = 18,
     track = 'DIGITAL APTA',
     location = 'Онлайн',

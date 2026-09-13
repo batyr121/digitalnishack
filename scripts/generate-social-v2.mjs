@@ -9,11 +9,12 @@ const artisanLogo = '../../public/partners/artisan-education.svg';
 const s7Logo = '../../public/partners/s7-robotics-white.svg';
 const nisAktauLogo = '../../public/partners/nis-aktau-white.svg';
 const bekzhanCutout = '../../public/people/bekzhan-cutout.png';
+const sponsorStrip = `<div class="sponsor-strip"><img src="${artisanLogo}" alt="Artisan Education"><img src="${s7Logo}" alt="S7 Robotics"><img src="${nisAktauLogo}" alt="NIS Aktau"></div>`;
 
 const competitions = [
   ['01', 'Startup Battle', '15 команд на одной сцене. Покажи свою идею.', '↗'],
   ['03', 'NIS Edutech Hackathon', 'Реальные задачи и технологические решения для обучения.', '⌘'],
-  ['04', 'FIFA Tournament for 7–8 Grades', 'Турнир для учеников 7–8 классов.', '⊕'],
+  ['04', 'FIFA League', 'FIFA League для участников форума.', '⊕'],
 ];
 
 const aptaEvents = [
@@ -73,7 +74,7 @@ p{position:relative;color:#a9b0a6;font-size:27px;line-height:1.42;margin:24px 0 
 .hero-card{position:absolute;left:92px;right:92px;bottom:110px;border-top:1px solid #34422f;padding-top:30px;display:flex;justify-content:space-between;align-items:flex-end;z-index:6}
 .hero-card .date{font-size:76px;line-height:.9;letter-spacing:-5px;font-weight:800}.hero-card .date span{color:#8f9b82}.hero-card small{display:block;margin-top:18px;color:#9ba594;font:14px monospace;letter-spacing:4px;text-transform:uppercase}.hero-card .note{max-width:360px;text-align:right;color:#c4ccc0;font:15px monospace;letter-spacing:3px;text-transform:uppercase}
 .ticker{position:absolute;left:0;right:0;bottom:0;height:64px;background:#bcf75a;color:#0b1208;display:flex;align-items:center;white-space:nowrap;font:18px monospace;font-weight:800;letter-spacing:2px;text-transform:uppercase}.ticker span{padding-left:18px}
-.cards{position:relative;margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:18px;z-index:7}.card{height:305px;border:1px solid #354332;background:#10150f;padding:28px;display:flex;flex-direction:column;justify-content:space-between}.card.active{border-color:#bcf75a;box-shadow:0 0 0 1px #bcf75a inset}.card .icon{color:#bcf75a;font-size:66px;line-height:1}.card h2{font-size:32px;line-height:1.03;margin:0;letter-spacing:-1.8px;text-transform:uppercase}.card h2.long{font-size:27px;line-height:1.06}.card p{font-size:16px;line-height:1.45;margin:10px 0 0}
+.sponsor-strip{position:absolute;left:276px;right:58px;top:56px;z-index:12;display:flex;justify-content:flex-end;align-items:center;gap:34px}.sponsor-strip img{max-width:132px;max-height:54px;object-fit:contain;filter:brightness(0) invert(1);opacity:.96}.sponsor-strip img:nth-child(2){filter:none;max-width:112px}.sponsor-strip img:nth-child(3){filter:none;max-width:118px}.cards{position:relative;margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:18px;z-index:7}.card{height:305px;border:1px solid #354332;background:#10150f;padding:28px;display:flex;flex-direction:column;justify-content:space-between}.card.active{border-color:#bcf75a;box-shadow:0 0 0 1px #bcf75a inset}.card .icon{color:#bcf75a;font-size:66px;line-height:1}.card h2{font-size:32px;line-height:1.03;margin:0;letter-spacing:-1.8px;text-transform:uppercase}.card h2.long{font-size:27px;line-height:1.06}.card p{font-size:16px;line-height:1.45;margin:10px 0 0}
 .bar{position:absolute;left:58px;right:58px;bottom:180px;height:94px;border:1px solid #2d392b;display:flex;align-items:center;gap:28px;padding:0 32px;color:#f0f2eb;font:19px monospace;letter-spacing:2px;text-transform:uppercase}.bar .lock{color:#bcf75a;font-size:31px}
 .prize-line{position:absolute;left:58px;right:58px;bottom:108px;height:54px;border:1px solid #bcf75a;display:flex;align-items:center;justify-content:space-between;padding:0 24px;color:#f0f2eb;font:14px monospace;letter-spacing:3px;text-transform:uppercase;z-index:8}.prize-line b{color:#bcf75a;font-size:20px;letter-spacing:2px}
 .event-card{position:relative;margin-top:62px;height:610px;border:1px solid #354332;background:#10150f;padding:42px;display:flex;flex-direction:column;justify-content:space-between;z-index:7}.event-card>*{position:relative;z-index:2}.event-card .day{font-size:108px;letter-spacing:-7px;font-weight:800;color:#bcf75a}.event-card h2{font-size:58px;line-height:1.02;letter-spacing:-3px;margin:0;text-transform:uppercase}.event-card p{font-size:25px}.event-card .num{position:absolute;right:34px;bottom:20px;font-size:185px;font-weight:800;color:#bcf75a0d;letter-spacing:-12px;z-index:0}
