@@ -1,57 +1,54 @@
 'use client';
 
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
-import { eventConfig, events } from '@/lib/config';
+import { useState } from 'react';
+import { eventConfig } from '@/lib/config';
 
 const slides = [
   {
     kicker: '01 / DIGITAL NIS FORUM',
-    title: 'БІРГЕ\nЖАСАЙМЫЗ',
+    title: 'DIGITAL\nNIS FORUM',
     text: 'Бір күн. Бір қоғамдастық. Ортақ цифрлық болашақ.',
     meta: '19.09.2026 · NIS AKTAU',
+    label: 'БІРГЕ ЖАСАЙМЫЗ',
   },
   {
     kicker: '02 / DIGITAL APTA',
-    title: 'ИДЕЯДАН\nСАХНАҒА',
-    text: '14 қыркүйек — Startup + Pitching. Жоба, питч, сенімді презентация.',
-    meta: '14.09 · STARTUP + PITCHING',
+    title: 'STARTUP\n+ PITCHING',
+    text: '14 қыркүйек · 16:20–17:20. Идеяны сахнаға дайындаймыз.',
+    meta: '14.09 · 16:20–17:20',
+    label: 'МАСТЕР-КЛАСС',
   },
   {
-    kicker: '03 / 3D LAB',
+    kicker: '03 / ARTISAN EDUCATION',
     title: 'ARTISAN\n3D MODELING',
-    text: '17 қыркүйек — Artisan Education мастер-классы. 3D модель, форма, прототип.',
-    meta: '17.09 · ARTISAN EDUCATION',
+    text: '17 қыркүйек. 3D модель, форма және прототип.',
+    meta: '17.09 · 3D LAB',
+    label: 'GENERAL PARTNER',
   },
   {
     kicker: '04 / FINALISTS',
     title: 'ФИНАЛИСТЕР\nЖАРИЯЛАНАДЫ',
-    text: '18 қыркүйек — Startup Battle, NIS EduTech Hackathon және FIFA финалистері.',
-    meta: '18.09 · FINALISTS REVEAL',
-  },
-  {
-    kicker: '05 / MAIN STAGE',
-    title: 'СПИКЕРЛЕР\nПАНЕЛЬ\nФИНАЛДАР',
-    text: '19 қыркүйек — форум, спикерлер, панельдік дискуссия, жарыстар және нетворкинг.',
-    meta: '19.09 · THE FORUM',
+    text: 'Startup Battle, NIS EduTech Hackathon және FIFA League.',
+    meta: '18.09 · FINALISTS',
+    label: 'КЕЛЕСІ ҚАДАМ',
   },
 ];
 
 const runningLine = [
+  'DIGITAL NIS FORUM',
   'STARTUP BATTLE',
   'NIS EDUTECH HACKATHON',
-  'FIFA 7–8 GRADES',
+  'FIFA LEAGUE',
   'ARTISAN 3D MODELING',
-  'PANEL DISCUSSION',
-  'SPEAKERS',
+  'ПАНЕЛЬДІК ДИСКУССИЯ',
   '200 000 TG PRIZE FUND',
-  'DIGITAL PASS',
 ];
 
 const speakerSlots = [
-  ['СПИКЕР 01', 'Тақырып жақында жарияланады'],
-  ['СПИКЕР 02', 'Технологиялар және идеялар'],
-  ['СПИКЕР 03', 'Болашаққа жаңа көзқарас'],
+  ['СПИКЕР 01', 'Тақырып жақында жарияланады', 'KEYNOTE'],
+  ['СПИКЕР 02', 'Технологиялар және идеялар', 'MAIN STAGE'],
+  ['СПИКЕР 03', 'Болашаққа жаңа көзқарас', 'DIGITAL NIS'],
 ];
 
 export function LedAnnouncement() {
@@ -62,7 +59,23 @@ export function LedAnnouncement() {
 
 export function LedSpeakerIntro() {
   return (
-    <LedStaticFrame mode="speaker" kicker="КЕЛЕСІ СПИКЕР" title={"САХНАҒА\nШАҚЫРАМЫЗ"} text="Спикердің аты мен тақырыбы экранға дайын. Қатысушылар, басты сахнаға назар аударыңыздар." meta="KEYNOTE SESSION · DIGITAL NIS FORUM" />
+    <div className="led-stage led-static led-speaker-screen">
+      <div className="led-grid" />
+      <div className="led-scan" />
+      <header className="led-header"><Image src="/logo-horizontal.svg" alt="DIGITAL NIS FORUM" width={236} height={74} priority /><div><span>KEYNOTE SESSION</span><strong>MAIN STAGE</strong></div></header>
+      <main className="led-speaker-main">
+        <section className="led-speaker-copy">
+          <span className="led-kicker"><b>●</b>КЕЛЕСІ СПИКЕР</span>
+          <h1>{"САХНАҒА\nШАҚЫРАМЫЗ"}</h1>
+          <p>Қатысушылар, басты сахнаға назар аударыңыздар.</p>
+          <div className="led-actions"><span>DIGITAL NIS FORUM</span><span>ҚОЛ ШАПАЛАҚТАЙМЫЗ ↗</span></div>
+        </section>
+        <section className="led-speaker-cards">
+          {speakerSlots.map(([name, text, label], index) => <article key={name} className={index === 0 ? 'active' : ''}><div className="led-speaker-avatar"><span>{String(index + 1).padStart(2, '0')}</span></div><div><small>{label}</small><h2>{name}</h2><p>{text}</p></div></article>)}
+        </section>
+      </main>
+      <LedTicker />
+    </div>
   );
 }
 
@@ -80,7 +93,7 @@ export function LedPanelScreen() {
         </section>
         <section className="led-panel-people">
           <article className="moderator"><span>MODERATOR</span><h2>МОДЕРАТОР</h2><p>Сұрақтар мен диалог бағыты</p></article>
-          {speakerSlots.map(([name, text], index) => <article key={name}><span>0{index + 1} / SPEAKER</span><h2>{name}</h2><p>{text}</p></article>)}
+          {speakerSlots.map(([name, text], index) => <article key={name}><div className="led-panel-avatar">0{index + 1}</div><span>0{index + 1} / SPEAKER</span><h2>{name}</h2><p>{text}</p></article>)}
         </section>
       </main>
       <LedTicker />
@@ -116,7 +129,6 @@ function LedTicker() {
 
 export function LedShow() {
   const [active, setActive] = useState(0);
-  const mainEvents = useMemo(() => events.filter((event) => [14, 17, 18, 19].includes(event.day)), []);
 
   return (
     <div
@@ -149,21 +161,15 @@ export function LedShow() {
         <section className="led-orbit" aria-label="Анимация форума">
           <div className="led-halo" />
           <div className="led-logo-mark"><Image src="/logo-mark.svg" alt="" width={430} height={300} priority /></div>
-          <div className="led-pulse one">AI</div>
-          <div className="led-pulse two">3D</div>
-          <div className="led-pulse three">STARTUP</div>
-          <div className="led-pulse four">NIS</div>
+          <div className="led-focus-tag">{slides[active].label}</div>
         </section>
       </main>
 
-      <section className="led-cards">
-        {mainEvents.slice(0, 4).map((event, index) => (
-          <article className={index === active % 4 ? 'active' : ''} key={event.id}>
-            <span>0{index + 1} / {event.day}.09</span>
-            <h2>{event.title}</h2>
-            <p>{event.description}</p>
-          </article>
-        ))}
+      <section className="led-focus-row">
+        <article><span>14.09</span><b>Startup + Pitching</b></article>
+        <article><span>17.09</span><b>Artisan 3D Modeling</b></article>
+        <article><span>18.09</span><b>Финалистер</b></article>
+        <article><span>19.09</span><b>Форум</b></article>
       </section>
 
       <LedTicker />
